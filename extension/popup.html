@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Popup configuration and styling -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aamen - آمن</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+
+  <!-- Aamen header and language controls -->
+  <header class="hdr">
+    <div class="brand">
+      <h1 id="appTitle">Aamen</h1>
+      <p id="description">T&C and Privacy Policy Extraction</p>
+    </div>
+
+    <div class="language-buttons">
+      <button id="englishButton" type="button">EN</button>
+      <button id="arabicButton" type="button">ع</button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Extraction controls -->
+    <section class="card">
+      <h2 id="extractionTitle">Legal Document Extraction</h2>
+      <button id="analyzeButton" type="button">Analyze Current Page</button>
+      <p id="status" role="status" aria-live="polite">Ready to extract.</p>
+    </section>
+
+    <!-- Extracted legal text and manual fallback -->
+    <section class="card">
+      <h2 id="previewTitle">Extracted Legal Text</h2>
+      <p id="pageTitle"></p>
+      <p id="manualHelp">You can paste legal text manually if extraction fails.</p>
+
+      <textarea
+        id="termsInput"
+        rows="10"
+        placeholder="Extracted Terms & Conditions or Privacy Policy text will appear here."
+      ></textarea>
+    </section>
+
+    <!-- Discovered Terms and Privacy Policy links -->
+    <section class="card">
+      <h2 id="linksTitle">Discovered Legal Documents</h2>
+      <ul id="legalLinksList"></ul>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p id="footerText">Aamen — Legal document extraction</p>
+  </footer>
+
+  <!-- JavaScript functionality -->
+  <script src="popup.js"></script>
+</body>
+</html>
