@@ -3,7 +3,7 @@
   "manifest_version": 3,
   "name": "Aamen - آمن",
   "version": "1.0.0",
-  "description": "User-initiated T&C privacy screening with a Python backend.",
+  "description": "Aamen Chrome extension for T&C extraction and backend communication.",
   "permissions": [
     "activeTab",
     "scripting",
@@ -15,5 +15,8 @@
   ],
   "action": {
     "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
   }
 }
