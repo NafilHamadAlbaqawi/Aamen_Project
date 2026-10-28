@@ -1,7 +1,7 @@
 
-/* Aamen WP1  */
+/* WP2 — Aamen Popup Styling */
 
-/* 1. Main project colors */
+/* 1. Main colors */
 :root {
   --green: #0D5B43;
   --green-deep: #063D2E;
@@ -30,7 +30,7 @@ body {
   line-height: 1.5;
 }
 
-/* 3. Header and project branding */
+/* 3. Header and branding */
 .hdr {
   display: flex;
   align-items: center;
@@ -59,7 +59,7 @@ body {
   font-size: 12px;
 }
 
-/* 4. English and Arabic language buttons */
+/* 4. Language buttons */
 .language-buttons {
   display: flex;
   gap: 6px;
@@ -82,7 +82,7 @@ body {
   background: rgba(255, 255, 255, 0.22);
 }
 
-/* 5. Main container and content cards */
+/* 5. Main layout and cards */
 .container {
   padding: 16px;
   display: grid;
@@ -103,7 +103,90 @@ body {
   color: var(--green-deep);
 }
 
-/* 6. Main extraction button */
+/* 6. WP2 server URL and connection controls */
+#serverLabel {
+  display: block;
+  margin-bottom: 7px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+#serverUrl {
+  display: block;
+  width: 100%;
+  min-height: 43px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #FCFDFB;
+  color: var(--text);
+  font: inherit;
+  direction: ltr;
+  text-align: left;
+}
+
+#serverUrl::placeholder {
+  color: #93A19A;
+}
+
+.server-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.server-actions button {
+  flex: 1;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 11px 9px;
+  font: inherit;
+  font-weight: 700;
+  min-height: 42px;
+  cursor: pointer;
+}
+
+#saveServerButton {
+  background: var(--green);
+  color: #FFFFFF;
+}
+
+#saveServerButton:hover {
+  background: var(--green-deep);
+}
+
+#checkServerButton {
+  background: #EFF4EF;
+  color: var(--green-deep);
+  border-color: var(--border);
+}
+
+#checkServerButton:hover {
+  background: #E4EEE6;
+}
+
+.server-actions button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* 7. Backend connection status */
+#backendStatus {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+#backendStatus[data-state="success"] {
+  color: var(--green);
+}
+
+#backendStatus[data-state="error"] {
+  color: #B42336;
+}
+
+/* 8. WP1 extraction button */
 #analyzeButton {
   width: 100%;
   border: 0;
@@ -126,7 +209,7 @@ body {
   cursor: not-allowed;
 }
 
-/* 7. Extraction status and webpage title */
+/* 9. Extraction status and webpage title */
 #status {
   margin: 10px 0 0;
   color: var(--muted);
@@ -145,7 +228,7 @@ body {
   display: none;
 }
 
-/* 8. Manual fallback and extracted text area */
+/* 10. Extracted legal text */
 #manualHelp {
   margin: 0 0 10px;
   color: var(--muted);
@@ -166,7 +249,9 @@ body {
   line-height: 1.6;
 }
 
-/* 9. Keyboard accessibility */
+/* 11. Keyboard accessibility */
+#serverUrl:focus-visible,
+.server-actions button:focus-visible,
 #termsInput:focus-visible,
 .language-buttons button:focus-visible,
 #analyzeButton:focus-visible,
@@ -175,7 +260,7 @@ body {
   outline-offset: 2px;
 }
 
-/* 10. Discovered legal document links */
+/* 12. Discovered legal links */
 #legalLinksList {
   margin: 0;
   padding-left: 18px;
@@ -200,7 +285,7 @@ body {
   color: var(--green-deep);
 }
 
-/* 11. Footer */
+/* 13. Footer */
 .footer {
   padding: 0 16px 16px;
   text-align: center;
@@ -212,7 +297,7 @@ body {
   margin: 0;
 }
 
-/* 12. Arabic right-to-left support */
+/* 14. Arabic layout support */
 body[dir="rtl"] .brand {
   direction: rtl;
   text-align: right;
