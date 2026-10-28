@@ -1,8 +1,9 @@
 
-# Install FastAPI version 0.162.0.
-# FastAPI handles API endpoints and request validation.
+# Install FastAPI version 0.162.0 to provide the Aamen HTTP API, request validation, and route handling.
 fastapi==0.162.0
 
-# Install Uvicorn version 0.54.0.
-# Uvicorn runs our Python application as a web server.
+# Install Uvicorn version 0.54.0 to run the FastAPI application as a web server.
 uvicorn==0.54.0
+
+# Install the OpenAI Python SDK, accepting versions 3.26.1 and newer but excluding version 4 and above.
+openai>=3.26.1,<4.0
