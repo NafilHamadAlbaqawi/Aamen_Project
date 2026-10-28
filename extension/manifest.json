@@ -1,0 +1,22 @@
+
+{
+  "manifest_version": 3,
+  "name": "Aamen - آمن",
+  "version": "1.0.0",
+  "description": "Aamen Chrome extension for T&C extraction and backend communication.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "optional_host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
