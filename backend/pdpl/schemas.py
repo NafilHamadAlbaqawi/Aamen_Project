@@ -1,46 +1,53 @@
 
-"""Structured data models for Aamen PDPL screening."""
+"""Pydantic contracts used between WP3 pipeline stages and the Chrome extension."""
 
 from typing import Literal
-from pydantic import BaseModel, ConfigDict, Field, HttpUrl
+from pydantic import BaseModel, Field
+from ..pdpl.schemas import PDPLCheckResult
 
+Category = Literal[
+    "data_collection", "third_party_sharing", "data_retention",
+    "consent", "account_termination", "terms_changes",
+    "liability", "sensitive_data", "other",
+]
+Severity = Literal["low", "medium", "high"]
 
-class PDPLReference(BaseModel):
-    """A reference to a verified PDPL source."""
+class ExtractedClause(BaseModel):
+    category: Category
+    source_excerpt: str
 
-    model_config = ConfigDict(extra="forbid")
+class ExtractionOutput(BaseModel):
+    clauses: list[ExtractedClause]
 
-    source_id: str = Field(min_length=1)
-    title: str = Field(min_length=1)
-    article_id: str = Field(min_length=1)
-    source_url: HttpUrl
-    excerpt: str = Field(min_length=1)
+class ClassifiedClause(BaseModel):
+    clause_number: int
+    severity: Severity
+    explanation_en: str
+    explanation_ar: str
 
+class ClassificationOutput(BaseModel):
+    clauses: list[ClassifiedClause]
 
-class PDPLFinding(BaseModel):
-    """PDPL screening assessment linked to one WP3 clause."""
+class SummaryOutput(BaseModel):
+    summary_en: str
+    summary_ar: str
 
-    model_config = ConfigDict(extra="forbid")
+class FlaggedClause(BaseModel):
+    clause_id: str
+    category: Category
+    severity: Severity
+    source_excerpt: str
+    explanation_en: str
+    explanation_ar: str
 
-    clause_id: str = Field(min_length=1)
-    source_excerpt: str = Field(min_length=15)
-    assessment: Literal[
-        "potential_concern",
-        "needs_context",
-        "no_concern_identified",
-    ]
-    explanation_en: str = Field(min_length=1)
-    explanation_ar: str = Field(min_length=1)
-    legal_references: list[PDPLReference] = Field(min_length=1)
-
-
-class PDPLCheckResult(BaseModel):
-    """Validated result of the PDPL screening process."""
-
-    model_config = ConfigDict(extra="forbid")
-
-    status: Literal["completed", "partial", "unavailable"]
-    findings: list[PDPLFinding] = Field(default_factory=list)
-    disclaimer: str = (
-        "Automated PDPL screening only; not a legal compliance determination."
-    )
+class AnalysisResponse(BaseModel):
+    status: Literal["completed"]
+    analysis_mode: Literal["openai"]
+    risk_score: int = Field(ge=0, le=100)
+    risk_level: Literal["Safe", "Moderate", "High Risk"]
+    summary_en: str
+    summary_ar: str
+    flagged_clauses: list[FlaggedClause]
+    input_truncated: bool = False
+    disclaimer: str = "AI-generated screening, not a legal compliance determination."
+    pdpl: PDPLCheckResult | None = None
