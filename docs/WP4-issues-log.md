@@ -6,7 +6,7 @@ Test results: [`WP4-testing.md`](WP4-testing.md) · Raw logs: [`wp4_logs/`](wp4_
 
 | ID | Issue | Found in | Severity | Status | Owner |
 |---|---|---|---|---|---|
-| I-01 | Integration test fails until WP3 accepts preferences | TC03 | Medium | Resolved locally; commit awaits Ahmed's review | WP3 + WP4 |
+| I-01 | Integration test fails until WP3 accepts preferences | TC03 | Medium | Fixed (separate WP3 commit in the PR); Ahmed to review | WP3 + WP4 |
 | I-02 | `/health` reports `ai_enabled: true` with an invalid key | TC04 | Low | Open | WP3 |
 | I-03 | `analysis_mode` is always `"openai"` | TC04 | Low | Open | WP3 |
 | I-04 | Classifier omitted clauses → whole analysis fails (502) | TC04 v1 | Medium | Fixed in WP4 prompts; WP3 retry suggested | WP4 (+WP3) |
@@ -26,7 +26,7 @@ Test results: [`WP4-testing.md`](WP4-testing.md) · Raw logs: [`wp4_logs/`](wp4_
 - **Symptom:** `run_wp4_tests.py` gives 9 tests with 1 ERROR: `TypeError: analyze_terms() takes 1 positional argument but 2 were given`.
 - **Cause:** WP3's `analyze_terms()` does not take `preferences` yet. This is expected before integration, and the runner reports it on purpose.
 - **Fix:** Apply the 5-file patch (optional `instructions=` in the 3 stages, `preferences` in `pipeline.py` and `main.py`; +21/−11 lines). Result: 9/9 OK with 0 skipped. The patch is identical to the leader's overlay apart from whitespace.
-- **Status:** Verified on a local copy only. **Not committed**; Ahmed must approve it.
+- **Status:** Included in the PR as a separate commit (WP3 integration). Ahmed reviews it before merge.
 - **Evidence:** `screenshots/WP4-TC03-before-integration.png`, `screenshots/WP4-TC03.png`
 
 ### I-02 — `/health` reports `ai_enabled: true` even with an invalid key

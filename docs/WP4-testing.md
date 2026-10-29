@@ -33,8 +33,8 @@ WP4 delivers evidence-based few-shot instructions and an optional, validated pre
 
 **Procedure:** Apply the optional WP3 integration edits, then run `run_wp4_tests.py` and verify that instructions flow into all three AI stages.  
 **Expected:** Integration test passes without contacting OpenAI, with zero skipped tests.  
-**Actual:** Before the edits: 9 tests, 1 ERROR (`analyze_terms() takes 1 positional argument but 2 were given`), which is the expected guard. I compared the live WP3 files with `03_OPTIONAL_WP3_INTEGRATION` and applied only the minimal edits, as a patch (5 files, +21/−11). After patching, the files are identical to the overlay apart from whitespace. After the edits: **`Ran 9 tests … OK`, 0 skipped**, no OpenAI calls. The edits exist only in my local working copy. **No WP3 file is changed in this branch**; the patch is with Ahmed for review.  
-**Result:** PASS (local integration copy; committing the integration still needs Ahmed's approval)  
+**Actual:** Before the edits: 9 tests, 1 ERROR (`analyze_terms() takes 1 positional argument but 2 were given`), which is the expected guard. I compared the live WP3 files with `03_OPTIONAL_WP3_INTEGRATION` and applied only the minimal edits, as a patch (5 files, +21/−11). After patching, the files are identical to the overlay apart from whitespace. After the edits: **`Ran 9 tests … OK`, 0 skipped**, no OpenAI calls. The edits are included in this branch as a separate commit, for Ahmed's review.  
+**Result:** PASS (WP3 integration included as a separate commit; Ahmed to review)  
 **Evidence:** `docs/screenshots/WP4-TC03-before-integration.png`, `docs/screenshots/WP4-TC03.png`, `docs/wp4_logs/TC03_*.log`  
 
 ## WP4-TC04 — Live comparison (requires API access)
@@ -114,7 +114,7 @@ Remaining unsupported statements flagged by the judge (final prompts):
 - WP4 is a prompt module and does not provide preference persistence. WP6 must supply validated stored preferences.
 - WP3 scoring is provisional, not guaranteed to change for selected preferences.
 - WP5 alone owns PDPL knowledge retrieval and legal-context checks.
-- The WP3 integration edits are **not committed**; they are waiting for Ahmed's review.
+- The WP3 integration edits are a separate commit in this branch; Ahmed reviews them before merge.
 - Preference names and defaults need agreement with WP6 (I-09).
 - TC04 results come from the test provider; GPT-4o results may differ slightly. The test documents are fictional and short.
 - Test findings must be recorded accurately; no completed claims until verified.
