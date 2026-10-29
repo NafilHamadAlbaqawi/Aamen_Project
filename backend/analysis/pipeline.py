@@ -1,12 +1,18 @@
 
-"""Orchestrate the three distinct AI stages while keeping the WP2 response compatible."""
+"""Orchestrate WP3, WP4, and WP5 while preserving the WP2 response fields."""
+
+import logging
+
 from .clause_extractor import extract_clauses
 from .risk_classifier import classify_clauses
 from .summary_generator import generate_summary
 from .rating import calculate_rating
 from .schemas import AnalysisResponse
 from ..prompt_adjuster import PrivacyPreferences, build_prompt_bundle
+from ..pdpl.checker import check_pdpl
+from ..pdpl.schemas import PDPLCheckResult
 
+logger = logging.getLogger(__name__)
 MAX_MODEL_INPUT_CHARS = 60000
 
 
@@ -23,6 +29,16 @@ def analyze_terms(
     classified = classify_clauses(verified, prompts.classification_instructions)
     summary = generate_summary(classified, prompts.summary_instructions)
     score, level = calculate_rating(classified)
+
+    try:
+        pdpl_result = check_pdpl(classified)
+    except Exception:
+        logger.exception("WP5 PDPL screening failed; WP3 results are preserved.")
+        pdpl_result = PDPLCheckResult(
+            status="unavailable",
+            disclaimer="PDPL screening failed; no PDPL conclusion is available.",
+        )
+
     return AnalysisResponse(
         status="completed",
         analysis_mode="openai",
@@ -37,4 +53,5 @@ def analyze_terms(
             if truncated else
             "AI-generated screening, not a legal compliance determination."
         ),
+        pdpl=pdpl_result,
     )
