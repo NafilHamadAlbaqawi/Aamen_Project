@@ -5,7 +5,7 @@
 **Responsible:** Abdullah Alasker  
 **Branch:** feature/wp4-prompt-personalization (base commit `8d001e1` + the prompt refinements and test files in this update)  
 **Date:** 2026-10-29  
-**Model:** The backend uses OpenAI `gpt-4o-2024-08-06`. For the live tests I used another AI provider; the backend code is unchanged.  
+**Model:** The backend uses OpenAI `gpt-4o-2024-08-06`. For the live tests I used another AI provider.  
 **Environment:** Windows 11, Python 3.12.3 (venv), pydantic 2.14.1, fastapi 0.162.0, uvicorn 0.54.0, openai 3.41.0  
 **How tests were run:** I ran the runner scripts with the project interpreter, which is equivalent to VS Code's Run Python File. Console screenshots show the captured output. Raw logs are in `docs/wp4_logs/`, and raw JSON results in `tests/wp4_eval/results/`.  
 
