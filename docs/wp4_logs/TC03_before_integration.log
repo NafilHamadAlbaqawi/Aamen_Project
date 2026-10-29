@@ -1,0 +1,26 @@
+# 2026-10-29 06:04:25 +0300 | BEFORE integration edits (WP3 files as committed @ 8d001e1)
+> python run_wp4_tests.py
+test_prompts_reach_three_wp3_stages (test_wp4_integration.TestWp4PipelineIntegration.test_prompts_reach_three_wp3_stages) ... ERROR
+test_all_four_topics_present (test_wp4_prompts.TestWp4Prompts.test_all_four_topics_present) ... ok
+test_default_neutral_preferences (test_wp4_prompts.TestWp4Prompts.test_default_neutral_preferences) ... ok
+test_false_does_not_disable_all_risk_checks (test_wp4_prompts.TestWp4Prompts.test_false_does_not_disable_all_risk_checks) ... ok
+test_few_shot_examples_and_expected_formats (test_wp4_prompts.TestWp4Prompts.test_few_shot_examples_and_expected_formats) ... ok
+test_location_and_sharing_personalization (test_wp4_prompts.TestWp4Prompts.test_location_and_sharing_personalization) ... ok
+test_no_untrusted_freeform_preferences (test_wp4_prompts.TestWp4Prompts.test_no_untrusted_freeform_preferences) ... ok
+test_repeatable_and_immutable (test_wp4_prompts.TestWp4Prompts.test_repeatable_and_immutable) ... ok
+test_untrusted_input_safeguards (test_wp4_prompts.TestWp4Prompts.test_untrusted_input_safeguards) ... ok
+
+======================================================================
+ERROR: test_prompts_reach_three_wp3_stages (test_wp4_integration.TestWp4PipelineIntegration.test_prompts_reach_three_wp3_stages)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\عبدالله\AppData\Local\aamen_wp4_work\Aamen_Project\tests\test_wp4_integration.py", line 33, in test_prompts_reach_three_wp3_stages
+    result = analyze_terms(
+             ^^^^^^^^^^^^^^
+TypeError: analyze_terms() takes 1 positional argument but 2 were given
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.001s
+
+FAILED (errors=1)
+[exit code 1]

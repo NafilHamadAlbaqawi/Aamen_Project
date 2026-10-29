@@ -1,0 +1,16 @@
+> git ls-files | grep -c .gitignore      (branch feature/wp4-prompt-personalization @ 8d001e1)
+0
+> git status --short   (after running the tests and servers)
+ M backend/prompt_adjuster/prompt_adjuster.py
+ M backend/prompt_adjuster/prompts.py
+?? backend/__pycache__/
+?? backend/prompt_adjuster/__pycache__/
+?? docs/WP4-interface-contract.md
+?? docs/WP4-issues-log.md
+?? docs/WP4-testing.md
+?? docs/screenshots/
+?? docs/wp4_logs/
+?? run_wp4_tests.py
+?? run_wp4_unit_tests.py
+?? tests/
+# No .gitignore exists, so __pycache__/ shows up as untracked, and .env (API key) or .venv/ would not be protected from an accidental 'git add'.

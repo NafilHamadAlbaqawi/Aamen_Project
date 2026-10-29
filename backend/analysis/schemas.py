@@ -1,20 +1,35 @@
+
 """Pydantic contracts used between WP3 pipeline stages and the Chrome extension."""
+
 from typing import Literal
 from pydantic import BaseModel, Field
 
+from ..pdpl.schemas import PDPLCheckResult
+
+
 Category = Literal[
-    "data_collection", "third_party_sharing", "data_retention",
-    "consent", "account_termination", "terms_changes",
-    "liability", "sensitive_data", "other",
+    "data_collection",
+    "third_party_sharing",
+    "data_retention",
+    "consent",
+    "account_termination",
+    "terms_changes",
+    "liability",
+    "sensitive_data",
+    "other",
 ]
+
 Severity = Literal["low", "medium", "high"]
+
 
 class ExtractedClause(BaseModel):
     category: Category
     source_excerpt: str
 
+
 class ExtractionOutput(BaseModel):
     clauses: list[ExtractedClause]
+
 
 class ClassifiedClause(BaseModel):
     clause_number: int
@@ -22,12 +37,15 @@ class ClassifiedClause(BaseModel):
     explanation_en: str
     explanation_ar: str
 
+
 class ClassificationOutput(BaseModel):
     clauses: list[ClassifiedClause]
+
 
 class SummaryOutput(BaseModel):
     summary_en: str
     summary_ar: str
+
 
 class FlaggedClause(BaseModel):
     clause_id: str
@@ -36,6 +54,7 @@ class FlaggedClause(BaseModel):
     source_excerpt: str
     explanation_en: str
     explanation_ar: str
+
 
 class AnalysisResponse(BaseModel):
     status: Literal["completed"]
@@ -47,3 +66,4 @@ class AnalysisResponse(BaseModel):
     flagged_clauses: list[FlaggedClause]
     input_truncated: bool = False
     disclaimer: str = "AI-generated screening, not a legal compliance determination."
+    pdpl: PDPLCheckResult | None = None

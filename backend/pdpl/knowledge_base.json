@@ -1,0 +1,303 @@
+{
+  "version": "0.1.0",
+  "reviewed_on": "2026-10-29",
+  "jurisdiction": "Saudi Arabia",
+  "status": "initial_verified_reference_index",
+  "not_legal_advice": true,
+  "content_policy": "Summaries are original paraphrases, not full or authoritative legal provisions. source_anchor is a short verbatim locator only. Always consult the linked official article and any applicable exceptions before a legal conclusion.",
+  "sources": [
+    {
+      "source_id": "PDPL",
+      "title": "Personal Data Protection Law",
+      "kind": "law",
+      "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL"
+    },
+    {
+      "source_id": "PDPL_IR",
+      "title": "Implementing Regulation of the Personal Data Protection Law",
+      "kind": "implementing_regulation",
+      "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2"
+    }
+  ],
+  "articles": [
+    {
+      "id": "pdpl-04",
+      "source_id": "PDPL",
+      "article_id": "Article 4",
+      "topic": "data_subject_rights",
+      "summary_en": "Data subjects have rights to information, access, obtain a copy, correct data, and request destruction, subject to the Law and Regulations.",
+      "summary_ar": "يتمتع أصحاب البيانات بحقوق تتعلق بالعلم والمعرفة والوصول والحصول على نسخة وتصحيح البيانات وطلب إتلافها، وفقاً لأحكام النظام ولوائحه.",
+      "source_anchor": "Data Subject",
+      "keywords_en": [
+        "rights",
+        "access",
+        "correct",
+        "copy",
+        "delete"
+      ],
+      "keywords_ar": [
+        "حقوق",
+        "وصول",
+        "تصحيح",
+        "نسخة",
+        "حذف"
+      ]
+    },
+    {
+      "id": "pdpl-05",
+      "source_id": "PDPL",
+      "article_id": "Article 5",
+      "topic": "consent",
+      "summary_en": "Consent is generally needed for processing or changing its purpose, subject to statutory exceptions; consent may be withdrawn under the Regulations.",
+      "summary_ar": "تستلزم المعالجة أو تغيير الغرض منها الموافقة كقاعدة عامة مع مراعاة الاستثناءات النظامية، ويمكن سحب الموافقة وفق الضوابط التنظيمية.",
+      "source_anchor": "withdraw the consent",
+      "keywords_en": [
+        "consent",
+        "withdraw",
+        "permission",
+        "opt in"
+      ],
+      "keywords_ar": [
+        "موافقة",
+        "سحب",
+        "إذن"
+      ]
+    },
+    {
+      "id": "pdpl-10",
+      "source_id": "PDPL",
+      "article_id": "Article 10",
+      "topic": "purpose_limitation",
+      "summary_en": "Direct collection and use for the original stated purpose are the general rule; the Article lists specific exceptions allowing indirect collection or another purpose.",
+      "summary_ar": "الأصل جمع البيانات مباشرة من صاحبها ومعالجتها للغرض الذي جُمعت من أجله، مع وجود استثناءات محددة لجمعها من مصادر أخرى أو لأغراض مختلفة.",
+      "source_anchor": "other purposes",
+      "keywords_en": [
+        "purpose",
+        "secondary use",
+        "reuse",
+        "third party source"
+      ],
+      "keywords_ar": [
+        "غرض",
+        "استخدام ثانوي",
+        "مصدر آخر"
+      ]
+    },
+    {
+      "id": "pdpl-11",
+      "source_id": "PDPL",
+      "article_id": "Article 11",
+      "topic": "data_minimization",
+      "summary_en": "Collection purposes and methods must be lawful, clear and appropriate; data collected should be limited to what is needed for the purpose and unnecessary collection should cease.",
+      "summary_ar": "يشترط أن تكون أغراض الجمع ووسائله مشروعة وواضحة ومناسبة، وأن يقتصر الجمع على البيانات اللازمة للغرض وأن يتوقف عند انتفاء الحاجة.",
+      "source_anchor": "minimum amount",
+      "keywords_en": [
+        "minimum",
+        "necessary",
+        "collection",
+        "excessive"
+      ],
+      "keywords_ar": [
+        "حد أدنى",
+        "ضروري",
+        "جمع",
+        "مفرط"
+      ]
+    },
+    {
+      "id": "pdpl-12",
+      "source_id": "PDPL",
+      "article_id": "Article 12",
+      "topic": "privacy_notice",
+      "summary_en": "Before collecting data, controllers must make a privacy policy available that describes collection purposes, data types, processing and storage practices, destruction, and data-subject rights.",
+      "summary_ar": "يجب إتاحة سياسة خصوصية قبل جمع البيانات توضح الأغراض وأنواع البيانات ووسائل معالجتها وتخزينها وإتلافها وحقوق أصحاب البيانات.",
+      "source_anchor": "privacy policy",
+      "keywords_en": [
+        "privacy policy",
+        "notice",
+        "transparent",
+        "deletion"
+      ],
+      "keywords_ar": [
+        "سياسة الخصوصية",
+        "إشعار",
+        "شفافية",
+        "إتلاف"
+      ]
+    },
+    {
+      "id": "pdpl-13",
+      "source_id": "PDPL",
+      "article_id": "Article 13",
+      "topic": "collection_disclosures",
+      "summary_en": "When collecting personal data directly, controllers must give specified information including legal basis, purposes, whether provision is mandatory, possible recipients and cross-border handling.",
+      "summary_ar": "عند جمع البيانات مباشرة يجب تقديم معلومات محددة تشمل السند النظامي والأغراض وإلزامية تقديم البيانات والجهات التي ستُكشف لها وإمكان نقلها خارج المملكة.",
+      "source_anchor": "legal basis",
+      "keywords_en": [
+        "legal basis",
+        "mandatory",
+        "optional",
+        "recipient",
+        "international transfer"
+      ],
+      "keywords_ar": [
+        "سند نظامي",
+        "إلزامي",
+        "اختياري",
+        "جهة مستلمة",
+        "نقل دولي"
+      ]
+    },
+    {
+      "id": "pdpl-18",
+      "source_id": "PDPL",
+      "article_id": "Article 18",
+      "topic": "retention_and_destruction",
+      "summary_en": "Data should generally be destroyed without undue delay when no longer needed for its collection purpose, subject to lawful retention and judicial exceptions.",
+      "summary_ar": "يجب إتلاف البيانات عند انتفاء الحاجة إليها دون تأخير غير مبرر كقاعدة عامة، مع مراعاة استثناءات الاحتفاظ النظامية والقضائية.",
+      "source_anchor": "without undue delay",
+      "keywords_en": [
+        "retain",
+        "retention",
+        "delete",
+        "destroy",
+        "years"
+      ],
+      "keywords_ar": [
+        "احتفاظ",
+        "تخزين",
+        "إتلاف",
+        "حذف",
+        "سنوات"
+      ]
+    },
+    {
+      "id": "pdpl-19",
+      "source_id": "PDPL",
+      "article_id": "Article 19",
+      "topic": "security_safeguards",
+      "summary_en": "Controllers must take necessary organizational, administrative and technical measures to protect personal data, including during transfers, as specified in regulations.",
+      "summary_ar": "يجب على جهات التحكم اتخاذ التدابير التنظيمية والإدارية والتقنية اللازمة لحماية البيانات الشخصية، بما في ذلك أثناء نقلها، وفق الضوابط التنظيمية.",
+      "source_anchor": "technical measures",
+      "keywords_en": [
+        "security",
+        "protect",
+        "encrypt",
+        "unauthorized access"
+      ],
+      "keywords_ar": [
+        "أمن",
+        "حماية",
+        "تشفير",
+        "وصول غير مصرح"
+      ]
+    },
+    {
+      "id": "pdpl-20",
+      "source_id": "PDPL",
+      "article_id": "Article 20",
+      "topic": "breach_notification",
+      "summary_en": "Controllers have notification obligations for personal-data breaches, damage or unlawful access, including notification to the authority and, where applicable, affected data subjects under regulatory conditions.",
+      "summary_ar": "توجد التزامات بالإبلاغ عن حوادث اختراق البيانات أو تلفها أو الوصول غير المشروع إليها للجهة المختصة، ولصاحب البيانات في الحالات التي تحددها الضوابط.",
+      "source_anchor": "Competent Authority",
+      "keywords_en": [
+        "breach",
+        "incident",
+        "notify",
+        "unauthorized access"
+      ],
+      "keywords_ar": [
+        "اختراق",
+        "حادث",
+        "إبلاغ",
+        "وصول غير مشروع"
+      ]
+    },
+    {
+      "id": "pdpl-29",
+      "source_id": "PDPL",
+      "article_id": "Article 29",
+      "topic": "cross_border_transfer",
+      "summary_en": "Transfers or disclosures of personal data outside Saudi Arabia are governed by specified purposes and conditions, including protection-level and regulatory requirements.",
+      "summary_ar": "يخضع نقل البيانات الشخصية أو الإفصاح عنها خارج المملكة لأغراض وشروط محددة، منها متطلبات مستوى الحماية والضوابط التنظيمية.",
+      "source_anchor": "outside the Kingdom",
+      "keywords_en": [
+        "transfer",
+        "abroad",
+        "foreign",
+        "international",
+        "outside kingdom"
+      ],
+      "keywords_ar": [
+        "نقل",
+        "خارج المملكة",
+        "دولي",
+        "دولة أخرى"
+      ]
+    },
+    {
+      "id": "reg-04",
+      "source_id": "PDPL_IR",
+      "article_id": "Article 4",
+      "topic": "right_to_be_informed",
+      "summary_en": "The Implementing Regulation elaborates information controllers must provide before or during direct collection, including identity, purposes, retention, rights and withdrawal procedures, subject to exceptions.",
+      "summary_ar": "تفصّل اللائحة المعلومات التي يجب إتاحتها قبل أو عند الجمع المباشر، مثل هوية جهة التحكم والأغراض والاحتفاظ والحقوق وسحب الموافقة، مع مراعاة الاستثناءات.",
+      "source_anchor": "period for which",
+      "keywords_en": [
+        "inform",
+        "notice",
+        "contact",
+        "retention",
+        "withdrawal"
+      ],
+      "keywords_ar": [
+        "إعلام",
+        "إشعار",
+        "تواصل",
+        "احتفاظ",
+        "سحب الموافقة"
+      ]
+    },
+    {
+      "id": "reg-12",
+      "source_id": "PDPL_IR",
+      "article_id": "Article 12",
+      "topic": "consent_withdrawal",
+      "summary_en": "The Implementing Regulation requires mechanisms for consent withdrawal and generally requires ceasing consent-based processing after withdrawal, subject to other lawful grounds.",
+      "summary_ar": "تقتضي اللائحة وجود آليات لسحب الموافقة والتوقف عن المعالجة المبنية عليها عند سحبها، مع مراعاة وجود أسس نظامية أخرى.",
+      "source_anchor": "withdraw their consent",
+      "keywords_en": [
+        "withdraw",
+        "consent",
+        "unsubscribe",
+        "opt out"
+      ],
+      "keywords_ar": [
+        "سحب",
+        "موافقة",
+        "إلغاء الاشتراك"
+      ]
+    },
+    {
+      "id": "reg-19",
+      "source_id": "PDPL_IR",
+      "article_id": "Article 19",
+      "topic": "data_minimization",
+      "summary_en": "The Implementing Regulation elaborates collecting and retaining only the minimum personal data necessary for each processing purpose.",
+      "summary_ar": "تفصّل اللائحة قصر جمع البيانات الشخصية والاحتفاظ بها على الحد الأدنى اللازم لكل غرض من أغراض المعالجة.",
+      "source_anchor": "minimum amount",
+      "keywords_en": [
+        "minimum",
+        "necessary",
+        "retention",
+        "excess data"
+      ],
+      "keywords_ar": [
+        "حد أدنى",
+        "ضروري",
+        "احتفاظ",
+        "بيانات زائدة"
+      ]
+    }
+  ]
+}

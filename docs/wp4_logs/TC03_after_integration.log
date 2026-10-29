@@ -1,0 +1,17 @@
+# 2026-10-29 06:04:26 +0300 | AFTER integration edits (local working copy only; 5 WP3 files, +21/-11; not committed)
+> python run_wp4_tests.py
+test_prompts_reach_three_wp3_stages (test_wp4_integration.TestWp4PipelineIntegration.test_prompts_reach_three_wp3_stages) ... ok
+test_all_four_topics_present (test_wp4_prompts.TestWp4Prompts.test_all_four_topics_present) ... ok
+test_default_neutral_preferences (test_wp4_prompts.TestWp4Prompts.test_default_neutral_preferences) ... ok
+test_false_does_not_disable_all_risk_checks (test_wp4_prompts.TestWp4Prompts.test_false_does_not_disable_all_risk_checks) ... ok
+test_few_shot_examples_and_expected_formats (test_wp4_prompts.TestWp4Prompts.test_few_shot_examples_and_expected_formats) ... ok
+test_location_and_sharing_personalization (test_wp4_prompts.TestWp4Prompts.test_location_and_sharing_personalization) ... ok
+test_no_untrusted_freeform_preferences (test_wp4_prompts.TestWp4Prompts.test_no_untrusted_freeform_preferences) ... ok
+test_repeatable_and_immutable (test_wp4_prompts.TestWp4Prompts.test_repeatable_and_immutable) ... ok
+test_untrusted_input_safeguards (test_wp4_prompts.TestWp4Prompts.test_untrusted_input_safeguards) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.001s
+
+OK
+[exit code 0]

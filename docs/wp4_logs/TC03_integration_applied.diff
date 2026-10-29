@@ -1,0 +1,115 @@
+diff --git a/backend/analysis/clause_extractor.py b/backend/analysis/clause_extractor.py
+index d856018..5b1bcd6 100644
+--- a/backend/analysis/clause_extractor.py
++++ b/backend/analysis/clause_extractor.py
+@@ -13,8 +13,8 @@ INSTRUCTIONS = (
+ )
+ 
+ 
+-def extract_clauses(text: str) -> list[ExtractedClause]:
+-    result = request_structured(ExtractionOutput, INSTRUCTIONS, text, 3200)
++def extract_clauses(text: str, instructions: str | None = None) -> list[ExtractedClause]:
++    result = request_structured(ExtractionOutput, instructions or INSTRUCTIONS, text, 3200)
+     verified = []
+     seen = set()
+     for clause in result.clauses:
+diff --git a/backend/analysis/pipeline.py b/backend/analysis/pipeline.py
+index 3862c7d..39f5061 100644
+--- a/backend/analysis/pipeline.py
++++ b/backend/analysis/pipeline.py
+@@ -5,19 +5,23 @@ from .risk_classifier import classify_clauses
+ from .summary_generator import generate_summary
+ from .rating import calculate_rating
+ from .schemas import AnalysisResponse
++from ..prompt_adjuster import PrivacyPreferences, build_prompt_bundle
+ 
+ MAX_MODEL_INPUT_CHARS = 60000
+ 
+ 
+-def analyze_terms(terms_text: str) -> AnalysisResponse:
++def analyze_terms(
++    terms_text: str, preferences: PrivacyPreferences | None = None
++) -> AnalysisResponse:
+     cleaned = terms_text.strip()
+     if len(cleaned) < 50:
+         raise ValueError("At least 50 characters of Terms and Conditions are required.")
+     truncated = len(cleaned) > MAX_MODEL_INPUT_CHARS
+     working_text = cleaned[:MAX_MODEL_INPUT_CHARS]
+-    verified = extract_clauses(working_text)
+-    classified = classify_clauses(verified)
+-    summary = generate_summary(classified)
++    prompts = build_prompt_bundle(preferences)
++    verified = extract_clauses(working_text, prompts.extraction_instructions)
++    classified = classify_clauses(verified, prompts.classification_instructions)
++    summary = generate_summary(classified, prompts.summary_instructions)
+     score, level = calculate_rating(classified)
+     return AnalysisResponse(
+         status="completed",
+diff --git a/backend/analysis/risk_classifier.py b/backend/analysis/risk_classifier.py
+index 1366aa2..92904e5 100644
+--- a/backend/analysis/risk_classifier.py
++++ b/backend/analysis/risk_classifier.py
+@@ -14,13 +14,15 @@ INSTRUCTIONS = (
+ )
+ 
+ 
+-def classify_clauses(clauses: list[ExtractedClause]) -> list[FlaggedClause]:
++def classify_clauses(
++    clauses: list[ExtractedClause], instructions: str | None = None
++) -> list[FlaggedClause]:
+     inputs = [
+         {"clause_number": number, "category": c.category, "source_excerpt": c.source_excerpt}
+         for number, c in enumerate(clauses, start=1)
+     ]
+     result = request_structured(
+-        ClassificationOutput, INSTRUCTIONS, json.dumps(inputs, ensure_ascii=False), 3800
++        ClassificationOutput, instructions or INSTRUCTIONS, json.dumps(inputs, ensure_ascii=False), 3800
+     )
+     classifications = {item.clause_number: item for item in result.clauses}
+     if len(classifications) != len(clauses) or any(n not in classifications for n in range(1, len(clauses) + 1)):
+diff --git a/backend/analysis/summary_generator.py b/backend/analysis/summary_generator.py
+index 4ef6d70..ea4d07b 100644
+--- a/backend/analysis/summary_generator.py
++++ b/backend/analysis/summary_generator.py
+@@ -13,8 +13,10 @@ INSTRUCTIONS = (
+ )
+ 
+ 
+-def generate_summary(clauses: list[FlaggedClause]) -> SummaryOutput:
++def generate_summary(
++    clauses: list[FlaggedClause], instructions: str | None = None
++) -> SummaryOutput:
+     evidence = [clause.model_dump() for clause in clauses]
+     return request_structured(
+-        SummaryOutput, INSTRUCTIONS, json.dumps(evidence, ensure_ascii=False), 1100
++        SummaryOutput, instructions or INSTRUCTIONS, json.dumps(evidence, ensure_ascii=False), 1100
+     )
+diff --git a/backend/main.py b/backend/main.py
+index 89071c7..99df819 100644
+--- a/backend/main.py
++++ b/backend/main.py
+@@ -10,6 +10,7 @@ from openai import OpenAIError
+ from .analysis.openai_client import AnalysisFailure
+ from .analysis.pipeline import analyze_terms
+ from .analysis.schemas import AnalysisResponse
++from .prompt_adjuster import PrivacyPreferences
+ 
+ logger = logging.getLogger(__name__)
+ app = FastAPI(title="Aamen Backend", version="0.2.0")
+@@ -20,6 +21,7 @@ class AnalyzeRequest(BaseModel):
+     page_title: str = Field(default="", max_length=300)
+     terms_text: str = Field(min_length=50, max_length=120000)
+     language: Literal["en", "ar"] = "en"
++    preferences: PrivacyPreferences | None = None  # Optional WP4-only testing override
+ 
+ @app.get("/health")
+ def health():
+@@ -34,7 +36,7 @@ async def analyze(request: AnalyzeRequest):
+     if not os.getenv("OPENAI_API_KEY"):
+         raise HTTPException(status_code=503, detail="AI analysis is not configured on this server.")
+     try:
+-        return await run_in_threadpool(analyze_terms, request.terms_text)
++        return await run_in_threadpool(analyze_terms, request.terms_text, request.preferences)
+     except ValueError as error:
+         raise HTTPException(status_code=422, detail=str(error)) from error
+     except AnalysisFailure as error:

@@ -1,0 +1,22 @@
+> python tests/wp4_eval/tc04_compare.py --url http://127.0.0.1:8001 --repeats 2
+HEALTH       http://127.0.0.1:8001 -> {'status': 'ok', 'service': 'aamen', 'ai_enabled': True}
+VALIDATION   string instead of boolean    -> HTTP 422 (0.0s)
+VALIDATION   unknown preference field     -> HTTP 422 (0.0s)
+COMPARE      DOC-A r1 default          -> HTTP 200 Moderate score=38 clauses=3 verbatim=3 (14.0s)
+COMPARE      DOC-A r1 location+sharing -> HTTP 200 Moderate score=38 clauses=3 verbatim=3 (15.1s)
+COMPARE      DOC-A r2 default          -> HTTP 200 Moderate score=38 clauses=3 verbatim=3 (15.3s)
+COMPARE      DOC-A r2 location+sharing -> HTTP 200 Moderate score=38 clauses=3 verbatim=3 (14.3s)
+COMPARE      DOC-B r1 default          -> HTTP 200 High Risk score=100 clauses=10 verbatim=10 (21.7s)
+COMPARE      DOC-B r1 location+sharing -> HTTP 200 High Risk score=100 clauses=9 verbatim=9 (21.5s)
+COMPARE      DOC-B r2 default          -> HTTP 200 High Risk score=100 clauses=9 verbatim=9 (20.6s)
+COMPARE      DOC-B r2 location+sharing -> HTTP 200 High Risk score=100 clauses=9 verbatim=9 (25.4s)
+COMPARE      DOC-C r1 default          -> HTTP 200 High Risk score=100 clauses=10 verbatim=10 (19.8s)
+COMPARE      DOC-C r1 location+sharing -> HTTP 200 High Risk score=100 clauses=10 verbatim=10 (20.4s)
+COMPARE      DOC-C r2 default          -> HTTP 200 High Risk score=100 clauses=9 verbatim=9 (20.4s)
+COMPARE      DOC-C r2 location+sharing -> HTTP 200 High Risk score=100 clauses=10 verbatim=10 (24.0s)
+COMPARE      DOC-D r1 default          -> HTTP 200 Moderate score=48 clauses=8 verbatim=8 (18.5s)
+COMPARE      DOC-D r1 location+sharing -> HTTP 200 Moderate score=46 clauses=7 verbatim=7 (18.5s)
+COMPARE      DOC-D r2 default          -> HTTP 200 Moderate score=48 clauses=8 verbatim=8 (20.0s)
+COMPARE      DOC-D r2 location+sharing -> HTTP 200 Moderate score=46 clauses=7 verbatim=7 (19.3s)
+saved tests\wp4_eval\results\TC04_results.json
+[exit code 0]

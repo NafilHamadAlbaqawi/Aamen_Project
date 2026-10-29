@@ -1,0 +1,22 @@
+> python tests/wp4_eval/tc04_compare.py --url http://127.0.0.1:8001 --repeats 2
+HEALTH       http://127.0.0.1:8001 -> {'status': 'ok', 'service': 'aamen', 'ai_enabled': True}
+VALIDATION   string instead of boolean    -> HTTP 422 (0.0s)
+VALIDATION   unknown preference field     -> HTTP 422 (0.0s)
+COMPARE      DOC-A r1 default          -> HTTP 200 Moderate score=43 clauses=3 verbatim=3 (136.5s)
+COMPARE      DOC-A r1 location+sharing -> HTTP 200 Moderate score=38 clauses=3 verbatim=3 (15.3s)
+COMPARE      DOC-A r2 default          -> HTTP 200 Moderate score=38 clauses=3 verbatim=3 (14.1s)
+COMPARE      DOC-A r2 location+sharing -> HTTP 200 Moderate score=43 clauses=3 verbatim=3 (14.6s)
+COMPARE      DOC-B r1 default          -> HTTP 200 High Risk score=100 clauses=10 verbatim=10 (24.4s)
+COMPARE      DOC-B r1 location+sharing -> HTTP 200 High Risk score=100 clauses=10 verbatim=10 (25.0s)
+COMPARE      DOC-B r2 default          -> HTTP 200 High Risk score=100 clauses=9 verbatim=9 (21.2s)
+COMPARE      DOC-B r2 location+sharing -> HTTP 200 High Risk score=100 clauses=10 verbatim=10 (23.0s)
+COMPARE      DOC-C r1 default          -> HTTP 200 High Risk score=100 clauses=10 verbatim=10 (22.5s)
+COMPARE      DOC-C r1 location+sharing -> HTTP 200 High Risk score=100 clauses=10 verbatim=10 (24.2s)
+COMPARE      DOC-C r2 default          -> HTTP 200 High Risk score=100 clauses=11 verbatim=11 (23.4s)
+COMPARE      DOC-C r2 location+sharing -> HTTP 200 High Risk score=100 clauses=10 verbatim=10 (23.1s)
+COMPARE      DOC-D r1 default          -> HTTP 502 The classifier omitted one or more clauses. score=None (12.7s)
+COMPARE      DOC-D r1 location+sharing -> HTTP 200 Moderate score=50 clauses=9 verbatim=9 (19.8s)
+COMPARE      DOC-D r2 default          -> HTTP 200 Moderate score=55 clauses=9 verbatim=9 (20.2s)
+COMPARE      DOC-D r2 location+sharing -> HTTP 502 The classifier omitted one or more clauses. score=None (10.4s)
+saved tests\wp4_eval\results\TC04_results.json
+[exit code 0]

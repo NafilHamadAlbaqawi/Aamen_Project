@@ -1,0 +1,13 @@
+> diff <(git show HEAD:backend/main.py) 03_OPTIONAL_WP3_INTEGRATION/backend/main.py   (committed WP3 file vs leader's overlay copy)
+1d0
+< 
+12a12
+> from .prompt_adjuster import PrivacyPreferences
+22a23
+>     preferences: PrivacyPreferences | None = None  # Optional WP4-only testing override
+37c38
+<         return await run_in_threadpool(analyze_terms, request.terms_text)
+---
+>         return await run_in_threadpool(analyze_terms, request.terms_text, request.preferences)
+# Besides the WP4 edits, the overlay lacks the repo file's leading blank line; copying whole files would also overwrite any newer WP3 changes.
+# Fix: applied only the minimal edits as a patch (TC03_patch_vs_overlay.log: IDENTICAL after patch).

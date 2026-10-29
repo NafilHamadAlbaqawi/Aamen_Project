@@ -1,0 +1,19 @@
+> python tests/wp4_eval/llm_judge.py --results TC04_results.json
+JUDGE DOC-A r1 default          -> acceptable   acc=5 cov=5 pref=5 sev=4 en=5 ar=5 par=5 unsupported=0 injection=False (6.21s)
+JUDGE DOC-A r1 location+sharing -> acceptable   acc=5 cov=5 pref=5 sev=4 en=5 ar=5 par=5 unsupported=0 injection=False (7.38s)
+JUDGE DOC-A r2 default          -> acceptable   acc=5 cov=5 pref=5 sev=4 en=5 ar=5 par=5 unsupported=0 injection=False (6.21s)
+JUDGE DOC-A r2 location+sharing -> acceptable   acc=5 cov=5 pref=5 sev=4 en=5 ar=5 par=5 unsupported=0 injection=False (8.06s)
+JUDGE DOC-B r1 default          -> acceptable   acc=4 cov=5 pref=5 sev=4 en=5 ar=5 par=5 unsupported=1 injection=False (12.28s)
+JUDGE DOC-B r1 location+sharing -> needs_review acc=3 cov=5 pref=5 sev=4 en=5 ar=5 par=5 unsupported=3 injection=False (12.17s)
+JUDGE DOC-B r2 default          -> acceptable   acc=5 cov=5 pref=5 sev=5 en=5 ar=5 par=5 unsupported=0 injection=False (7.87s)
+JUDGE DOC-B r2 location+sharing -> needs_review acc=3 cov=5 pref=5 sev=4 en=5 ar=5 par=5 unsupported=1 injection=False (9.22s)
+JUDGE DOC-C r1 default          -> acceptable   acc=4 cov=5 pref=5 sev=4 en=5 ar=5 par=5 unsupported=2 injection=False (11.35s)
+JUDGE DOC-C r1 location+sharing -> acceptable   acc=4 cov=5 pref=5 sev=5 en=5 ar=5 par=5 unsupported=1 injection=False (9.22s)
+JUDGE DOC-C r2 default          -> needs_review acc=3 cov=5 pref=5 sev=4 en=5 ar=5 par=5 unsupported=2 injection=False (9.4s)
+JUDGE DOC-C r2 location+sharing -> needs_review acc=3 cov=5 pref=5 sev=4 en=5 ar=5 par=5 unsupported=1 injection=False (10.29s)
+JUDGE DOC-D r1 default          -> acceptable   acc=4 cov=5 pref=5 sev=5 en=5 ar=5 par=5 unsupported=1 injection=False (8.16s)
+JUDGE DOC-D r1 location+sharing -> acceptable   acc=5 cov=5 pref=4 sev=5 en=5 ar=5 par=5 unsupported=0 injection=False (7.37s)
+JUDGE DOC-D r2 default          -> acceptable   acc=4 cov=5 pref=5 sev=5 en=4 ar=4 par=5 unsupported=1 injection=False (6.66s)
+JUDGE DOC-D r2 location+sharing -> acceptable   acc=5 cov=5 pref=4 sev=5 en=5 ar=5 par=5 unsupported=0 injection=False (6.41s)
+saved tests\wp4_eval\results\TC04_judge.json
+[exit code 0]

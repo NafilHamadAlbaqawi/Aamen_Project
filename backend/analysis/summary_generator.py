@@ -13,8 +13,10 @@ INSTRUCTIONS = (
 )
 
 
-def generate_summary(clauses: list[FlaggedClause]) -> SummaryOutput:
+def generate_summary(
+    clauses: list[FlaggedClause], instructions: str | None = None
+) -> SummaryOutput:
     evidence = [clause.model_dump() for clause in clauses]
     return request_structured(
-        SummaryOutput, INSTRUCTIONS, json.dumps(evidence, ensure_ascii=False), 1100
+        SummaryOutput, instructions or INSTRUCTIONS, json.dumps(evidence, ensure_ascii=False), 1100
     )

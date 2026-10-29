@@ -1,0 +1,6 @@
+$ python -m venv .venv   (project inside a deep folder under the Windows user profile)
+$ .venv\Scripts\python -m pip install -r backend\requirements.txt playwright
+ERROR: Could not install packages due to an OSError: [WinError 206] The filename or extension is too long: 'C:\Users\<user>\AppData\Local\Temp\<deep project folder, ~150 chars>\.venv\Lib\site-packages\playwright\driver\package\lib\tools\skills\playwright-cli\references'
+
+exit code: 1
+(path sanitized)
