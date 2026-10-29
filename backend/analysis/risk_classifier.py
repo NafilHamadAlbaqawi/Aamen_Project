@@ -14,13 +14,15 @@ INSTRUCTIONS = (
 )
 
 
-def classify_clauses(clauses: list[ExtractedClause]) -> list[FlaggedClause]:
+def classify_clauses(
+    clauses: list[ExtractedClause], instructions: str | None = None
+) -> list[FlaggedClause]:
     inputs = [
         {"clause_number": number, "category": c.category, "source_excerpt": c.source_excerpt}
         for number, c in enumerate(clauses, start=1)
     ]
     result = request_structured(
-        ClassificationOutput, INSTRUCTIONS, json.dumps(inputs, ensure_ascii=False), 3800
+        ClassificationOutput, instructions or INSTRUCTIONS, json.dumps(inputs, ensure_ascii=False), 3800
     )
     classifications = {item.clause_number: item for item in result.clauses}
     if len(classifications) != len(clauses) or any(n not in classifications for n in range(1, len(clauses) + 1)):

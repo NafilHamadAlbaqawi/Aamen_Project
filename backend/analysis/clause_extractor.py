@@ -13,8 +13,8 @@ INSTRUCTIONS = (
 )
 
 
-def extract_clauses(text: str) -> list[ExtractedClause]:
-    result = request_structured(ExtractionOutput, INSTRUCTIONS, text, 3200)
+def extract_clauses(text: str, instructions: str | None = None) -> list[ExtractedClause]:
+    result = request_structured(ExtractionOutput, instructions or INSTRUCTIONS, text, 3200)
     verified = []
     seen = set()
     for clause in result.clauses:

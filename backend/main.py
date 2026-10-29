@@ -10,6 +10,7 @@ from openai import OpenAIError
 from .analysis.openai_client import AnalysisFailure
 from .analysis.pipeline import analyze_terms
 from .analysis.schemas import AnalysisResponse
+from .prompt_adjuster import PrivacyPreferences
 
 logger = logging.getLogger(__name__)
 app = FastAPI(title="Aamen Backend", version="0.2.0")
@@ -20,6 +21,7 @@ class AnalyzeRequest(BaseModel):
     page_title: str = Field(default="", max_length=300)
     terms_text: str = Field(min_length=50, max_length=120000)
     language: Literal["en", "ar"] = "en"
+    preferences: PrivacyPreferences | None = None  # Optional WP4-only testing override
 
 @app.get("/health")
 def health():
@@ -34,7 +36,7 @@ async def analyze(request: AnalyzeRequest):
     if not os.getenv("OPENAI_API_KEY"):
         raise HTTPException(status_code=503, detail="AI analysis is not configured on this server.")
     try:
-        return await run_in_threadpool(analyze_terms, request.terms_text)
+        return await run_in_threadpool(analyze_terms, request.terms_text, request.preferences)
     except ValueError as error:
         raise HTTPException(status_code=422, detail=str(error)) from error
     except AnalysisFailure as error:
