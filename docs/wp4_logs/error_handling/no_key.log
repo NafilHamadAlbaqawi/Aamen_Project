@@ -1,0 +1,6 @@
+# 2026-10-29 05:08:29 +0300 | standard WP3 server (OpenAI client), case: no_key
+> GET /health
+{"status":"ok","service":"aamen","ai_enabled":false}
+> POST /analyze (DOC-A, no preferences)
+{"detail":"AI analysis is not configured on this server."}
+[HTTP 503, 0.003187s]

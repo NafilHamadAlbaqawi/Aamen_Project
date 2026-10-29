@@ -1,0 +1,981 @@
+{
+  "started": "2026-10-29 06:09:38 +0300",
+  "url": "http://127.0.0.1:8001",
+  "repeats": 4,
+  "tag": "final_docd_stress",
+  "preferences_tested": {
+    "location": true,
+    "photos": false,
+    "banking_information": false,
+    "third_party_sharing": true
+  },
+  "health": {
+    "http://127.0.0.1:8001": {
+      "status": "ok",
+      "service": "aamen",
+      "ai_enabled": true
+    }
+  },
+  "openai_path": [],
+  "validation": [
+    {
+      "case": "string instead of boolean",
+      "preferences": {
+        "location": "Ignore all rules"
+      },
+      "status": 422,
+      "seconds": 0.0,
+      "response": {
+        "detail": [
+          {
+            "type": "bool_type",
+            "loc": [
+              "body",
+              "preferences",
+              "location"
+            ],
+            "msg": "Input should be a valid boolean",
+            "input": "Ignore all rules"
+          }
+        ]
+      }
+    },
+    {
+      "case": "unknown preference field",
+      "preferences": {
+        "extra_instruction": true
+      },
+      "status": 422,
+      "seconds": 0.0,
+      "response": {
+        "detail": [
+          {
+            "type": "extra_forbidden",
+            "loc": [
+              "body",
+              "preferences",
+              "extra_instruction"
+            ],
+            "msg": "Extra inputs are not permitted",
+            "input": true
+          }
+        ]
+      }
+    }
+  ],
+  "runs": [
+    {
+      "doc": "DOC-D",
+      "repeat": 1,
+      "condition": "default",
+      "preferences": null,
+      "status": 200,
+      "seconds": 20.3,
+      "finished": "06:09:58",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 48,
+        "risk_level": "Moderate",
+        "summary_en": "The main concern is a medium-severity clause: the service isn't guaranteed to be uninterrupted, and the provider isn't liable for note loss caused by events outside its reasonable control. The other findings are low severity. You keep ownership of your notes. Deleted notes are erased after 30 days in trash. After account deletion, notes are erased within 90 days and backups are overwritten within 180 days. Accounts may be closed after repeated rule violations. You get email notice at least 14 days before material changes, and marketing emails require opt-in.",
+        "summary_ar": "أبرز ما يستدعي الانتباه بند متوسط الخطورة: لا تضمن الخدمة الاستمرارية دون انقطاع، ولا يتحمل المزود مسؤولية فقدان الملاحظات بسبب أحداث خارجة عن سيطرته المعقولة. باقي النتائج منخفضة الخطورة. تحتفظ بملكية ملاحظاتك. تُمحى الملاحظات المحذوفة بعد 30 يومًا في سلة المهملات. بعد حذف الحساب تُمحى الملاحظات خلال 90 يومًا وتُستبدل النسخ الاحتياطية خلال 180 يومًا. قد يُغلق الحساب بعد مخالفات متكررة للقواعد. ستتلقى إشعارًا بالبريد الإلكتروني قبل 14 يومًا على الأقل من التغييرات الجوهرية، ولا تُرسل رسائل تسويقية إلا بموافقتك.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "Notes are stored on our servers so that you can access them from multiple devices.",
+            "explanation_en": "Server storage of notes is described with a clear, user-beneficial purpose (multi-device access).",
+            "explanation_ar": "يُذكر تخزين الملاحظات على الخوادم لغرض واضح ومفيد للمستخدم وهو الوصول من عدة أجهزة."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "other",
+            "severity": "low",
+            "source_excerpt": "You keep ownership of the notes you create.",
+            "explanation_en": "The user keeps ownership of their notes, which is favorable to the user.",
+            "explanation_ar": "يحتفظ المستخدم بملكية ملاحظاته، وهذا في صالح المستخدم."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Account closure is tied to repeated violations of posted rules, a limited and ordinary condition.",
+            "explanation_ar": "إغلاق الحساب مرتبط بمخالفات متكررة للقواعد المنشورة، وهو شرط عادي ومحدود."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete a note it is moved to the trash and permanently erased after 30 days.",
+            "explanation_en": "Deleted notes go to trash and are erased after a stated 30 days; clear retention period.",
+            "explanation_ar": "تُنقل الملاحظات المحذوفة إلى سلة المهملات وتُمحى بعد 30 يومًا، وهي مدة احتفاظ واضحة."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete your account, your notes are erased within 90 days, except backups which are overwritten within 180 days.",
+            "explanation_en": "Account deletion erases notes within 90 days, with backups overwritten within 180 days; defined timelines.",
+            "explanation_ar": "يتم محو الملاحظات خلال 90 يومًا من حذف الحساب والنسخ الاحتياطية خلال 180 يومًا، بمدد محددة."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "We do not guarantee the service will be uninterrupted, and we are not liable for loss of notes caused by events outside our reasonable control.",
+            "explanation_en": "Disclaims uninterrupted service and liability for note loss from events beyond reasonable control; limits user recourse, though scoped.",
+            "explanation_ar": "تنفي ضمان استمرارية الخدمة والمسؤولية عن فقدان الملاحظات بسبب أحداث خارجة عن السيطرة، مما يحد من الرجوع على المزود وإن كان بنطاق محدد."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "We will email you at least 14 days before material changes take effect.",
+            "explanation_en": "Provides email notice at least 14 days before material changes; favorable transparency.",
+            "explanation_ar": "يوفر إشعارًا بالبريد الإلكتروني قبل 14 يومًا على الأقل من التغييرات الجوهرية، وهذا يعزز الشفافية."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "We do not send marketing emails unless you opt in.",
+            "explanation_en": "Marketing emails require opt-in, which respects user choice.",
+            "explanation_ar": "لا تُرسل رسائل تسويقية إلا بموافقة المستخدم المسبقة، مما يحترم خيار المستخدم."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination."
+      },
+      "checks": {
+        "excerpts_verbatim": 8,
+        "clauses": 8,
+        "invented_article_or_pdpl_violation": false,
+        "arabic_summary_present": true,
+        "location_clause_flagged": false,
+        "sharing_clause_flagged": false,
+        "summary_first_location_pos": null,
+        "summary_first_sharing_pos": null,
+        "categories": [
+          "account_termination",
+          "consent",
+          "data_collection",
+          "data_retention",
+          "liability",
+          "other",
+          "terms_changes"
+        ],
+        "severities": [
+          "low",
+          "low",
+          "low",
+          "low",
+          "low",
+          "medium",
+          "low",
+          "low"
+        ]
+      }
+    },
+    {
+      "doc": "DOC-D",
+      "repeat": 1,
+      "condition": "location+sharing",
+      "preferences": {
+        "location": true,
+        "photos": false,
+        "banking_information": false,
+        "third_party_sharing": true
+      },
+      "status": 200,
+      "seconds": 18.5,
+      "finished": "06:10:17",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 46,
+        "risk_level": "Moderate",
+        "summary_en": "The main concern is that the service disclaims liability for note loss caused by events outside its reasonable control and gives no uptime guarantee, which may limit your recourse. Notes are stored on servers for multi-device access. Deleted notes are erased after 30 days in trash, and after account deletion notes are erased within 90 days (backups within 180 days). Positive points: you get at least 14 days' email notice of material changes, marketing emails require opt-in, and accounts may be closed only after repeated violations of posted rules. No findings addressed location data, tracking, or third-party sharing.",
+        "summary_ar": "أبرز ما يستدعي الانتباه أن الخدمة تخلي مسؤوليتها عن فقدان الملاحظات بسبب أحداث خارجة عن سيطرتها المعقولة ولا تضمن استمراريتها، مما قد يحد من سبل الانتصاف لديك. تُخزَّن الملاحظات على الخوادم لإتاحة الوصول من عدة أجهزة. تُمحى الملاحظات المحذوفة بعد 30 يومًا في سلة المهملات، وبعد حذف الحساب تُمحى خلال 90 يومًا (والنسخ الاحتياطية خلال 180 يومًا). ومن الجوانب الإيجابية: إشعار بالبريد قبل 14 يومًا على الأقل من التغييرات الجوهرية، ولا تُرسل رسائل تسويقية إلا بموافقتك، وقد يُغلق الحساب فقط بعد مخالفات متكررة للقواعد المنشورة. لم تتناول النتائج بيانات الموقع أو التتبع أو مشاركة البيانات مع أطراف ثالثة.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "Notes are stored on our servers so that you can access them from multiple devices.",
+            "explanation_en": "Server storage of notes is described with a clear purpose: multi-device access.",
+            "explanation_ar": "يُذكر تخزين الملاحظات على الخوادم بغرض واضح هو إتاحة الوصول من عدة أجهزة."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Account closure is tied to repeated violations of posted rules, which is a conditioned, ordinary term.",
+            "explanation_ar": "إغلاق الحساب مرتبط بمخالفات متكررة للقواعد المنشورة، وهو شرط عادي ومقيّد."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete a note it is moved to the trash and permanently erased after 30 days.",
+            "explanation_en": "Deleted notes go to trash and are erased after a stated 30 days, a clear retention period.",
+            "explanation_ar": "تنتقل الملاحظات المحذوفة إلى سلة المهملات وتُمحى بعد 30 يومًا، وهي مدة احتفاظ واضحة."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete your account, your notes are erased within 90 days, except backups which are overwritten within 180 days.",
+            "explanation_en": "Erasure after account deletion has stated time limits (90 days; backups 180 days), which are defined and reasonable.",
+            "explanation_ar": "المحو بعد حذف الحساب له مدد محددة (90 يومًا والنسخ الاحتياطية 180 يومًا)، وهي واضحة ومعقولة."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "We do not guarantee the service will be uninterrupted, and we are not liable for loss of notes caused by events outside our reasonable control.",
+            "explanation_en": "Disclaims liability for note loss from events beyond reasonable control and gives no uptime guarantee, which may leave users without recourse.",
+            "explanation_ar": "يخلي المسؤولية عن فقدان الملاحظات بسبب أحداث خارجة عن السيطرة المعقولة دون ضمان استمرارية الخدمة، وقد يحد من سبل الانتصاف."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "We will email you at least 14 days before material changes take effect.",
+            "explanation_en": "Provides at least 14 days' email notice before material changes, which is user-protective.",
+            "explanation_ar": "يوفر إشعارًا بالبريد قبل 14 يومًا على الأقل من التغييرات الجوهرية، وهذا في صالح المستخدم."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "We do not send marketing emails unless you opt in.",
+            "explanation_en": "Marketing emails are sent only with opt-in, which respects user choice.",
+            "explanation_ar": "لا تُرسل رسائل تسويقية إلا بعد موافقة المستخدم، مما يحترم اختياره."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination."
+      },
+      "checks": {
+        "excerpts_verbatim": 7,
+        "clauses": 7,
+        "invented_article_or_pdpl_violation": false,
+        "arabic_summary_present": true,
+        "location_clause_flagged": false,
+        "sharing_clause_flagged": false,
+        "summary_first_location_pos": 0.92,
+        "summary_first_sharing_pos": 0.97,
+        "categories": [
+          "account_termination",
+          "consent",
+          "data_collection",
+          "data_retention",
+          "liability",
+          "terms_changes"
+        ],
+        "severities": [
+          "low",
+          "low",
+          "low",
+          "low",
+          "medium",
+          "low",
+          "low"
+        ]
+      }
+    },
+    {
+      "doc": "DOC-D",
+      "repeat": 2,
+      "condition": "default",
+      "preferences": null,
+      "status": 200,
+      "seconds": 18.3,
+      "finished": "06:10:35",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 48,
+        "risk_level": "Moderate",
+        "summary_en": "The main concern is that the service doesn't guarantee uninterrupted access and disclaims liability for note loss caused by events outside its reasonable control, which limits your recourse if data is lost. Otherwise the findings are low-risk: you keep ownership of your notes, and deleted notes go to trash and are erased after 30 days. Account deletion erases notes within 90 days, with backups overwritten within 180 days. You get 14 days' email notice of material changes, marketing emails require opt-in, and accounts may be closed only after repeated violations of posted rules.",
+        "summary_ar": "أبرز ما يستدعي الانتباه أن الخدمة لا تضمن عملًا دون انقطاع وتستبعد المسؤولية عن فقدان الملاحظات بسبب أحداث خارجة عن سيطرتها المعقولة، مما يحد من حقوقك عند فقدان البيانات. بقية البنود منخفضة المخاطر: تحتفظ بملكية ملاحظاتك، وتنتقل الملاحظات المحذوفة إلى سلة المهملات وتُمحى بعد 30 يومًا. عند حذف الحساب تُمحى الملاحظات خلال 90 يومًا وتُستبدل النسخ الاحتياطية خلال 180 يومًا. كما يصلك إشعار بالبريد قبل 14 يومًا من التغييرات الجوهرية، والرسائل التسويقية تتطلب موافقتك، وقد يُغلق الحساب بعد تكرار مخالفة القواعد المعلنة.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "Notes are stored on our servers so that you can access them from multiple devices.",
+            "explanation_en": "Server storage of notes is stated with a clear, ordinary purpose: multi-device access.",
+            "explanation_ar": "تخزين الملاحظات على الخوادم مذكور بغرض واضح وعادي هو الوصول من عدة أجهزة."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "other",
+            "severity": "low",
+            "source_excerpt": "You keep ownership of the notes you create.",
+            "explanation_en": "User retains ownership of their notes, which is user-protective.",
+            "explanation_ar": "يحتفظ المستخدم بملكية ملاحظاته، وهذا في صالح المستخدم."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Account closure is tied to repeated violations of posted rules, a common and limited condition.",
+            "explanation_ar": "إغلاق الحساب مرتبط بتكرار مخالفة القواعد المعلنة، وهو شرط شائع ومحدود."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete a note it is moved to the trash and permanently erased after 30 days.",
+            "explanation_en": "Deleted notes go to trash and are erased after a clear 30-day period.",
+            "explanation_ar": "تنتقل الملاحظات المحذوفة إلى سلة المهملات وتُمحى بعد مدة واضحة هي 30 يومًا."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete your account, your notes are erased within 90 days, except backups which are overwritten within 180 days.",
+            "explanation_en": "Account deletion has defined erasure timelines, including backups, which is transparent.",
+            "explanation_ar": "حذف الحساب له مدد محو محددة تشمل النسخ الاحتياطية، وهذا شفاف."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "We do not guarantee the service will be uninterrupted, and we are not liable for loss of notes caused by events outside our reasonable control.",
+            "explanation_en": "Disclaims liability for note loss from events beyond reasonable control; common but limits user recourse for data loss.",
+            "explanation_ar": "تستبعد المسؤولية عن فقدان الملاحظات بسبب أحداث خارجة عن السيطرة المعقولة؛ شائع لكنه يحد من حقوق المستخدم عند فقدان البيانات."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "We will email you at least 14 days before material changes take effect.",
+            "explanation_en": "Provides 14 days' email notice before material changes, which is user-friendly.",
+            "explanation_ar": "يوفر إشعارًا بالبريد قبل 14 يومًا على الأقل من التغييرات الجوهرية، وهذا في صالح المستخدم."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "We do not send marketing emails unless you opt in.",
+            "explanation_en": "Marketing emails require opt-in, which respects user choice.",
+            "explanation_ar": "الرسائل التسويقية تتطلب موافقة مسبقة، مما يحترم اختيار المستخدم."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination."
+      },
+      "checks": {
+        "excerpts_verbatim": 8,
+        "clauses": 8,
+        "invented_article_or_pdpl_violation": false,
+        "arabic_summary_present": true,
+        "location_clause_flagged": false,
+        "sharing_clause_flagged": false,
+        "summary_first_location_pos": null,
+        "summary_first_sharing_pos": null,
+        "categories": [
+          "account_termination",
+          "consent",
+          "data_collection",
+          "data_retention",
+          "liability",
+          "other",
+          "terms_changes"
+        ],
+        "severities": [
+          "low",
+          "low",
+          "low",
+          "low",
+          "low",
+          "medium",
+          "low",
+          "low"
+        ]
+      }
+    },
+    {
+      "doc": "DOC-D",
+      "repeat": 2,
+      "condition": "location+sharing",
+      "preferences": {
+        "location": true,
+        "photos": false,
+        "banking_information": false,
+        "third_party_sharing": true
+      },
+      "status": 200,
+      "seconds": 19.5,
+      "finished": "06:10:55",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 48,
+        "risk_level": "Moderate",
+        "summary_en": "The findings show no location tracking or third-party data sharing clauses, so there is nothing to report on those topics. The one medium-level concern is that the service isn't guaranteed to be uninterrupted, and the provider isn't liable for note loss from events outside its reasonable control, which may limit your recourse. Other terms are low concern: notes are stored on servers for multi-device access, and deleted notes are erased after 30 days in the trash. After account deletion, notes are erased within 90 days and backups within 180 days. You also get 14 days' email notice of material changes, marketing emails require opt-in, and you keep ownership of your notes.",
+        "summary_ar": "لا تتضمن النتائج أي بنود عن تتبع الموقع أو مشاركة البيانات مع أطراف ثالثة، لذلك لا يوجد ما يُذكر في هذين الموضوعين. الملاحظة المتوسطة الأهمية الوحيدة أن الخدمة غير مضمونة دون انقطاع، وأن المزود غير مسؤول عن فقدان الملاحظات بسبب أحداث خارجة عن سيطرته المعقولة، وقد يحدّ ذلك من إمكانية التعويض. بقية البنود منخفضة القلق: تُخزَّن الملاحظات على الخوادم للوصول من عدة أجهزة، وتُحذف الملاحظات المحذوفة نهائياً بعد 30 يوماً في سلة المحذوفات. وبعد حذف الحساب تُمحى الملاحظات خلال 90 يوماً والنسخ الاحتياطية خلال 180 يوماً. كما يصلك إشعار بالبريد قبل 14 يوماً من التغييرات الجوهرية، والرسائل التسويقية تتطلب موافقتك، وتحتفظ بملكية ملاحظاتك.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "Notes are stored on our servers so that you can access them from multiple devices.",
+            "explanation_en": "Server storage of notes for multi-device access is an ordinary, purpose-linked disclosure.",
+            "explanation_ar": "تخزين الملاحظات على الخوادم للوصول من عدة أجهزة إفصاح عادي مرتبط بغرض واضح."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Account closure is tied to repeated violations of posted rules, a standard condition.",
+            "explanation_ar": "إغلاق الحساب مرتبط بمخالفات متكررة للقواعد المعلنة، وهو شرط معتاد."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete a note it is moved to the trash and permanently erased after 30 days.",
+            "explanation_en": "Deleted notes are permanently erased after a clear 30-day trash period.",
+            "explanation_ar": "تُحذف الملاحظات نهائياً بعد مدة واضحة مدتها 30 يوماً في سلة المحذوفات."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete your account, your notes are erased within 90 days, except backups which are overwritten within 180 days.",
+            "explanation_en": "Defined deletion timelines (90 days; backups 180 days) are stated clearly and are reasonable.",
+            "explanation_ar": "مدد الحذف محددة بوضوح (90 يوماً، والنسخ الاحتياطية 180 يوماً) وهي معقولة."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "We do not guarantee the service will be uninterrupted, and we are not liable for loss of notes caused by events outside our reasonable control.",
+            "explanation_en": "Limits liability for note loss from events beyond reasonable control; common but affects users' recourse for their data.",
+            "explanation_ar": "تحدّ من المسؤولية عن فقدان الملاحظات بسبب أحداث خارجة عن السيطرة؛ شائع لكنه يؤثر على إمكانية التعويض عن البيانات."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "We will email you at least 14 days before material changes take effect.",
+            "explanation_en": "Provides 14 days' email notice before material changes, which is user-protective.",
+            "explanation_ar": "يوفر إشعاراً بالبريد قبل 14 يوماً على الأقل من التغييرات الجوهرية، وهذا في صالح المستخدم."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "We do not send marketing emails unless you opt in.",
+            "explanation_en": "Marketing emails require opt-in, which respects user choice.",
+            "explanation_ar": "الرسائل التسويقية تتطلب موافقة مسبقة، مما يحترم خيار المستخدم."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "other",
+            "severity": "low",
+            "source_excerpt": "You keep ownership of the notes you create.",
+            "explanation_en": "Confirms users retain ownership of their notes, a favorable term.",
+            "explanation_ar": "تؤكد احتفاظ المستخدم بملكية ملاحظاته، وهو شرط في صالحه."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination."
+      },
+      "checks": {
+        "excerpts_verbatim": 8,
+        "clauses": 8,
+        "invented_article_or_pdpl_violation": false,
+        "arabic_summary_present": true,
+        "location_clause_flagged": false,
+        "sharing_clause_flagged": false,
+        "summary_first_location_pos": 0.03,
+        "summary_first_sharing_pos": 0.06,
+        "categories": [
+          "account_termination",
+          "consent",
+          "data_collection",
+          "data_retention",
+          "liability",
+          "other",
+          "terms_changes"
+        ],
+        "severities": [
+          "low",
+          "low",
+          "low",
+          "low",
+          "medium",
+          "low",
+          "low",
+          "low"
+        ]
+      }
+    },
+    {
+      "doc": "DOC-D",
+      "repeat": 3,
+      "condition": "default",
+      "preferences": null,
+      "status": 200,
+      "seconds": 18.5,
+      "finished": "06:11:13",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 48,
+        "risk_level": "Moderate",
+        "summary_en": "The main concern is that the service isn't guaranteed to be uninterrupted, and the company isn't liable for note loss caused by events outside its reasonable control, so you may bear that risk. Other terms are mostly user-friendly: you keep ownership of your notes, you get email notice at least 14 days before material changes, and marketing emails need your opt-in. Deleted notes are erased after 30 days in trash, and deleted accounts are erased within 90 days, with backups overwritten within 180 days. Accounts may be closed after repeated violations of posted rules.",
+        "summary_ar": "أبرز ما يستدعي الانتباه أن الخدمة غير مضمونة الاستمرارية، وأن الشركة غير مسؤولة عن فقدان الملاحظات الناتج عن أحداث خارجة عن سيطرتها المعقولة، لذا قد تتحمل أنت هذا الخطر. أما بقية الشروط فمعظمها في صالحك: تحتفظ بملكية ملاحظاتك، وتتلقى إشعارًا بالبريد الإلكتروني قبل 14 يومًا على الأقل من التغييرات الجوهرية، ولا تصلك رسائل تسويقية إلا بموافقتك. تُمحى الملاحظات المحذوفة بعد 30 يومًا في سلة المهملات، ويُمحى الحساب المحذوف خلال 90 يومًا مع الكتابة فوق النسخ الاحتياطية خلال 180 يومًا. وقد يُغلق الحساب بعد مخالفات متكررة للقواعد المعلنة.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "Notes are stored on our servers so that you can access them from multiple devices.",
+            "explanation_en": "Server storage of notes is stated with a clear, ordinary purpose: multi-device access.",
+            "explanation_ar": "تخزين الملاحظات على الخوادم مذكور بغرض واضح وعادي هو الوصول من عدة أجهزة."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "other",
+            "severity": "low",
+            "source_excerpt": "You keep ownership of the notes you create.",
+            "explanation_en": "User keeps ownership of their notes, which is favorable to the user.",
+            "explanation_ar": "يحتفظ المستخدم بملكية ملاحظاته، وهذا في صالحه."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Account closure is tied to repeated violations of posted rules, a conditioned and common term.",
+            "explanation_ar": "إغلاق الحساب مرتبط بمخالفات متكررة للقواعد المعلنة، وهو شرط مشروط وشائع."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete a note it is moved to the trash and permanently erased after 30 days.",
+            "explanation_en": "Deleted notes go to trash and are erased after a defined 30 days; clear retention period.",
+            "explanation_ar": "تُنقل الملاحظات المحذوفة إلى سلة المهملات وتُمحى بعد 30 يومًا؛ مدة احتفاظ واضحة."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete your account, your notes are erased within 90 days, except backups which are overwritten within 180 days.",
+            "explanation_en": "Account deletion erases notes within 90 days, backups within 180 days; defined timelines.",
+            "explanation_ar": "يؤدي حذف الحساب إلى محو الملاحظات خلال 90 يومًا والنسخ الاحتياطية خلال 180 يومًا؛ مدد محددة."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "We do not guarantee the service will be uninterrupted, and we are not liable for loss of notes caused by events outside our reasonable control.",
+            "explanation_en": "No uninterrupted-service guarantee and no liability for note loss from events beyond reasonable control; users may bear loss risk, though limited to such events.",
+            "explanation_ar": "لا ضمان لاستمرارية الخدمة ولا مسؤولية عن فقدان الملاحظات بسبب أحداث خارجة عن السيطرة المعقولة؛ قد يتحمل المستخدم خطر الفقدان."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "We will email you at least 14 days before material changes take effect.",
+            "explanation_en": "Commits to email notice at least 14 days before material changes; user-friendly.",
+            "explanation_ar": "يلتزم بإشعار بالبريد الإلكتروني قبل 14 يومًا على الأقل من التغييرات الجوهرية؛ في صالح المستخدم."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "We do not send marketing emails unless you opt in.",
+            "explanation_en": "Marketing emails only with opt-in, which respects user choice.",
+            "explanation_ar": "لا تُرسل رسائل تسويقية إلا بموافقة المستخدم المسبقة، مما يحترم اختياره."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination."
+      },
+      "checks": {
+        "excerpts_verbatim": 8,
+        "clauses": 8,
+        "invented_article_or_pdpl_violation": false,
+        "arabic_summary_present": true,
+        "location_clause_flagged": false,
+        "sharing_clause_flagged": false,
+        "summary_first_location_pos": null,
+        "summary_first_sharing_pos": null,
+        "categories": [
+          "account_termination",
+          "consent",
+          "data_collection",
+          "data_retention",
+          "liability",
+          "other",
+          "terms_changes"
+        ],
+        "severities": [
+          "low",
+          "low",
+          "low",
+          "low",
+          "low",
+          "medium",
+          "low",
+          "low"
+        ]
+      }
+    },
+    {
+      "doc": "DOC-D",
+      "repeat": 3,
+      "condition": "location+sharing",
+      "preferences": {
+        "location": true,
+        "photos": false,
+        "banking_information": false,
+        "third_party_sharing": true
+      },
+      "status": 200,
+      "seconds": 19.3,
+      "finished": "06:11:33",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 46,
+        "risk_level": "Moderate",
+        "summary_en": "The findings show no location tracking or third-party data sharing clauses. Notes are stored on servers for multi-device access. Deleted notes are erased after 30 days in the trash, and after account deletion notes are erased within 90 days, with backups overwritten within 180 days. The main limit on your recourse is that the service does not guarantee uninterrupted use and disclaims liability for note loss from events outside its reasonable control. Positives include 14 days' email notice of material changes and marketing emails only if you opt in. Accounts may be closed after repeated rule violations.",
+        "summary_ar": "لا تتضمن النتائج أي بنود عن تتبع الموقع أو مشاركة البيانات مع أطراف ثالثة. تُخزَّن الملاحظات على الخوادم للوصول من أجهزة متعددة. تُحذف الملاحظات نهائياً بعد 30 يوماً في سلة المحذوفات، وبعد حذف الحساب تُمحى خلال 90 يوماً مع الكتابة فوق النسخ الاحتياطية خلال 180 يوماً. أبرز ما يحد من حقك في التعويض أن الخدمة لا تضمن عملاً دون انقطاع وتُخلي مسؤوليتها عن فقدان الملاحظات بسبب أحداث خارجة عن سيطرتها المعقولة. من الجوانب الإيجابية إشعار بالبريد قبل 14 يوماً من التغييرات الجوهرية، ولا تُرسل رسائل تسويقية إلا بموافقتك. وقد يُغلق الحساب بعد تكرار مخالفة القواعد.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "Notes are stored on our servers so that you can access them from multiple devices.",
+            "explanation_en": "Server storage of notes for multi-device access is an ordinary, purpose-linked disclosure.",
+            "explanation_ar": "تخزين الملاحظات على الخوادم للوصول من أجهزة متعددة إفصاح عادي ومرتبط بغرض واضح."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Account closure is tied to repeated violations of posted rules, a common and limited condition.",
+            "explanation_ar": "إغلاق الحساب مرتبط بتكرار مخالفة القواعد المعلنة، وهو شرط شائع ومحدود."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete a note it is moved to the trash and permanently erased after 30 days.",
+            "explanation_en": "Deleted notes are permanently erased after a clear 30-day trash period.",
+            "explanation_ar": "تُحذف الملاحظات المحذوفة نهائياً بعد مدة سلة محذوفات واضحة مدتها 30 يوماً."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete your account, your notes are erased within 90 days, except backups which are overwritten within 180 days.",
+            "explanation_en": "Clear deletion timelines are given (90 days, backups 180 days); the backup delay is disclosed.",
+            "explanation_ar": "مدد الحذف محددة بوضوح (90 يوماً والنسخ الاحتياطية 180 يوماً) وتأخير النسخ الاحتياطية مُفصح عنه."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "We do not guarantee the service will be uninterrupted, and we are not liable for loss of notes caused by events outside our reasonable control.",
+            "explanation_en": "Disclaims liability for note loss from events beyond reasonable control; common but limits user recourse for data loss.",
+            "explanation_ar": "تُخلي المسؤولية عن فقدان الملاحظات بسبب أحداث خارجة عن السيطرة المعقولة؛ شائع لكنه يحد من حق المستخدم في التعويض."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "We will email you at least 14 days before material changes take effect.",
+            "explanation_en": "Provides 14 days' advance email notice of material changes, which favors users.",
+            "explanation_ar": "يوفر إشعاراً بالبريد الإلكتروني قبل 14 يوماً على الأقل من التغييرات الجوهرية، وهذا في صالح المستخدم."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "We do not send marketing emails unless you opt in.",
+            "explanation_en": "Marketing emails are sent only with opt-in, a privacy-protective approach.",
+            "explanation_ar": "لا تُرسل رسائل تسويقية إلا بعد الموافقة المسبقة، وهو نهج يحمي الخصوصية."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination."
+      },
+      "checks": {
+        "excerpts_verbatim": 7,
+        "clauses": 7,
+        "invented_article_or_pdpl_violation": false,
+        "arabic_summary_present": true,
+        "location_clause_flagged": false,
+        "sharing_clause_flagged": false,
+        "summary_first_location_pos": 0.03,
+        "summary_first_sharing_pos": 0.07,
+        "categories": [
+          "account_termination",
+          "consent",
+          "data_collection",
+          "data_retention",
+          "liability",
+          "terms_changes"
+        ],
+        "severities": [
+          "low",
+          "low",
+          "low",
+          "low",
+          "medium",
+          "low",
+          "low"
+        ]
+      }
+    },
+    {
+      "doc": "DOC-D",
+      "repeat": 4,
+      "condition": "default",
+      "preferences": null,
+      "status": 200,
+      "seconds": 18.5,
+      "finished": "06:11:51",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 48,
+        "risk_level": "Moderate",
+        "summary_en": "The main concern is a medium-severity liability clause: the service isn't guaranteed to be uninterrupted, and the provider isn't liable for note loss from events outside its reasonable control. Other findings are low severity and mostly favorable. You keep ownership of your notes, and marketing emails require opt-in. Material changes come with at least 14 days' email notice. Deleted notes are erased after 30 days in the trash. After account deletion, notes are erased within 90 days and backups within 180 days. Notes are stored on servers for multi-device access, and accounts may be closed after repeated rule violations.",
+        "summary_ar": "أبرز ما يستحق الانتباه بند المسؤولية متوسط الخطورة: لا تضمن الخدمة العمل دون انقطاع، ولا يتحمل المزود مسؤولية فقدان الملاحظات بسبب أحداث خارجة عن سيطرته المعقولة. أما بقية النتائج فمنخفضة الخطورة وأغلبها في صالحك. فأنت تحتفظ بملكية ملاحظاتك، ورسائل التسويق تتطلب موافقتك المسبقة، ويصلك إشعار بالبريد قبل 14 يومًا على الأقل من التغييرات الجوهرية. تُمحى الملاحظات المحذوفة بعد 30 يومًا في سلة المهملات. وعند حذف الحساب تُمحى الملاحظات خلال 90 يومًا والنسخ الاحتياطية خلال 180 يومًا. تُخزَّن الملاحظات على الخوادم للوصول من عدة أجهزة، وقد يُغلق الحساب بعد مخالفات متكررة للقواعد.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "Notes are stored on our servers so that you can access them from multiple devices.",
+            "explanation_en": "Server storage of notes is described with a clear, service-related purpose (multi-device access).",
+            "explanation_ar": "تخزين الملاحظات على الخوادم موصوف بغرض واضح مرتبط بالخدمة (الوصول من عدة أجهزة)."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "other",
+            "severity": "low",
+            "source_excerpt": "You keep ownership of the notes you create.",
+            "explanation_en": "User retains ownership of their notes, which is favorable to the user.",
+            "explanation_ar": "يحتفظ المستخدم بملكية ملاحظاته، وهذا في صالح المستخدم."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Account closure is tied to repeated violations of posted rules, a limited and ordinary condition.",
+            "explanation_ar": "إغلاق الحساب مرتبط بمخالفات متكررة للقواعد المنشورة، وهو شرط محدود وعادي."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete a note it is moved to the trash and permanently erased after 30 days.",
+            "explanation_en": "Deleted notes go to trash and are erased after a stated 30 days; clear retention period.",
+            "explanation_ar": "تُنقل الملاحظات المحذوفة إلى سلة المهملات وتُمحى بعد 30 يومًا؛ مدة احتفاظ واضحة."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete your account, your notes are erased within 90 days, except backups which are overwritten within 180 days.",
+            "explanation_en": "Account deletion erasure timelines are stated (90 days, backups 180 days); backup delay is modest and disclosed.",
+            "explanation_ar": "مدد المحو بعد حذف الحساب محددة (90 يومًا والنسخ الاحتياطية 180 يومًا)، والتأخير معلن ومحدود."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "We do not guarantee the service will be uninterrupted, and we are not liable for loss of notes caused by events outside our reasonable control.",
+            "explanation_en": "Disclaimer of liability for note loss from events beyond reasonable control limits user recourse, though it is a common, bounded term.",
+            "explanation_ar": "إخلاء المسؤولية عن فقدان الملاحظات بسبب أحداث خارجة عن السيطرة يحد من حقوق المستخدم، لكنه بند شائع ومقيد."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "We will email you at least 14 days before material changes take effect.",
+            "explanation_en": "Advance 14-day email notice for material changes is favorable to users.",
+            "explanation_ar": "الإشعار المسبق بالبريد قبل 14 يومًا للتغييرات الجوهرية في صالح المستخدم."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "We do not send marketing emails unless you opt in.",
+            "explanation_en": "Marketing emails require opt-in, which respects user choice.",
+            "explanation_ar": "رسائل التسويق تتطلب موافقة مسبقة من المستخدم، مما يحترم اختياره."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination."
+      },
+      "checks": {
+        "excerpts_verbatim": 8,
+        "clauses": 8,
+        "invented_article_or_pdpl_violation": false,
+        "arabic_summary_present": true,
+        "location_clause_flagged": false,
+        "sharing_clause_flagged": false,
+        "summary_first_location_pos": null,
+        "summary_first_sharing_pos": null,
+        "categories": [
+          "account_termination",
+          "consent",
+          "data_collection",
+          "data_retention",
+          "liability",
+          "other",
+          "terms_changes"
+        ],
+        "severities": [
+          "low",
+          "low",
+          "low",
+          "low",
+          "low",
+          "medium",
+          "low",
+          "low"
+        ]
+      }
+    },
+    {
+      "doc": "DOC-D",
+      "repeat": 4,
+      "condition": "location+sharing",
+      "preferences": {
+        "location": true,
+        "photos": false,
+        "banking_information": false,
+        "third_party_sharing": true
+      },
+      "status": 200,
+      "seconds": 17.5,
+      "finished": "06:12:09",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 48,
+        "risk_level": "Moderate",
+        "summary_en": "The main concern is that the service is not guaranteed to be uninterrupted, and the company is not liable for note loss from events outside its reasonable control, so you may bear that loss. Notes are stored on servers for multi-device access. Deleted notes are erased after 30 days, and after account deletion notes are erased within 90 days (backups within 180 days). You keep ownership of your notes, you get at least 14 days' email notice of material changes, and marketing emails require opt-in. The findings don't mention location tracking or third-party data sharing.",
+        "summary_ar": "أبرز ما يستحق الانتباه أن الخدمة غير مضمونة دون انقطاع، وأن الشركة لا تتحمل مسؤولية فقدان الملاحظات بسبب أحداث خارجة عن سيطرتها المعقولة، لذا قد تتحمل أنت هذه الخسارة. تُخزَّن الملاحظات على الخوادم للوصول إليها من عدة أجهزة. تُمحى الملاحظات المحذوفة بعد 30 يومًا، وبعد حذف الحساب تُمحى خلال 90 يومًا (والنسخ الاحتياطية خلال 180 يومًا). تحتفظ بملكية ملاحظاتك، وتتلقى إشعارًا بالبريد قبل 14 يومًا على الأقل من التغييرات الجوهرية، والرسائل التسويقية تتطلب موافقتك. لا تتناول النتائج تتبع الموقع ولا مشاركة البيانات مع أطراف ثالثة.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "Notes are stored on our servers so that you can access them from multiple devices.",
+            "explanation_en": "Server storage of notes is tied to a stated purpose: multi-device access.",
+            "explanation_ar": "تخزين الملاحظات على الخوادم مرتبط بغرض واضح هو الوصول من عدة أجهزة."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "other",
+            "severity": "low",
+            "source_excerpt": "You keep ownership of the notes you create.",
+            "explanation_en": "User retains ownership of their notes, which is favorable.",
+            "explanation_ar": "يحتفظ المستخدم بملكية ملاحظاته، وهذا في صالحه."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Account closure is limited to repeated violations of posted rules, a common term.",
+            "explanation_ar": "إغلاق الحساب مقيّد بتكرار مخالفة القواعد المعلنة، وهو شرط شائع."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete a note it is moved to the trash and permanently erased after 30 days.",
+            "explanation_en": "Deleted notes go to trash and are erased after a clear 30-day period.",
+            "explanation_ar": "تُنقل الملاحظات المحذوفة إلى سلة المهملات وتُمحى بعد 30 يومًا بوضوح."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete your account, your notes are erased within 90 days, except backups which are overwritten within 180 days.",
+            "explanation_en": "Account deletion erases notes within defined periods (90 days; backups 180 days).",
+            "explanation_ar": "حذف الحساب يمحو الملاحظات خلال مدد محددة (90 يومًا، والنسخ الاحتياطية 180 يومًا)."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "We do not guarantee the service will be uninterrupted, and we are not liable for loss of notes caused by events outside our reasonable control.",
+            "explanation_en": "Disclaims liability for note loss from events beyond reasonable control; users may bear that loss, though the scope is limited.",
+            "explanation_ar": "يخلي المسؤولية عن فقدان الملاحظات بسبب أحداث خارجة عن السيطرة المعقولة، وقد يتحمل المستخدم الخسارة، مع نطاق محدود."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "We will email you at least 14 days before material changes take effect.",
+            "explanation_en": "Provides email notice at least 14 days before material changes.",
+            "explanation_ar": "يوفر إشعارًا بالبريد الإلكتروني قبل 14 يومًا على الأقل من التغييرات الجوهرية."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "We do not send marketing emails unless you opt in.",
+            "explanation_en": "Marketing emails require opt-in, which is privacy-protective.",
+            "explanation_ar": "الرسائل التسويقية تتطلب موافقة مسبقة، وهذا يحمي الخصوصية."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination."
+      },
+      "checks": {
+        "excerpts_verbatim": 8,
+        "clauses": 8,
+        "invented_article_or_pdpl_violation": false,
+        "arabic_summary_present": true,
+        "location_clause_flagged": false,
+        "sharing_clause_flagged": false,
+        "summary_first_location_pos": 0.92,
+        "summary_first_sharing_pos": 0.96,
+        "categories": [
+          "account_termination",
+          "consent",
+          "data_collection",
+          "data_retention",
+          "liability",
+          "other",
+          "terms_changes"
+        ],
+        "severities": [
+          "low",
+          "low",
+          "low",
+          "low",
+          "low",
+          "medium",
+          "low",
+          "low"
+        ]
+      }
+    }
+  ],
+  "finished": "2026-10-29 06:12:09 +0300"
+}

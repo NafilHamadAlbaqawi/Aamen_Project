@@ -1,0 +1,14 @@
+> python tests/wp4_eval/tc04_compare.py --docs DOC-D --repeats 4 --tag v1_docd_stress
+HEALTH       http://127.0.0.1:8001 -> {'status': 'ok', 'service': 'aamen', 'ai_enabled': True}
+VALIDATION   string instead of boolean    -> HTTP 422 (0.0s)
+VALIDATION   unknown preference field     -> HTTP 422 (0.0s)
+COMPARE      DOC-D r1 default          -> HTTP 200 Moderate score=55 clauses=9 verbatim=9 (19.1s)
+COMPARE      DOC-D r1 location+sharing -> HTTP 200 Moderate score=50 clauses=9 verbatim=9 (20.7s)
+COMPARE      DOC-D r2 default          -> HTTP 200 Moderate score=55 clauses=9 verbatim=9 (19.8s)
+COMPARE      DOC-D r2 location+sharing -> HTTP 200 Moderate score=48 clauses=8 verbatim=8 (19.3s)
+COMPARE      DOC-D r3 default          -> HTTP 200 Moderate score=50 clauses=9 verbatim=9 (19.2s)
+COMPARE      DOC-D r3 location+sharing -> HTTP 200 Moderate score=48 clauses=8 verbatim=8 (18.9s)
+COMPARE      DOC-D r4 default          -> HTTP 200 Moderate score=55 clauses=9 verbatim=9 (19.9s)
+COMPARE      DOC-D r4 location+sharing -> HTTP 200 Safe score=18 clauses=9 verbatim=9 (19.5s)
+saved tests\wp4_eval\results\TC04_results_v1_docd_stress.json
+[exit code 0]

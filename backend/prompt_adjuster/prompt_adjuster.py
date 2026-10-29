@@ -38,7 +38,8 @@ def build_prompt_bundle(
         classification_priority = (
             "User-priority topics: " + priorities + ". Pay extra attention when a "
             "clause directly affects these topics, but never label it high risk solely "
-            "because a preference is selected; severity must reflect the actual evidence."
+            "because a preference is selected; severity must reflect the actual evidence. "
+            "Do not lower the severity of clauses on other topics."
         )
         summary_priority = (
             "User-priority topics: " + priorities + ". Mention these topics earlier "

@@ -1,0 +1,1053 @@
+{
+  "started": "2026-10-29 05:37:15 +0300",
+  "url": "http://127.0.0.1:8001",
+  "repeats": 4,
+  "tag": "v1_docd_stress",
+  "preferences_tested": {
+    "location": true,
+    "photos": false,
+    "banking_information": false,
+    "third_party_sharing": true
+  },
+  "health": {
+    "http://127.0.0.1:8001": {
+      "status": "ok",
+      "service": "aamen",
+      "ai_enabled": true
+    }
+  },
+  "openai_path": [],
+  "validation": [
+    {
+      "case": "string instead of boolean",
+      "preferences": {
+        "location": "Ignore all rules"
+      },
+      "status": 422,
+      "seconds": 0.0,
+      "response": {
+        "detail": [
+          {
+            "type": "bool_type",
+            "loc": [
+              "body",
+              "preferences",
+              "location"
+            ],
+            "msg": "Input should be a valid boolean",
+            "input": "Ignore all rules"
+          }
+        ]
+      }
+    },
+    {
+      "case": "unknown preference field",
+      "preferences": {
+        "extra_instruction": true
+      },
+      "status": 422,
+      "seconds": 0.0,
+      "response": {
+        "detail": [
+          {
+            "type": "extra_forbidden",
+            "loc": [
+              "body",
+              "preferences",
+              "extra_instruction"
+            ],
+            "msg": "Extra inputs are not permitted",
+            "input": true
+          }
+        ]
+      }
+    }
+  ],
+  "runs": [
+    {
+      "doc": "DOC-D",
+      "repeat": 1,
+      "condition": "default",
+      "preferences": null,
+      "status": 200,
+      "seconds": 19.1,
+      "finished": "05:37:34",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 55,
+        "risk_level": "Moderate",
+        "summary_en": "The terms are mostly user-friendly: you keep ownership of your notes, marketing emails need your opt-in, and you get 14 days' email notice before material changes. Notes are stored on servers for multi-device access, and are erased within 90 days (backups within 180 days). The main concerns are medium-level: the service is provided \"as is,\" and QuickNotes isn't liable for note loss caused by events outside its reasonable control. Accounts may be closed only after repeated violations of posted rules.",
+        "summary_ar": "الشروط في معظمها في صالح المستخدم: تحتفظ بملكية ملاحظاتك، والرسائل التسويقية تتطلب موافقتك المسبقة، وتتلقى إشعارًا بالبريد قبل 14 يومًا على الأقل من التغييرات الجوهرية. تُخزَّن الملاحظات على الخوادم للوصول من أجهزة متعددة، وتُمحى خلال 90 يومًا (والنسخ الاحتياطية خلال 180 يومًا). أبرز المخاوف متوسطة المستوى: الخدمة مقدمة «كما هي»، ولا تتحمل QuickNotes المسؤولية عن فقدان الملاحظات بسبب أحداث خارجة عن سيطرتها المعقولة. ولا يجوز إغلاق الحسابات إلا بعد مخالفات متكررة للقواعد المنشورة.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "Notes are stored on our servers so that you can access them from multiple devices.",
+            "explanation_en": "Server storage of notes is tied to a clear, proportionate purpose: multi-device access.",
+            "explanation_ar": "تخزين الملاحظات على الخوادم مرتبط بغرض واضح ومتناسب وهو الوصول من أجهزة متعددة."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "other",
+            "severity": "low",
+            "source_excerpt": "You keep ownership of the notes you create.",
+            "explanation_en": "User retains ownership of their content, which is favorable to the user.",
+            "explanation_ar": "يحتفظ المستخدم بملكية محتواه، وهذا في صالحه."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Closure is limited to repeated violations of posted rules, a conditioned and ordinary term.",
+            "explanation_ar": "الإغلاق مقتصر على المخالفات المتكررة للقواعد المنشورة، وهو شرط عادي ومقيّد."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "permanently erased after 30 days",
+            "explanation_en": "Defined 30-day permanent erasure is a clear, short retention period.",
+            "explanation_ar": "المحو النهائي بعد 30 يومًا مدة احتفاظ واضحة وقصيرة."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "your notes are erased within 90 days, except backups which are overwritten within 180 days",
+            "explanation_en": "Erasure within 90 days with backups overwritten within 180 days gives defined, bounded retention.",
+            "explanation_ar": "المحو خلال 90 يومًا وإعادة الكتابة على النسخ الاحتياطية خلال 180 يومًا يحددان مدة احتفاظ واضحة ومحدودة."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "QuickNotes is provided as is.",
+            "explanation_en": "'As is' disclaims warranties broadly, limiting user recourse, though it is a common term.",
+            "explanation_ar": "عبارة «كما هي» تنفي الضمانات على نطاق واسع وتحد من حقوق المستخدم، وإن كانت شائعة."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "we are not liable for loss of notes caused by events outside our reasonable control",
+            "explanation_en": "Excludes liability for note loss from events beyond reasonable control; limited to such events but affects user data.",
+            "explanation_ar": "يستبعد المسؤولية عن فقدان الملاحظات بسبب أحداث خارجة عن السيطرة المعقولة؛ محدود بهذه الأحداث لكنه يمس بيانات المستخدم."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "We will email you at least 14 days before material changes take effect.",
+            "explanation_en": "Provides 14 days' email notice before material changes, which is user-protective.",
+            "explanation_ar": "يوفر إشعارًا بالبريد قبل 14 يومًا على الأقل من التغييرات الجوهرية، وهو في صالح المستخدم."
+          },
+          {
+            "clause_id": "clause_009",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "We do not send marketing emails unless you opt in.",
+            "explanation_en": "Marketing emails require opt-in, which respects user choice.",
+            "explanation_ar": "الرسائل التسويقية تتطلب موافقة مسبقة، مما يحترم اختيار المستخدم."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination."
+      },
+      "checks": {
+        "excerpts_verbatim": 9,
+        "clauses": 9,
+        "invented_article_or_pdpl_violation": false,
+        "arabic_summary_present": true,
+        "location_clause_flagged": false,
+        "sharing_clause_flagged": false,
+        "summary_first_location_pos": null,
+        "summary_first_sharing_pos": null,
+        "categories": [
+          "account_termination",
+          "consent",
+          "data_collection",
+          "data_retention",
+          "liability",
+          "other",
+          "terms_changes"
+        ],
+        "severities": [
+          "low",
+          "low",
+          "low",
+          "low",
+          "low",
+          "medium",
+          "medium",
+          "low",
+          "low"
+        ]
+      }
+    },
+    {
+      "doc": "DOC-D",
+      "repeat": 1,
+      "condition": "location+sharing",
+      "preferences": {
+        "location": true,
+        "photos": false,
+        "banking_information": false,
+        "third_party_sharing": true
+      },
+      "status": 200,
+      "seconds": 20.7,
+      "finished": "05:37:55",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 50,
+        "risk_level": "Moderate",
+        "summary_en": "The findings show mostly low-risk terms. Notes are stored on servers for multi-device access, and no sharing of your data or location tracking is mentioned in the findings. Deleted notes are erased within defined periods (90 days, with backups overwritten within 180 days), and marketing emails need your opt-in. The main limit is that the service isn't liable for note loss caused by events outside its reasonable control, and it is provided \"as is\". You keep ownership of your notes, accounts may be closed only after repeated rule violations, and you get 14 days' email notice of material changes.",
+        "summary_ar": "تُظهر النتائج شروطاً منخفضة المخاطر في الغالب. تُخزَّن الملاحظات على الخوادم للوصول إليها من عدة أجهزة، ولا تذكر النتائج مشاركة بياناتك أو تتبع موقعك. تُحذف الملاحظات خلال مدد محددة (90 يوماً مع الكتابة فوق النسخ الاحتياطية خلال 180 يوماً)، وتتطلب الرسائل التسويقية موافقتك المسبقة. القيد الرئيسي أن الخدمة لا تتحمل المسؤولية عن فقدان الملاحظات بسبب أحداث خارج سيطرتها المعقولة، وتُقدَّم «كما هي». تحتفظ بملكية ملاحظاتك، ولا يُغلق الحساب إلا بعد مخالفات متكررة، وستتلقى إشعاراً بالبريد قبل 14 يوماً من التغييرات الجوهرية.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "Notes are stored on our servers so that you can access them from multiple devices.",
+            "explanation_en": "Server storage of notes is tied to a clear, expected purpose (multi-device access). No sharing or extra use is stated.",
+            "explanation_ar": "تخزين الملاحظات على الخوادم مرتبط بغرض واضح ومتوقع (الوصول من عدة أجهزة)، ولا يذكر النص مشاركة أو استخداماً إضافياً."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Account closure is limited to repeated violations of posted rules, which is a conventional condition.",
+            "explanation_ar": "إغلاق الحساب مقيّد بمخالفات متكررة للقواعد المعلنة، وهو شرط معتاد."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "permanently erased after 30 days",
+            "explanation_en": "A defined 30-day period for permanent erasure is clear and privacy-protective, though the trigger is not shown in the excerpt.",
+            "explanation_ar": "تحديد مدة 30 يوماً للحذف النهائي واضح ويحمي الخصوصية، وإن لم يظهر في المقتطف الحدث المُفعِّل."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "your notes are erased within 90 days, except backups which are overwritten within 180 days",
+            "explanation_en": "Deletion within 90 days with backups overwritten within 180 days gives defined timeframes and discloses the backup exception.",
+            "explanation_ar": "الحذف خلال 90 يوماً مع الكتابة فوق النسخ الاحتياطية خلال 180 يوماً يوفر مدداً محددة ويكشف استثناء النسخ الاحتياطية."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "liability",
+            "severity": "low",
+            "source_excerpt": "QuickNotes is provided as is.",
+            "explanation_en": "A standard 'as is' disclaimer; it concerns service quality and does not itself involve personal-data handling.",
+            "explanation_ar": "إخلاء مسؤولية معتاد بعبارة «كما هي» يتعلق بجودة الخدمة ولا يتضمن بحد ذاته معالجة بيانات شخصية."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "we are not liable for loss of notes caused by events outside our reasonable control",
+            "explanation_en": "Excludes liability for note loss from events beyond reasonable control; this limits user recourse, though it is narrowly scoped and common.",
+            "explanation_ar": "يستبعد المسؤولية عن فقدان الملاحظات بسبب أحداث خارج السيطرة المعقولة، مما يحد من سبل الانتصاف، لكنه محدود النطاق وشائع."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "We will email you at least 14 days before material changes take effect.",
+            "explanation_en": "Commits to emailing users at least 14 days before material changes, giving reasonable notice.",
+            "explanation_ar": "يلتزم بإرسال بريد إلكتروني قبل 14 يوماً على الأقل من التغييرات الجوهرية، مما يمنح إشعاراً معقولاً."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "We do not send marketing emails unless you opt in.",
+            "explanation_en": "Marketing emails require opt-in, which respects user choice.",
+            "explanation_ar": "تتطلب الرسائل التسويقية موافقة مسبقة من المستخدم، مما يحترم اختياره."
+          },
+          {
+            "clause_id": "clause_009",
+            "category": "other",
+            "severity": "low",
+            "source_excerpt": "You keep ownership of the notes you create.",
+            "explanation_en": "Users keep ownership of their notes, which favors the user.",
+            "explanation_ar": "يحتفظ المستخدم بملكية ملاحظاته، وهو في مصلحته."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination."
+      },
+      "checks": {
+        "excerpts_verbatim": 9,
+        "clauses": 9,
+        "invented_article_or_pdpl_violation": false,
+        "arabic_summary_present": true,
+        "location_clause_flagged": false,
+        "sharing_clause_flagged": false,
+        "summary_first_location_pos": 0.21,
+        "summary_first_sharing_pos": 0.17,
+        "categories": [
+          "account_termination",
+          "consent",
+          "data_collection",
+          "data_retention",
+          "liability",
+          "other",
+          "terms_changes"
+        ],
+        "severities": [
+          "low",
+          "low",
+          "low",
+          "low",
+          "low",
+          "medium",
+          "low",
+          "low",
+          "low"
+        ]
+      }
+    },
+    {
+      "doc": "DOC-D",
+      "repeat": 2,
+      "condition": "default",
+      "preferences": null,
+      "status": 200,
+      "seconds": 19.8,
+      "finished": "05:38:15",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 55,
+        "risk_level": "Moderate",
+        "summary_en": "Most of these terms look low-risk. Notes are stored on servers for multi-device access, and they are erased within 90 days of deletion, with backups overwritten within 180 days. Marketing emails need your opt-in, you keep ownership of your notes, and you get at least 14 days' email notice of material changes. The main concerns are medium-level: the service is provided \"as is\", and the company is not liable for note loss caused by events outside its reasonable control, so you carry that risk. Accounts may be closed only after repeated violations of posted rules.",
+        "summary_ar": "تبدو معظم هذه الشروط منخفضة المخاطر. تُخزَّن الملاحظات على الخوادم للوصول إليها من أجهزة متعددة، وتُمحى خلال 90 يومًا، مع الكتابة فوق النسخ الاحتياطية خلال 180 يومًا. الرسائل التسويقية تتطلب موافقتك المسبقة، وتحتفظ بملكية ملاحظاتك، وتتلقى إشعارًا بالبريد الإلكتروني قبل 14 يومًا على الأقل من التغييرات الجوهرية. أما أبرز المخاوف فمتوسطة، وهي أن الخدمة مقدمة «كما هي»، وأن الشركة غير مسؤولة عن فقدان الملاحظات بسبب أحداث خارجة عن سيطرتها المعقولة، فتتحمل أنت هذا الخطر. ولا يجوز إغلاق الحساب إلا بعد تكرار مخالفة القواعد المعلنة.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "Notes are stored on our servers so that you can access them from multiple devices.",
+            "explanation_en": "Server storage of notes is tied to a clear, expected purpose: multi-device access.",
+            "explanation_ar": "تخزين الملاحظات على الخوادم مرتبط بغرض واضح ومتوقع وهو الوصول من أجهزة متعددة."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Account closure is limited to repeated violations of posted rules, which is a conventional condition.",
+            "explanation_ar": "إغلاق الحساب مقيّد بتكرار مخالفة القواعد المعلنة، وهو شرط معتاد."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "permanently erased after 30 days",
+            "explanation_en": "A specific 30-day permanent erasure period gives clear retention limits.",
+            "explanation_ar": "مدة المحو النهائي المحددة بـ30 يومًا توفر حدًا واضحًا للاحتفاظ بالبيانات."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "your notes are erased within 90 days, except backups which are overwritten within 180 days",
+            "explanation_en": "Defined erasure (90 days) and backup overwrite (180 days) periods are disclosed; backup delay is modest and transparent.",
+            "explanation_ar": "مدد المحو (90 يومًا) والكتابة فوق النسخ الاحتياطية (180 يومًا) محددة ومعلنة، والتأخير في النسخ الاحتياطية محدود وشفاف."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "QuickNotes is provided as is.",
+            "explanation_en": "An 'as is' disclaimer removes warranties and may limit user recourse, though it is common and says nothing specific about data.",
+            "explanation_ar": "إخلاء المسؤولية بعبارة «كما هي» يسقط الضمانات وقد يحد من سبل الانتصاف، رغم أنه شائع ولا يتناول البيانات تحديدًا."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "we are not liable for loss of notes caused by events outside our reasonable control",
+            "explanation_en": "Excludes liability for note loss from events beyond reasonable control; limited to such events, but users bear the loss risk.",
+            "explanation_ar": "يستثني المسؤولية عن فقدان الملاحظات بسبب أحداث خارجة عن السيطرة المعقولة؛ وهو محدود بهذه الأحداث لكن المستخدم يتحمل خطر الفقدان."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "We will email you at least 14 days before material changes take effect.",
+            "explanation_en": "Provides at least 14 days' email notice before material changes, giving users time to react.",
+            "explanation_ar": "ينص على إشعار بالبريد الإلكتروني قبل 14 يومًا على الأقل من التغييرات الجوهرية، مما يتيح للمستخدم وقتًا للتصرف."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "We do not send marketing emails unless you opt in.",
+            "explanation_en": "Marketing emails require opt-in, which is privacy-protective.",
+            "explanation_ar": "الرسائل التسويقية تتطلب موافقة مسبقة من المستخدم، وهو أمر يحمي الخصوصية."
+          },
+          {
+            "clause_id": "clause_009",
+            "category": "other",
+            "severity": "low",
+            "source_excerpt": "You keep ownership of the notes you create.",
+            "explanation_en": "Users retain ownership of their notes, which favors the user.",
+            "explanation_ar": "يحتفظ المستخدم بملكية ملاحظاته، وهو ما يصب في مصلحته."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination."
+      },
+      "checks": {
+        "excerpts_verbatim": 9,
+        "clauses": 9,
+        "invented_article_or_pdpl_violation": false,
+        "arabic_summary_present": true,
+        "location_clause_flagged": false,
+        "sharing_clause_flagged": false,
+        "summary_first_location_pos": null,
+        "summary_first_sharing_pos": null,
+        "categories": [
+          "account_termination",
+          "consent",
+          "data_collection",
+          "data_retention",
+          "liability",
+          "other",
+          "terms_changes"
+        ],
+        "severities": [
+          "low",
+          "low",
+          "low",
+          "low",
+          "medium",
+          "medium",
+          "low",
+          "low",
+          "low"
+        ]
+      }
+    },
+    {
+      "doc": "DOC-D",
+      "repeat": 2,
+      "condition": "location+sharing",
+      "preferences": {
+        "location": true,
+        "photos": false,
+        "banking_information": false,
+        "third_party_sharing": true
+      },
+      "status": 200,
+      "seconds": 19.3,
+      "finished": "05:38:34",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 48,
+        "risk_level": "Moderate",
+        "summary_en": "Notes are stored on the company's servers so you can reach them from several devices, and the findings mention no sharing of them. Deleted notes are erased after 30 days, and backups are overwritten within 180 days. The main concern is that the company isn't liable for note loss caused by events outside its reasonable control, which limits your options if that happens. Other terms look user-friendly or ordinary: 14 days' email notice of major changes, marketing emails only if you opt in, and account closure only after repeated rule violations. The findings include nothing on location tracking or third-party data sharing.",
+        "summary_ar": "تُخزَّن ملاحظاتك على خوادم الشركة لتتمكن من الوصول إليها من عدة أجهزة، ولا تذكر النتائج أي مشاركة لها. تُحذف الملاحظات المحذوفة نهائيًا بعد 30 يومًا، وتُستبدل النسخ الاحتياطية خلال 180 يومًا. أبرز نقطة تستحق الانتباه أن الشركة غير مسؤولة عن فقدان الملاحظات بسبب أحداث خارجة عن سيطرتها المعقولة، مما يحد من خياراتك إذا حدث ذلك. أما بقية البنود فتبدو في صالحك أو اعتيادية: إشعار بالبريد الإلكتروني قبل 14 يومًا من التغييرات الجوهرية، ولا رسائل تسويقية إلا بموافقتك، ولا يُغلق الحساب إلا بعد تكرار مخالفة القواعد. ولا تتضمن النتائج أي بنود عن تتبع الموقع أو مشاركة البيانات مع أطراف ثالثة.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "Notes are stored on our servers so that you can access them from multiple devices.",
+            "explanation_en": "Server storage of notes is tied to a clear purpose (multi-device access); no sharing or excess collection stated.",
+            "explanation_ar": "تخزين الملاحظات على الخوادم مرتبط بغرض واضح (الوصول من عدة أجهزة) دون ذكر مشاركة أو جمع مفرط."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Account closure is limited to repeated violations of posted rules; ordinary term.",
+            "explanation_ar": "إغلاق الحساب مقيّد بتكرار مخالفة القواعد المعلنة؛ بند اعتيادي."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete a note it is moved to the trash and permanently erased after 30 days.",
+            "explanation_en": "Clear, short retention: deleted notes are permanently erased after 30 days.",
+            "explanation_ar": "مدة احتفاظ واضحة وقصيرة: تُحذف الملاحظات نهائيًا بعد 30 يومًا."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "except backups which are overwritten within 180 days",
+            "explanation_en": "Backups are retained up to 180 days, a defined limit; slightly longer but bounded.",
+            "explanation_ar": "تُحفظ النسخ الاحتياطية حتى 180 يومًا، وهي مدة محددة وإن كانت أطول قليلًا."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "liability",
+            "severity": "low",
+            "source_excerpt": "QuickNotes is provided as is.",
+            "explanation_en": "Standard 'as is' disclaimer with no direct personal-data impact.",
+            "explanation_ar": "إخلاء مسؤولية معتاد بعبارة «كما هي» دون أثر مباشر على البيانات الشخصية."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "we are not liable for loss of notes caused by events outside our reasonable control",
+            "explanation_en": "Excludes liability for note loss from events beyond reasonable control; limits user recourse, though limited to such events.",
+            "explanation_ar": "يستثني المسؤولية عن فقدان الملاحظات بسبب أحداث خارجة عن السيطرة، مما يحد من سبل الانتصاف، لكنه مقيّد بهذه الأحداث."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "We will email you at least 14 days before material changes take effect.",
+            "explanation_en": "Provides 14 days' advance email notice of material changes, which is user-friendly.",
+            "explanation_ar": "يوفر إشعارًا بالبريد الإلكتروني قبل 14 يومًا على الأقل بالتغييرات الجوهرية، وهو في صالح المستخدم."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "We do not send marketing emails unless you opt in.",
+            "explanation_en": "Marketing emails require opt-in consent, which protects the user.",
+            "explanation_ar": "رسائل التسويق تتطلب موافقة مسبقة من المستخدم، مما يحميه."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination."
+      },
+      "checks": {
+        "excerpts_verbatim": 8,
+        "clauses": 8,
+        "invented_article_or_pdpl_violation": false,
+        "arabic_summary_present": true,
+        "location_clause_flagged": false,
+        "sharing_clause_flagged": false,
+        "summary_first_location_pos": 0.93,
+        "summary_first_sharing_pos": 0.18,
+        "categories": [
+          "account_termination",
+          "consent",
+          "data_collection",
+          "data_retention",
+          "liability",
+          "terms_changes"
+        ],
+        "severities": [
+          "low",
+          "low",
+          "low",
+          "low",
+          "low",
+          "medium",
+          "low",
+          "low"
+        ]
+      }
+    },
+    {
+      "doc": "DOC-D",
+      "repeat": 3,
+      "condition": "default",
+      "preferences": null,
+      "status": 200,
+      "seconds": 19.2,
+      "finished": "05:38:53",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 50,
+        "risk_level": "Moderate",
+        "summary_en": "Most terms look user-friendly: you keep ownership of your notes, marketing emails need your opt-in, and you get 14 days' email notice before material changes. Notes are stored on servers for multi-device access, and deletion timelines are stated (erasure within 90 days, with backups overwritten within 180 days). The main concern is that the service is not liable for loss of notes caused by events outside its reasonable control, so you could lose data without recourse. Accounts may be closed only after repeated violations of posted rules, and the service is provided \"as is\".",
+        "summary_ar": "معظم الشروط في مصلحة المستخدم: تحتفظ بملكية ملاحظاتك، والرسائل التسويقية تتطلب موافقتك المسبقة، وستتلقى إشعارًا بالبريد قبل 14 يومًا من التغييرات الجوهرية. تُخزَّن الملاحظات على الخوادم للوصول إليها من أجهزة متعددة، وهناك مدد حذف معلنة (المحو خلال 90 يومًا مع الكتابة فوق النسخ الاحتياطية خلال 180 يومًا). الملاحظة الأهم أن الخدمة غير مسؤولة عن فقدان الملاحظات بسبب أحداث خارجة عن سيطرتها المعقولة، وقد تفقد بياناتك دون تعويض. ويمكن إغلاق الحسابات فقط بعد تكرار مخالفة القواعد المعلنة، وتُقدَّم الخدمة «كما هي».",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "Notes are stored on our servers so that you can access them from multiple devices.",
+            "explanation_en": "Server storage of notes is tied to a clear, expected purpose: multi-device access.",
+            "explanation_ar": "تخزين الملاحظات على الخوادم مرتبط بغرض واضح ومتوقع وهو الوصول من أجهزة متعددة."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "other",
+            "severity": "low",
+            "source_excerpt": "You keep ownership of the notes you create.",
+            "explanation_en": "User keeps ownership of their notes; favorable to the user.",
+            "explanation_ar": "يحتفظ المستخدم بملكية ملاحظاته، وهذا في مصلحته."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Closure is limited to repeated violations of posted rules, which is a reasonably bounded condition.",
+            "explanation_ar": "الإغلاق مقيد بتكرار مخالفة القواعد المعلنة، وهو شرط محدد بشكل معقول."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "permanently erased after 30 days",
+            "explanation_en": "Permanent erasure after a stated 30-day period is a clear, short retention term.",
+            "explanation_ar": "المحو النهائي بعد 30 يومًا مدة احتفاظ واضحة وقصيرة."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "your notes are erased within 90 days, except backups which are overwritten within 180 days",
+            "explanation_en": "Defined deletion timelines are given, including a disclosed backup exception with a fixed limit.",
+            "explanation_ar": "حُددت مدد حذف واضحة مع استثناء معلن للنسخ الاحتياطية بحد زمني ثابت."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "we are not liable for loss of notes caused by events outside our reasonable control",
+            "explanation_en": "Excludes liability for note loss from events beyond reasonable control; limited in scope but users may lose data without recourse.",
+            "explanation_ar": "يستثني المسؤولية عن فقدان الملاحظات بسبب أحداث خارجة عن السيطرة المعقولة، وقد يفقد المستخدم بياناته دون تعويض."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "liability",
+            "severity": "low",
+            "source_excerpt": "QuickNotes is provided as is.",
+            "explanation_en": "A standard 'as is' disclaimer with no data-specific impact stated.",
+            "explanation_ar": "إخلاء مسؤولية معتاد بعبارة «كما هي» دون أثر محدد على البيانات."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "We will email you at least 14 days before material changes take effect.",
+            "explanation_en": "Users get direct email notice at least 14 days before material changes.",
+            "explanation_ar": "يتلقى المستخدم إشعارًا بالبريد قبل 14 يومًا على الأقل من التغييرات الجوهرية."
+          },
+          {
+            "clause_id": "clause_009",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "We do not send marketing emails unless you opt in.",
+            "explanation_en": "Marketing emails require opt-in, which is protective of users.",
+            "explanation_ar": "الرسائل التسويقية تتطلب موافقة صريحة مسبقة، وهذا يحمي المستخدم."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination."
+      },
+      "checks": {
+        "excerpts_verbatim": 9,
+        "clauses": 9,
+        "invented_article_or_pdpl_violation": false,
+        "arabic_summary_present": true,
+        "location_clause_flagged": false,
+        "sharing_clause_flagged": false,
+        "summary_first_location_pos": null,
+        "summary_first_sharing_pos": null,
+        "categories": [
+          "account_termination",
+          "consent",
+          "data_collection",
+          "data_retention",
+          "liability",
+          "other",
+          "terms_changes"
+        ],
+        "severities": [
+          "low",
+          "low",
+          "low",
+          "low",
+          "low",
+          "medium",
+          "low",
+          "low",
+          "low"
+        ]
+      }
+    },
+    {
+      "doc": "DOC-D",
+      "repeat": 3,
+      "condition": "location+sharing",
+      "preferences": {
+        "location": true,
+        "photos": false,
+        "banking_information": false,
+        "third_party_sharing": true
+      },
+      "status": 200,
+      "seconds": 18.9,
+      "finished": "05:39:12",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 48,
+        "risk_level": "Moderate",
+        "summary_en": "The findings show mostly low-risk terms. Notes are stored on servers for multi-device access, with no sharing stated. Notes are deleted within 30–90 days, though backups may last up to 180 days. The main concern is that the service isn't liable for note loss from events outside its reasonable control, so you could lose data. On the positive side, you get at least 14 days' email notice of material changes, and marketing emails need your opt-in.",
+        "summary_ar": "تُظهر النتائج شروطًا منخفضة المخاطر في الغالب. تُخزَّن الملاحظات على الخوادم للوصول من عدة أجهزة دون ذكر أي مشاركة. تُحذف الملاحظات خلال 30 إلى 90 يومًا، وقد تبقى النسخ الاحتياطية حتى 180 يومًا. الشاغل الرئيسي هو أن الخدمة لا تتحمل المسؤولية عن فقدان الملاحظات بسبب أحداث خارجة عن سيطرتها المعقولة، فقد تفقد بياناتك. في المقابل، ستتلقى إشعارًا بالبريد قبل 14 يومًا على الأقل من التغييرات الجوهرية، ولا تُرسل الرسائل التسويقية إلا بموافقتك.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "Notes are stored on our servers so that you can access them from multiple devices.",
+            "explanation_en": "Server storage of notes is purposeful (multi-device access) and ordinary; no sharing or extra use stated.",
+            "explanation_ar": "تخزين الملاحظات على الخوادم لغرض واضح (الوصول من عدة أجهزة) وهو أمر معتاد دون ذكر مشاركة أو استخدام إضافي."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Account closure is tied to repeated violations of posted rules, a conditioned and common term.",
+            "explanation_ar": "إغلاق الحساب مرتبط بمخالفات متكررة للقواعد المعلنة، وهو شرط مقيّد وشائع."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "permanently erased after 30 days",
+            "explanation_en": "Permanent erasure after a fixed 30 days is a clear, short retention period.",
+            "explanation_ar": "المسح النهائي بعد 30 يومًا فترة احتفاظ واضحة وقصيرة."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "your notes are erased within 90 days, except backups which are overwritten within 180 days",
+            "explanation_en": "Defined deletion timelines (90 days; backups 180 days) are disclosed transparently, though backups persist longer.",
+            "explanation_ar": "مدد الحذف محددة ومعلنة (90 يومًا والنسخ الاحتياطية 180 يومًا)، مع بقاء النسخ الاحتياطية مدة أطول."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "we are not liable for loss of notes caused by events outside our reasonable control",
+            "explanation_en": "Disclaims liability for note loss from events beyond reasonable control; limited to such events but users may lose data.",
+            "explanation_ar": "يخلي المسؤولية عن فقدان الملاحظات بسبب أحداث خارجة عن السيطرة المعقولة؛ محدود بهذه الأحداث لكن قد يفقد المستخدم بياناته."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "liability",
+            "severity": "low",
+            "source_excerpt": "QuickNotes is provided as is.",
+            "explanation_en": "Standard 'as is' disclaimer with no data-specific impact stated.",
+            "explanation_ar": "إخلاء قياسي بعبارة «كما هو» دون أثر محدد على البيانات."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "We will email you at least 14 days before material changes take effect.",
+            "explanation_en": "Provides at least 14 days' email notice before material changes, which is user-protective.",
+            "explanation_ar": "يوفر إشعارًا بالبريد قبل 14 يومًا على الأقل من التغييرات الجوهرية، وهو في صالح المستخدم."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "We do not send marketing emails unless you opt in.",
+            "explanation_en": "Marketing emails only with opt-in consent, a privacy-protective term.",
+            "explanation_ar": "لا تُرسل رسائل تسويقية إلا بموافقة صريحة من المستخدم، وهو شرط يحمي الخصوصية."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination."
+      },
+      "checks": {
+        "excerpts_verbatim": 8,
+        "clauses": 8,
+        "invented_article_or_pdpl_violation": false,
+        "arabic_summary_present": true,
+        "location_clause_flagged": false,
+        "sharing_clause_flagged": false,
+        "summary_first_location_pos": null,
+        "summary_first_sharing_pos": 0.23,
+        "categories": [
+          "account_termination",
+          "consent",
+          "data_collection",
+          "data_retention",
+          "liability",
+          "terms_changes"
+        ],
+        "severities": [
+          "low",
+          "low",
+          "low",
+          "low",
+          "medium",
+          "low",
+          "low",
+          "low"
+        ]
+      }
+    },
+    {
+      "doc": "DOC-D",
+      "repeat": 4,
+      "condition": "default",
+      "preferences": null,
+      "status": 200,
+      "seconds": 19.9,
+      "finished": "05:39:32",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 55,
+        "risk_level": "Moderate",
+        "summary_en": "The terms are mostly user-friendly: you keep ownership of your notes, marketing emails need your opt-in, and you get at least 14 days' email notice of material changes. Notes are stored on servers for multi-device access, and deletion timelines are stated (30 days for permanent erasure, 90 days for notes, and backups overwritten within 180 days). The main limits are that the service is provided \"as is\" and the company is not liable for note loss caused by events outside its reasonable control, so keeping your own copies of important notes may be wise. Accounts may be closed after repeated violations of posted rules.",
+        "summary_ar": "الشروط في معظمها في صالح المستخدم: تحتفظ بملكية ملاحظاتك، ولا تُرسل رسائل تسويقية إلا بموافقتك، وتصلك رسالة بريد قبل 14 يومًا على الأقل بالتغييرات الجوهرية. تُخزَّن الملاحظات على الخوادم للوصول إليها من عدة أجهزة، ومدد الحذف معلنة (المحو النهائي بعد 30 يومًا، وحذف الملاحظات خلال 90 يومًا، وإعادة الكتابة فوق النسخ الاحتياطية خلال 180 يومًا). أبرز القيود أن الخدمة مقدمة «كما هي» وأن الشركة غير مسؤولة عن فقدان الملاحظات بسبب أحداث خارجة عن سيطرتها المعقولة، لذا قد يكون من الأفضل الاحتفاظ بنسخ من ملاحظاتك المهمة. ويجوز إغلاق الحساب بعد تكرار مخالفة القواعد المعلنة.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "Notes are stored on our servers so that you can access them from multiple devices.",
+            "explanation_en": "Server storage of notes is stated with a clear, proportionate purpose: multi-device access.",
+            "explanation_ar": "تخزين الملاحظات على الخوادم مبرر بغرض واضح ومتناسب وهو الوصول من أجهزة متعددة."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "other",
+            "severity": "low",
+            "source_excerpt": "You keep ownership of the notes you create.",
+            "explanation_en": "User keeps ownership of their notes; this favors the user.",
+            "explanation_ar": "يحتفظ المستخدم بملكية ملاحظاته، وهذا في مصلحته."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Closure is limited to repeated violations of posted rules, which is a conditioned and ordinary term.",
+            "explanation_ar": "الإغلاق مقيّد بتكرار مخالفة القواعد المعلنة، وهو شرط عادي ومشروط."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "permanently erased after 30 days",
+            "explanation_en": "Permanent erasure after a fixed 30-day period is a clear, short retention period.",
+            "explanation_ar": "المحو النهائي بعد 30 يومًا مدة احتفاظ واضحة وقصيرة."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "your notes are erased within 90 days, except backups which are overwritten within 180 days",
+            "explanation_en": "Defined deletion timelines (90 days; backups within 180 days) are disclosed; the backup delay is modest and transparent.",
+            "explanation_ar": "مدد الحذف محددة (90 يومًا، والنسخ الاحتياطية خلال 180 يومًا) ومعلنة، وتأخر النسخ الاحتياطية محدود وشفاف."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "QuickNotes is provided as is.",
+            "explanation_en": "An 'as is' disclaimer limits user remedies, though it is common and narrow in wording here.",
+            "explanation_ar": "إخلاء المسؤولية بعبارة «كما هي» يحد من سبل الانتصاف للمستخدم، لكنه شائع."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "we are not liable for loss of notes caused by events outside our reasonable control",
+            "explanation_en": "Excludes liability for note loss from events beyond reasonable control; limited to such events but still affects user data.",
+            "explanation_ar": "يستثني المسؤولية عن فقدان الملاحظات بسبب أحداث خارجة عن السيطرة المعقولة، وهو محدود لكنه يمس بيانات المستخدم."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "We will email you at least 14 days before material changes take effect.",
+            "explanation_en": "Provides 14 days' advance email notice of material changes, which is protective.",
+            "explanation_ar": "يتيح إشعارًا بالبريد قبل 14 يومًا على الأقل بالتغييرات الجوهرية، وهذا حماية للمستخدم."
+          },
+          {
+            "clause_id": "clause_009",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "We do not send marketing emails unless you opt in.",
+            "explanation_en": "Marketing emails only with opt-in consent, which is privacy-friendly.",
+            "explanation_ar": "لا تُرسل رسائل تسويقية إلا بموافقة صريحة من المستخدم، وهذا في صالح الخصوصية."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination."
+      },
+      "checks": {
+        "excerpts_verbatim": 9,
+        "clauses": 9,
+        "invented_article_or_pdpl_violation": false,
+        "arabic_summary_present": true,
+        "location_clause_flagged": false,
+        "sharing_clause_flagged": false,
+        "summary_first_location_pos": null,
+        "summary_first_sharing_pos": null,
+        "categories": [
+          "account_termination",
+          "consent",
+          "data_collection",
+          "data_retention",
+          "liability",
+          "other",
+          "terms_changes"
+        ],
+        "severities": [
+          "low",
+          "low",
+          "low",
+          "low",
+          "low",
+          "medium",
+          "medium",
+          "low",
+          "low"
+        ]
+      }
+    },
+    {
+      "doc": "DOC-D",
+      "repeat": 4,
+      "condition": "location+sharing",
+      "preferences": {
+        "location": true,
+        "photos": false,
+        "banking_information": false,
+        "third_party_sharing": true
+      },
+      "status": 200,
+      "seconds": 19.5,
+      "finished": "05:39:52",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 18,
+        "risk_level": "Safe",
+        "summary_en": "All the supplied findings are low severity. Notes are stored on servers for multi-device access, with no sharing stated. The findings include no location tracking or third-party data sharing clauses. Notes are erased within set timeframes (90 days, or 180 days for backups), and you keep ownership of your notes. You get 14 days' email notice of material changes, and marketing emails need your opt-in. Accounts may be closed after repeated rule violations, and the service is provided \"as is\" with no liability for losses outside reasonable control.",
+        "summary_ar": "جميع البنود المقدمة منخفضة الخطورة. تُخزَّن الملاحظات على الخوادم للوصول إليها من عدة أجهزة دون ذكر أي مشاركة. ولا تتضمن النتائج بنودًا عن تتبع الموقع أو مشاركة البيانات مع أطراف ثالثة. تُحذف الملاحظات خلال مدد محددة (90 يومًا، أو 180 يومًا للنسخ الاحتياطية)، ويحتفظ المستخدم بملكية ملاحظاته. يصلك إشعار بالبريد قبل 14 يومًا من التغييرات الجوهرية، وتتطلب الرسائل التسويقية موافقتك المسبقة. قد يُغلق الحساب بعد مخالفات متكررة للقواعد، والخدمة مقدّمة «كما هي» دون مسؤولية عن الخسائر الخارجة عن السيطرة المعقولة.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "Notes are stored on our servers so that you can access them from multiple devices.",
+            "explanation_en": "Server storage of notes is tied to a clear, expected purpose (multi-device access); no sharing or extra use stated.",
+            "explanation_ar": "تخزين الملاحظات على الخوادم مرتبط بغرض واضح ومتوقع (الوصول من عدة أجهزة) دون ذكر مشاركة أو استخدام إضافي."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Account closure is limited to repeated violations of posted rules, a standard condition.",
+            "explanation_ar": "إغلاق الحساب مقيّد بالمخالفات المتكررة للقواعد المنشورة، وهو شرط معتاد."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "permanently erased after 30 days",
+            "explanation_en": "Permanent erasure after a fixed 30-day period is a clear, short retention commitment, though context is limited.",
+            "explanation_ar": "المحو النهائي بعد 30 يومًا التزام واضح وقصير بالاحتفاظ، مع أن السياق محدود."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "your notes are erased within 90 days, except backups which are overwritten within 180 days",
+            "explanation_en": "Defined deletion timelines (90 days, backups 180 days) are disclosed with the backup exception stated clearly.",
+            "explanation_ar": "مدد الحذف محددة (90 يومًا والنسخ الاحتياطية 180 يومًا) مع بيان واضح لاستثناء النسخ الاحتياطية."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "liability",
+            "severity": "low",
+            "source_excerpt": "we are not liable for loss of notes caused by events outside our reasonable control",
+            "explanation_en": "Liability exclusion is limited to events beyond reasonable control, a common and narrow limitation.",
+            "explanation_ar": "استثناء المسؤولية محصور في الأحداث الخارجة عن السيطرة المعقولة، وهو قيد شائع ومحدود."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "liability",
+            "severity": "low",
+            "source_excerpt": "QuickNotes is provided as is.",
+            "explanation_en": "A standard 'as is' disclaimer with no data-specific impact stated.",
+            "explanation_ar": "إخلاء مسؤولية معتاد بعبارة «كما هي» دون أثر محدد على البيانات."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "We will email you at least 14 days before material changes take effect.",
+            "explanation_en": "Users get direct email notice at least 14 days before material changes, which is user-protective.",
+            "explanation_ar": "يُرسل إشعار مباشر بالبريد قبل 14 يومًا على الأقل من التغييرات الجوهرية، مما يحمي المستخدم."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "We do not send marketing emails unless you opt in.",
+            "explanation_en": "Marketing emails require opt-in, which is a privacy-protective consent approach.",
+            "explanation_ar": "الرسائل التسويقية تتطلب موافقة مسبقة، وهو نهج يحمي الخصوصية."
+          },
+          {
+            "clause_id": "clause_009",
+            "category": "other",
+            "severity": "low",
+            "source_excerpt": "You keep ownership of the notes you create.",
+            "explanation_en": "Users retain ownership of their notes, a favorable and clear right.",
+            "explanation_ar": "يحتفظ المستخدم بملكية ملاحظاته، وهو حق واضح ومفيد."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination."
+      },
+      "checks": {
+        "excerpts_verbatim": 9,
+        "clauses": 9,
+        "invented_article_or_pdpl_violation": false,
+        "arabic_summary_present": true,
+        "location_clause_flagged": false,
+        "sharing_clause_flagged": false,
+        "summary_first_location_pos": 0.26,
+        "summary_first_sharing_pos": 0.19,
+        "categories": [
+          "account_termination",
+          "consent",
+          "data_collection",
+          "data_retention",
+          "liability",
+          "other",
+          "terms_changes"
+        ],
+        "severities": [
+          "low",
+          "low",
+          "low",
+          "low",
+          "low",
+          "low",
+          "low",
+          "low",
+          "low"
+        ]
+      }
+    }
+  ],
+  "finished": "2026-10-29 05:39:52 +0300"
+}

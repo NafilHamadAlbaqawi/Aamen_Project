@@ -1,0 +1,6 @@
+# 2026-10-29 05:08:32 +0300 | standard WP3 server (OpenAI client), case: invalid_key
+> GET /health
+{"status":"ok","service":"aamen","ai_enabled":true}
+> POST /analyze (DOC-A, no preferences)
+{"detail":"AI service unavailable or rejected the request."}
+[HTTP 502, 1.147462s]

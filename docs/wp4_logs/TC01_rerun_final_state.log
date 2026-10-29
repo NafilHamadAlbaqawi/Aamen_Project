@@ -1,0 +1,16 @@
+# 2026-10-29 06:15:35 +0300 | final committable state: WP3 files reverted to 8d001e1, final WP4 prompts
+> python run_wp4_unit_tests.py
+test_all_four_topics_present (test_wp4_prompts.TestWp4Prompts.test_all_four_topics_present) ... ok
+test_default_neutral_preferences (test_wp4_prompts.TestWp4Prompts.test_default_neutral_preferences) ... ok
+test_false_does_not_disable_all_risk_checks (test_wp4_prompts.TestWp4Prompts.test_false_does_not_disable_all_risk_checks) ... ok
+test_few_shot_examples_and_expected_formats (test_wp4_prompts.TestWp4Prompts.test_few_shot_examples_and_expected_formats) ... ok
+test_location_and_sharing_personalization (test_wp4_prompts.TestWp4Prompts.test_location_and_sharing_personalization) ... ok
+test_no_untrusted_freeform_preferences (test_wp4_prompts.TestWp4Prompts.test_no_untrusted_freeform_preferences) ... ok
+test_repeatable_and_immutable (test_wp4_prompts.TestWp4Prompts.test_repeatable_and_immutable) ... ok
+test_untrusted_input_safeguards (test_wp4_prompts.TestWp4Prompts.test_untrusted_input_safeguards) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK
+[exit code 0]

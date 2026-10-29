@@ -1,0 +1,6 @@
+# Patched WP3 files vs leader's 03_OPTIONAL_WP3_INTEGRATION overlay (ignoring CRLF and blank-line differences)
+IDENTICAL  backend/analysis/clause_extractor.py
+IDENTICAL  backend/analysis/risk_classifier.py
+IDENTICAL  backend/analysis/summary_generator.py
+IDENTICAL  backend/analysis/pipeline.py
+IDENTICAL  backend/main.py
