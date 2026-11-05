@@ -1,313 +1,211 @@
+/*
+Aamen popup styles.
 
-/* WP2 — Aamen Popup Styling */
+Every element is styled once, in the section for its screen. All colours are variables on :root,
+so to change the look change those first. Text direction (English or Arabic) is handled with
+logical properties like inset-inline-start and border-inline-start, so nothing needs a separate
+right-to-left rule.
+*/
 
-/* 1. Main colors */
+/* Colours. The gold accent is the only strong colour. safe, mod and high are for the three levels. */
 :root {
-  --green: #0D5B43;
-  --green-deep: #063D2E;
-  --gold: #C8A55A;
-  --background: #F5F7F3;
-  --surface: #FFFFFF;
-  --text: #20372F;
-  --muted: #63736B;
-  --border: #D9E4DA;
+  --bg: #0F1B1A; --surface: #172826; --soft: #1E3330; --border: #2B4540; --field-border: #3A5750;
+  --text: #E8F1EE; --muted: #9FB5AE; --accent: #E3C06E; --on-accent: #1B1606;
+  --safe: #5FD3A0; --mod: #FFC857; --high: #FF8A98;
+  --off: #6B8680;
 }
 
-/* 2. General popup configuration */
-* {
-  box-sizing: border-box;
-}
+/* Basics */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); }
+body { width: 390px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Tahoma, "Noto Sans Arabic", sans-serif; font-size: 14px; line-height: 1.5; }
+button, input, textarea { font: inherit; }
+button { cursor: pointer; }
 
-body {
-  margin: 0;
-  width: 390px;
-  max-height: 600px;
-  overflow-y: auto;
-  background: var(--background);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Tahoma, sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
-}
+/* Text that only screen readers see, used for hidden labels */
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
-/* 3. Header and branding */
-.hdr {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 20px 18px;
-  background: linear-gradient(135deg, var(--green-deep), var(--green));
-  color: #FFFFFF;
-  direction: ltr;
-  border-bottom: 3px solid var(--gold);
-}
+/* The popup box. Chrome popups can't be taller than 600px, so the height is fixed and only the middle part scrolls. */
+.popup { position: relative; width: 390px; height: 600px; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); color: var(--text); }
+.popup h1, .popup h2, .popup h3, .popup p { margin: 0; }
+.popup button { color: inherit; }
+.popup :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 
-.brand {
-  min-width: 0;
-}
+/* Colour by level (the score) and by severity (tags and rows). popup.js puts data-level or data-sev on an
+   element, and the rules for that element read --lv or --sv. */
+[data-level="safe"] { --lv: var(--safe); }
+[data-level="moderate"] { --lv: var(--mod); }
+[data-level="high"] { --lv: var(--high); }
+[data-sev="high"] { --sv: var(--high); }
+[data-sev="medium"] { --sv: var(--mod); }
+[data-sev="low"] { --sv: var(--safe); }
 
-.brand h1 {
-  margin: 0;
-  font-size: 26px;
-  line-height: 1.2;
-}
+/* Layout of the page: header on top, scrolling middle, footer and tabs at the bottom.
+   g-main wraps all of that. When the sheet is open popup.js marks it inert, so keyboard focus stays in the sheet. */
+.g-main { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px 10px; }
+.body { flex: 1; min-height: 0; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+.stack { display: flex; flex-direction: column; gap: 14px; }
 
-.brand p {
-  margin: 6px 0 0;
-  color: #E8EFD9;
-  font-size: 12px;
-}
+/* Header: the name and the language switch (two words, with a line under the chosen one) */
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.brand h1 { font-size: 17px; font-weight: 700; line-height: 1.15; }
+.brand p { margin-top: 1px; font-size: 12px; color: var(--muted); }
+.lang-switch { display: flex; flex: none; gap: 2px; }
+.lang-btn { min-width: 34px; min-height: 32px; padding: 0 8px; border: 0; background: none; color: var(--muted); font-weight: 700; box-shadow: inset 0 -2px 0 transparent; }
+.lang-btn[aria-pressed="true"] { color: var(--accent); box-shadow: inset 0 -2px 0 var(--accent); }
 
-/* 4. Language buttons */
-.language-buttons {
-  display: flex;
-  gap: 6px;
-  flex-shrink: 0;
-  direction: ltr;
-}
+/* Footer (disclaimer and the Server settings link) */
+.foot { display: flex; flex-direction: column; align-items: center; gap: 0; padding: 8px 16px 10px; border-top: 1px solid var(--border); background: var(--surface); font-size: 11.5px; line-height: 1.4; color: var(--muted); text-align: center; }
+.foot-link { padding: 4px 10px; border: 0; background: none; color: var(--accent); font-size: 12.5px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
 
-.language-buttons button {
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.12);
-  color: #FFFFFF;
-  min-width: 42px;
-  padding: 8px 10px;
-  font-weight: 700;
-  cursor: pointer;
-}
+/* Bottom tabs: words only, a gold line on top marks the open tab. The hover rule comes before the open-tab rule
+   on purpose, so the open tab keeps no background on hover. */
+.nav { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; padding: 6px 8px 8px; border-top: 1px solid var(--border); background: var(--surface); }
+.nav button { display: grid; justify-items: center; gap: 2px; min-height: 44px; padding: 6px 4px; border: 0; border-radius: 0; background: transparent; color: var(--muted); font-size: 14px; font-weight: 700; }
+.nav button:hover { background: #1F342F; }
+.nav button[aria-selected="true"] { background: none; color: var(--accent); box-shadow: inset 0 2px 0 var(--accent); }
 
-.language-buttons button:hover {
-  background: rgba(255, 255, 255, 0.22);
-}
+/* Buttons. primary is the filled one, ghost is the outlined one, pair puts two side by side. */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 16px; border: 1.5px solid transparent; border-radius: 6px; font-weight: 700; font-size: 14px; }
+.btn.primary { background: var(--accent); color: var(--on-accent); }
+.btn.primary:hover { background: #EBCB7F; }
+.btn.ghost { background: transparent; border-color: var(--border); color: var(--text); }
+.btn.ghost:hover { background: var(--soft); }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
-/* 5. Main layout and cards */
-.container {
-  padding: 16px;
-  display: grid;
-  gap: 14px;
-}
+/* Small tag (High, Medium, Low). The border is a softer version of the tag colour. */
+.chip { display: inline-flex; align-items: center; gap: 4px; padding: 1px 7px; border: 1px solid color-mix(in srgb, var(--sv) 55%, transparent); border-radius: 3px; font-size: 12px; font-weight: 600; color: var(--sv); white-space: nowrap; }
+.chip.ok { --sv: var(--safe); }
 
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 16px;
-  box-shadow: 0 3px 10px rgba(9, 50, 35, 0.04);
-}
+/* Notices above the result (text was cut, PDPL check incomplete) */
+.notice { display: flex; align-items: flex-start; gap: 10px; padding: 2px 0; padding-inline-start: 12px; border-inline-start: 3px solid var(--mod); font-size: 13px; line-height: 1.5; color: var(--text); }
 
-.card h2 {
-  margin: 0 0 12px;
-  font-size: 15px;
-  color: var(--green-deep);
-}
+/* Summary tab: the score at the top. A big number, the level, a thin meter. */
+.hero { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 2px 0 16px; border-bottom: 1px solid var(--border); text-align: start; }
+.hero-label { font-size: 13px; font-weight: 600; color: var(--muted); }
+.hero-num { display: flex; align-items: baseline; justify-content: center; gap: 6px; }
+.hero-num b { font-size: 56px; line-height: 1; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--lv); }
+.hero-num small { font-size: 18px; color: var(--muted); }
+.level-pill { font-size: 17px; font-weight: 800; color: var(--lv); }
+.meter { width: 100%; height: 4px; margin-top: 6px; overflow: hidden; background: var(--soft); }
+.meter i { display: block; height: 100%; background: var(--lv); transition: width 0.4s; }
+.analyzed { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12.5px; color: var(--muted); }
 
-/* 6. WP2 server URL and connection controls */
-#serverLabel {
-  display: block;
-  margin-bottom: 7px;
-  font-weight: 600;
-  font-size: 13px;
-}
+/* Summary tab: the summary text (click it for the full report), then the list of warnings.
+   The bar at the start of each row is coloured by severity. */
+.block { display: flex; flex-direction: column; gap: 10px; padding: 14px 0; border-top: 1px solid var(--border); cursor: pointer; }
+.block h2 { font-size: 15px; }
+.block p { font-size: 14px; line-height: 1.65; }
+.list-head { display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px; }
+.list-head h2 { font-size: 15px; }
+.list-head span { font-size: 13px; color: var(--muted); }
+.rows { display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--border); }
+.row { display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px 4px; border: 0; border-bottom: 1px solid var(--border); border-inline-start: 3px solid var(--sv); background: none; text-align: start; }
+.row:hover { background: var(--surface); }
+.row-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.row-main b { font-size: 14px; }
+.row-main span { font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-#serverUrl {
-  display: block;
-  width: 100%;
-  min-height: 43px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 10px 12px;
-  background: #FCFDFB;
-  color: var(--text);
-  font: inherit;
-  direction: ltr;
-  text-align: left;
-}
+/* Start, loading and error screens, centred in the middle of the page */
+.state-panel { margin: auto 0; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 24px 16px; text-align: center; }
+.state-panel h2 { font-size: 18px; }
+.state-panel p { max-width: 300px; font-size: 14px; line-height: 1.6; color: var(--muted); }
+.state-panel .btn { margin-top: 6px; }
+.state-panel .foot-link { margin-top: 2px; }
+.err-tag { padding: 1px 7px; border: 1px solid color-mix(in srgb, var(--high) 55%, transparent); border-radius: 3px; font-size: 12px; font-weight: 800; color: var(--high); }
+@keyframes aamen-spin { to { transform: rotate(360deg); } }
+.spinner { width: 38px; height: 38px; border: 4px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: aamen-spin 0.9s linear infinite; }
 
-#serverUrl::placeholder {
-  color: #93A19A;
-}
+/* Back button and title on inner pages (settings) */
+.subbar { display: flex; align-items: center; gap: 10px; }
+.subbar h2 { font-size: 16px; }
+.back { display: inline-flex; align-items: center; gap: 2px; min-height: 40px; padding: 0 14px; border: 1.5px solid var(--border); border-radius: 6px; background: var(--surface); font-weight: 700; font-size: 14px; }
 
-.server-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 10px;
-}
+/* One issue in detail, used inside the sheet: heading, the quoted clause, the explanation, the references */
+.issue { display: flex; flex-direction: column; gap: 14px; }
+.issue-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.issue-head h2 { font-size: 18px; }
+.field h3 { margin-bottom: 4px; font-size: 13px; font-weight: 700; color: var(--muted); }
+.field p { font-size: 14px; line-height: 1.65; }
+blockquote { margin: 0; padding: 2px 0; padding-inline-start: 12px; border-inline-start: 2px solid var(--border); font-size: 13.5px; line-height: 1.65; color: var(--text); }
+.assess { display: inline-block; margin-bottom: 6px; padding: 2px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 12px; font-weight: 700; }
+.ref { margin-top: 8px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; }
+.ref b { font-size: 13px; }
+.ref p { margin: 4px 0 6px; font-size: 13px; line-height: 1.55; color: var(--muted); }
+.ref a { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 700; color: var(--accent); }
+.ref-none { font-size: 13px; color: var(--muted); }
+.pref-line { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; border-radius: 6px; background: var(--soft); }
+.pref-line b { font-size: 14px; }
+.pref-line p { margin-top: 2px; font-size: 12.5px; color: var(--muted); }
 
-.server-actions button {
-  flex: 1;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  padding: 11px 9px;
-  font: inherit;
-  font-weight: 700;
-  min-height: 42px;
-  cursor: pointer;
-}
+/* The sheet that slides up over the page for an issue or the full report.
+   sheet-dim is the dark area behind it, and clicking it closes the sheet. The sheet has position: relative
+   so it sits above sheet-dim. Without that, sheet-dim would catch the scroll wheel and the sheet couldn't scroll. */
+@keyframes fade { from { opacity: 0; } }
+@keyframes rise { from { opacity: 0; transform: translateY(30px); } }
+.sheet-wrap { position: absolute; inset: 0; z-index: 5; display: flex; align-items: flex-end; background: rgba(0, 0, 0, 0.6); animation: fade 0.15s; }
+.sheet-dim { position: absolute; inset: 0; }
+.sheet { position: relative; z-index: 1; width: 100%; max-height: 92%; display: flex; flex-direction: column; border-top: 1px solid var(--border); border-radius: 12px 12px 0 0; background: var(--bg); animation: rise 0.2s ease-out; }
+.sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 16px 16px 8px; }
+.sheet-head h2 { font-size: 16px; }
+.x { display: flex; align-items: center; justify-content: center; height: 36px; padding: 0 14px; border: 1.5px solid var(--border); border-radius: 6px; background: var(--surface); font-size: 14px; font-weight: 700; }
+.x:hover { background: var(--soft); }
+.sheet-body { min-height: 0; overflow-y: auto; padding: 4px 16px 18px; display: flex; flex-direction: column; gap: 16px; }
+.report-item { padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.report-item:last-of-type { padding-bottom: 0; border-bottom: 0; }
+.fine { font-size: 12px; text-align: center; color: var(--muted); }
 
-#saveServerButton {
-  background: var(--green);
-  color: #FFFFFF;
-}
+/* The accept switch. The knob uses inset-inline-start so it slides the right way in Arabic too. */
+.switch { position: relative; flex: none; width: 48px; height: 28px; padding: 0; border: 0; border-radius: 999px; background: var(--off); transition: background 0.15s; }
+.switch::after { content: ""; position: absolute; top: 3px; inset-inline-start: 3px; width: 22px; height: 22px; border-radius: 50%; background: #F4F7F6; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); transition: inset-inline-start 0.15s; }
+.switch[aria-checked="true"] { background: var(--safe); }
+.switch[aria-checked="true"]::after { inset-inline-start: 23px; }
 
-#saveServerButton:hover {
-  background: var(--green-deep);
-}
+/* Preferences tab: the standard score next to the user's score, then one row per topic */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.compare div { display: flex; flex-direction: column; gap: 2px; padding: 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); }
+.compare div:last-child { border-color: var(--lv); background: none; color: var(--lv); }
+.compare small { font-size: 12px; font-weight: 600; opacity: 0.9; }
+.compare b { font-size: 30px; line-height: 1.1; }
+.compare-note { text-align: center; font-size: 13px; font-weight: 700; color: var(--muted); }
+.prefs-intro { font-size: 14px; line-height: 1.6; color: var(--muted); }
+.pref { display: flex; align-items: center; gap: 12px; padding: 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+.pref-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.pref-info b { font-size: 15px; }
+.pref-info span { font-size: 13px; line-height: 1.45; color: var(--muted); }
+.pref-info em { margin-top: 2px; font-style: normal; font-size: 12.5px; font-weight: 700; color: var(--accent); }
+.pref-info em.none { font-weight: 500; color: var(--muted); }
+.pref-state { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: none; min-width: 64px; }
+.pref-state span { font-size: 11.5px; font-weight: 700; color: var(--muted); text-align: center; }
+.pref[data-on="true"] .pref-state span { color: var(--safe); }
 
-#checkServerButton {
-  background: #EFF4EF;
-  color: var(--green-deep);
-  border-color: var(--border);
-}
+/* Paste tab */
+.paste { display: flex; flex-direction: column; gap: 12px; }
+.paste-head { display: flex; flex-direction: column; gap: 6px; }
+.paste-head h2 { font-size: 16px; }
+.paste-head p { font-size: 14px; line-height: 1.6; color: var(--muted); }
+.paste-input { display: block; width: 100%; min-height: 130px; padding: 12px; border: 1.5px solid var(--field-border); border-radius: 6px; background: var(--soft); color: var(--text); font-size: 14px; line-height: 1.6; resize: vertical; }
+.paste-input::placeholder { color: var(--muted); opacity: 1; }
+.paste-input:focus { outline: 3px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.paste-meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; row-gap: 0; font-size: 12.5px; color: var(--muted); }
+.paste-meta #paste-limit { flex: 1 1 auto; }
+.paste-count[data-over="true"] { font-weight: 700; color: var(--high); }
+.paste-clear { padding: 4px 8px; border: 0; border-radius: 8px; background: transparent; color: var(--accent); font-weight: 700; font-size: 13px; }
+.paste-clear:disabled { opacity: 0.4; cursor: default; }
+.paste-clear:not(:disabled):hover { text-decoration: underline; }
+.paste-error { margin: 0; padding: 2px 0; padding-inline-start: 10px; border-inline-start: 3px solid var(--high); font-size: 13.5px; font-weight: 600; line-height: 1.5; color: var(--high); }
+.paste-error[hidden] { display: none; }
+.paste .btn.paste-go { display: flex; width: 100%; align-items: center; justify-content: center; }
+.paste-tip { font-size: 12.5px; line-height: 1.55; color: var(--muted); }
 
-#checkServerButton:hover {
-  background: #E4EEE6;
-}
+/* Server settings page: the address box and the messages under it */
+.label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 700; color: var(--muted); }
+.text-input { display: block; width: 100%; min-height: 44px; padding: 10px 12px; border: 1.5px solid var(--field-border); border-radius: 6px; background: var(--soft); color: var(--text); }
+.text-input:focus { outline: 3px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.msg { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--muted); }
+.msg[data-state="success"] { color: var(--safe); }
+.msg[data-state="error"] { color: var(--high); }
 
-.server-actions button:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-/* 7. Backend connection status */
-#backendStatus {
-  margin: 10px 0 0;
-  color: var(--muted);
-  font-size: 12px;
-  overflow-wrap: anywhere;
-}
-
-#backendStatus[data-state="success"] {
-  color: var(--green);
-}
-
-#backendStatus[data-state="error"] {
-  color: #B42336;
-}
-
-/* 8. WP1 extraction button */
-#analyzeButton {
-  width: 100%;
-  border: 0;
-  border-radius: 10px;
-  background: var(--green);
-  color: #FFFFFF;
-  padding: 12px 14px;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-}
-
-#analyzeButton:hover {
-  background: var(--green-deep);
-}
-
-#analyzeButton:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-/* 9. Extraction status and webpage title */
-#status {
-  margin: 10px 0 0;
-  color: var(--muted);
-  font-size: 12px;
-  overflow-wrap: anywhere;
-}
-
-#pageTitle {
-  margin: 0 0 6px;
-  font-size: 13px;
-  font-weight: 700;
-  overflow-wrap: anywhere;
-}
-
-#pageTitle:empty {
-  display: none;
-}
-
-/* 10. Extracted legal text */
-#manualHelp {
-  margin: 0 0 10px;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-#termsInput {
-  display: block;
-  width: 100%;
-  min-height: 180px;
-  resize: vertical;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px;
-  background: #FCFDFB;
-  color: var(--text);
-  font: inherit;
-  line-height: 1.6;
-}
-
-/* 11. Keyboard accessibility */
-#serverUrl:focus-visible,
-.server-actions button:focus-visible,
-#termsInput:focus-visible,
-.language-buttons button:focus-visible,
-#analyzeButton:focus-visible,
-#legalLinksList a:focus-visible {
-  outline: 3px solid var(--gold);
-  outline-offset: 2px;
-}
-
-/* 12. Discovered legal links */
-#legalLinksList {
-  margin: 0;
-  padding-left: 18px;
-}
-
-#legalLinksList:empty {
-  display: none;
-}
-
-#legalLinksList li {
-  margin: 8px 0;
-  overflow-wrap: anywhere;
-}
-
-#legalLinksList a {
-  color: var(--green);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-#legalLinksList a:hover {
-  color: var(--green-deep);
-}
-
-/* 13. Footer */
-.footer {
-  padding: 0 16px 16px;
-  text-align: center;
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.footer p {
-  margin: 0;
-}
-
-/* 14. Arabic layout support */
-body[dir="rtl"] .brand {
-  direction: rtl;
-  text-align: right;
-}
-
-body[dir="rtl"] #legalLinksList {
-  padding-left: 0;
-  padding-right: 18px;
-}
-
-body[dir="rtl"] #termsInput {
-  direction: rtl;
-}
+/* If the user turned animations off in their system settings, turn ours off too */
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
