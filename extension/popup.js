@@ -69,9 +69,10 @@ English and Arabic text is in ui-strings.js.
   // Everything "not accepted". The starting point, and what the reset button goes back to.
   const NONE = { location: false, photos: false, banking_information: false, third_party_sharing: false };
 
-  // The state. tab is summary, prefs or paste. view is main, issue, report or settings.
+  // The state. tab is summary, prefs or paste. view is main, report or settings.
+  // openId is the warning that is open in the list, if any.
   const st = {
-    lang: 'en', tab: 'summary', view: 'main', issueId: null,
+    lang: 'en', tab: 'summary', view: 'main', openId: null,
     scenario: 'empty',          // empty | loading | result | error
     stage: 'stageReading', errorId: null, errorDetail: '',
     result: null, source: null, lastAction: 'page',
@@ -140,7 +141,7 @@ English and Arabic text is in ui-strings.js.
   }
 
   // An accepted topic lowers a clause by one level: high becomes medium, medium becomes low.
-  const DOWN ={ high: 'medium', medium: 'low', low: 'low' };
+  const DOWN = { high: 'medium', medium: 'low', low: 'low' };
 
   // Risk score from a list of severities. Same formula as backend/analysis/rating.py, so if that file changes this one has to change too.
   // Start at 67 if there is any high, else 34 if any medium. Add 12 per extra high, 7 per extra medium, 2 per low.
@@ -182,8 +183,11 @@ English and Arabic text is in ui-strings.js.
     });
     const standard = backendRating(items.map(i => i.clause.severity));
     const mine = backendRating(items.map(i => i.effective));
+    // How many warnings of each severity, after the user's choices. They are the three tiles under the gauge.
+    const counts = { high: 0, medium: 0, low: 0 };
+    items.forEach(i => { counts[i.effective] += 1; });
     return {
-      items, level: mine.level, safety: 100 - mine.score, standardSafety: 100 - standard.score,
+      items, counts, level: mine.level, safety: 100 - mine.score, standardSafety: 100 - standard.score,
       delta: standard.score - mine.score
     };
   }
@@ -244,7 +248,7 @@ English and Arabic text is in ui-strings.js.
   async function sendText(text, source, action) {
     if (isOffline()) { st.lastAction = action; fail('No internet connection', 'offline'); return; }
     const token = ++runToken;
-    set({ scenario: 'loading', stage: 'stageSending', tab: 'summary', view: 'main', result: null, source, lastAction: action });
+    set({ scenario: 'loading', stage: 'stageSending', tab: 'summary', view: 'main', result: null, openId: null, source, lastAction: action });
     try {
       const response = await chrome.runtime.sendMessage({
         type: 'WP2_ANALYZE',
@@ -253,7 +257,7 @@ English and Arabic text is in ui-strings.js.
       if (token !== runToken) return;
       if (!response || !response.ok) throw new Error((response && response.error) || 'No response from the extension.');
       if (!isUsableResult(response.data)) throw new Error('The result could not be read.', { cause: 'bad_result' });
-      set({ scenario: 'result', result: response.data, errorId: null, issueId: null });
+      set({ scenario: 'result', result: response.data, errorId: null });
     } catch (error) {
       if (token === runToken) fail(error.message, error.cause === 'bad_result' ? 'bad_result' : undefined);
     }
@@ -318,7 +322,7 @@ English and Arabic text is in ui-strings.js.
   async function analyzePage() {
     if (isOffline()) { st.lastAction = 'page'; fail('No internet connection', 'offline'); return; }
     const token = ++runToken;
-    set({ scenario: 'loading', stage: 'stageReading', tab: 'summary', view: 'main', result: null, lastAction: 'page' });
+    set({ scenario: 'loading', stage: 'stageReading', tab: 'summary', view: 'main', result: null, openId: null, lastAction: 'page' });
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
       if (!tab || !tab.id || !/^https?:\/\//.test(tab.url || '')) throw new Error('Open an HTTP or HTTPS website first');
@@ -418,10 +422,10 @@ English and Arabic text is in ui-strings.js.
   // Close the sheet, or go back to the main page.
   const close = () => set({ view: 'main' });
 
-  // The small High / Medium / Low tag.
+  // The small High / Medium / Low tag. Its colour comes from the data-sev of the tag itself.
   const chip = sev => h('span', { class: 'chip', 'data-sev': sev }, severityText(sev));
 
-  // Warnings above the result: the text was cut because it was long, or the PDPL check didn't finish.
+  // Notices above the result: the text was cut because it was long, or the PDPL check didn't finish.
   function notices() {
     const r = st.result, out = [];
     const make = text => h('div', { class: 'notice', role: 'note' }, h('span', null, text));
@@ -430,7 +434,7 @@ English and Arabic text is in ui-strings.js.
     return out;
   }
 
-  // The PDPL part of an issue: the assessment, the explanation and the articles it points to.
+  // The PDPL part of a warning: the assessment, the explanation and the articles it points to.
   // ref.excerpt is only a short locator from the backend, not the article text, so it is labelled as a locator.
   function refs(clause) {
     const finding = pdplFinding(clause.clause_id);
@@ -444,30 +448,43 @@ English and Arabic text is in ui-strings.js.
         h('a', { href: ref.source_url, target: '_blank', rel: 'noopener noreferrer' }, t('openSource')))));
   }
 
-  // The accept switch inside an issue, one for each topic that clause is about.
-  function prefLine(item) {
-    return item.topics.map(id => {
-      const on = !!st.accepted[id];
-      return h('div', { class: 'pref-line' },
-        h('div', null, h('b', null, topicLabel(id)), h('p', null, on ? t('countedLower') : t('countedFull'))),
-        h('button', {
-          type: 'button', class: 'switch', role: 'switch', 'aria-checked': String(on), 'aria-label': t('accept') + ': ' + topicLabel(id),
-          'data-focus-key': 'sw-' + id, onclick: () => set({ accepted: Object.assign({}, st.accepted, { [id]: !on }) })
-        }));
-    });
+  // Don't accept / Accept buttons for one topic. scope goes in front of the focus key. The same topic can be on
+  // screen twice at once (in an open warning and in the report), and focus is found again by that key after a redraw.
+  function seg(topicId, scope) {
+    const on = !!st.accepted[topicId];
+    const button = (value, label, pressed) => h('button', {
+      type: 'button', 'data-v': value, 'aria-pressed': String(pressed), 'data-focus-key': scope + 'seg-' + topicId + '-' + value,
+      onclick: () => set({ accepted: Object.assign({}, st.accepted, { [topicId]: value === 'yes' }) })
+    }, label);
+    return h('div', { class: 'seg', role: 'group', 'aria-label': topicLabel(topicId) },
+      button('no', t('dontAccept'), !on), button('yes', t('accept'), on));
   }
 
-  // One issue in full: what the document says, why it was flagged, the user's preference, the legal references.
-  // withPref is false in the full report, so there are no switches there.
-  function issueDetail(item, withPref) {
+  // The inside of one warning: what the document says, why it was flagged, the user's preference, the legal references.
+  function detail(item, scope) {
     const c = item.clause;
-    return h('article', { class: 'issue', 'data-sev': item.effective },
-      h('header', { class: 'issue-head' }, h('h2', null, categoryText(c.category)), chip(item.effective),
-        item.accepted && h('span', { class: 'chip ok' }, t('acceptedBadge'))),
+    return [
       h('div', { class: 'field' }, h('h3', null, t('whatItSays')), h('blockquote', { dir: 'auto' }, c.source_excerpt)),
       h('div', { class: 'field' }, h('h3', null, t('whyFlagged')), h('p', null, pick(c, 'explanation'))),
-      withPref && item.topics.length > 0 && h('div', { class: 'field' }, h('h3', null, t('yourPref')), prefLine(item)),
-      h('div', { class: 'field' }, h('h3', null, t('legalRefs')), refs(c)));
+      item.topics.length > 0 && h('div', { class: 'field' }, h('h3', null, t('yourPref')),
+        item.topics.map(id => h('div', { class: 'pref-inline' },
+          h('p', null, topicLabel(id) + ': ' + (st.accepted[id] ? t('countedLower') : t('countedFull'))), seg(id, scope)))),
+      h('div', { class: 'field' }, h('h3', null, t('legalRefs')), refs(c))
+    ];
+  }
+
+  // One warning in the list. Tapping it opens the details right under it, tapping again closes them.
+  function accordion(item) {
+    const c = item.clause, isOpen = st.openId === c.clause_id;
+    return h('div', { class: 'acc', 'data-open': String(isOpen), 'data-sev': item.effective },
+      h('button', {
+        type: 'button', class: 'acc-h', 'aria-expanded': String(isOpen), 'aria-controls': 'p-' + c.clause_id, 'data-focus-key': 'acc-' + c.clause_id,
+        onclick: () => set({ openId: isOpen ? null : c.clause_id })
+      },
+        h('span', { class: 'dot' }),
+        h('span', { class: 'name' }, categoryText(c.category), item.accepted && h('span', { class: 'tag-ok' }, t('acceptedBadge'))),
+        chip(item.effective)),
+      isOpen && h('div', { class: 'acc-b', id: 'p-' + c.clause_id }, detail(item, 'a-')));
   }
 
   // Back button and title at the top of a page.
@@ -476,32 +493,50 @@ English and Arabic text is in ui-strings.js.
       h('button', { type: 'button', class: 'back', 'data-focus-key': 'back', onclick: close }, t('back')), h('h2', null, title));
   }
 
-  // Summary tab when there is a result: the score, the summary text and the list of warnings.
-  // Clicking the summary or View Details opens the full report. Clicking a warning opens that issue.
+  // The half circle with the score. Two arcs on top of each other: a grey one, and a coloured one cut short to the score.
+  // Built with createElementNS and numbers only, so nothing from outside ends up inside the svg.
+  function gauge(r) {
+    const NS = 'http://www.w3.org/2000/svg', length = Math.PI * 90;
+    const arc = name => {
+      const path = document.createElementNS(NS, 'path');
+      path.setAttribute('class', name);
+      path.setAttribute('d', 'M20 110 A90 90 0 0 1 200 110');
+      return path;
+    };
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 220 120');
+    svg.setAttribute('aria-hidden', 'true');
+    const value = arc('val');
+    value.setAttribute('stroke-dasharray', length.toFixed(1));
+    value.setAttribute('stroke-dashoffset', (length * (1 - r.safety / 100)).toFixed(1));
+    svg.append(arc('trk'), value);
+    return h('div', { class: 'gauge', role: 'img', 'aria-label': t('safetyRating') + ': ' + num(r.safety) + ' ' + t('outOf') + ', ' + levelText(r.level) },
+      svg, h('div', { class: 'gauge-num' }, h('b', null, num(r.safety)), h('small', null, t('outOf'))));
+  }
+
+  // Summary tab when there is a result. Top to bottom: the page name, the gauge, the count of each severity,
+  // notices, the summary with View Details, then the list of warnings. Clicking the summary also opens the report.
   function summaryResult() {
     const r = rating();
     const items = sortedItems(r);
     const subject = st.source ? st.source.title : '';
     return h('div', { class: 'stack' },
-      h('section', { class: 'hero', 'data-level': levelId(r.level) },
-        h('span', { class: 'hero-label' }, t('safetyRating')),
-        h('div', { class: 'hero-num' }, h('b', null, num(r.safety)), h('small', null, t('outOf'))),
-        h('span', { class: 'level-pill' }, levelText(r.level)),
-        h('div', { class: 'meter', 'aria-hidden': 'true' }, h('i', { style: 'width:' + r.safety + '%' })),
-        subject && h('span', { class: 'analyzed', dir: 'auto' }, t('analyzedPage') + ': ' + subject)),
+      subject && h('p', { class: 'page', dir: 'auto' }, t('analyzedPage') + ': ' + subject),
+      h('section', { class: 'card gauge-card', 'data-level': levelId(r.level) },
+        gauge(r),
+        h('div', { class: 'gauge-label' }, t('safetyRating')),
+        h('span', { class: 'level' }, levelText(r.level)),
+        h('p', { class: 'gauge-note' }, levelNote(r.level)),
+        r.delta !== 0 && h('p', { class: 'delta' }, t('changedBy', { n: num(Math.abs(r.delta)) }))),
+      h('div', { class: 'tiles' }, ['high', 'medium', 'low'].map(sev =>
+        h('div', { class: 'tile', 'data-sev': sev }, h('b', null, num(r.counts[sev])), h('span', null, severityText(sev))))),
       notices(),
-      h('section', { class: 'block', onclick: () => open('report', 'view-details') },
+      h('section', { class: 'card summary', onclick: () => open('report', 'view-details') },
         h('h2', null, t('summaryTitle')),
         h('p', null, pick(st.result, 'summary')),
         h('button', { type: 'button', class: 'btn primary', 'data-focus-key': 'view-details', onclick: e => { e.stopPropagation(); open('report', 'view-details'); } }, t('viewDetails'))),
       h('div', { class: 'list-head' }, h('h2', null, t('warningsTitle')), h('span', null, t('warningCount', { n: num(items.length) }))),
-      items.length === 0 ? h('p', { class: 'msg' }, t('noDetails')) : h('div', { class: 'rows' }, items.map(item => {
-        const c = item.clause;
-        return h('button', {
-          type: 'button', class: 'row', 'data-sev': item.effective, 'data-focus-key': 'row-' + c.clause_id,
-          onclick: () => open('issue', 'row-' + c.clause_id, { issueId: c.clause_id })
-        }, h('span', { class: 'row-main' }, h('b', null, categoryText(c.category)), h('span', null, pick(c, 'explanation'))), chip(item.effective));
-      })),
+      items.length === 0 ? h('p', { class: 'msg' }, t('noDetails')) : h('div', { class: 'accs' }, items.map(accordion)),
       h('button', { type: 'button', class: 'btn ghost', 'data-focus-key': 'again', onclick: retry }, t('analyzeAgain')));
   }
 
@@ -509,10 +544,10 @@ English and Arabic text is in ui-strings.js.
   // Each error gets its own extra button (server settings, or paste text) where that helps.
   function statePanel() {
     if (st.scenario === 'loading') {
-      return h('section', { class: 'state-panel', role: 'status' }, h('div', { class: 'spinner' }), h('h2', null, t(st.stage)), h('p', null, t('loadingBody')));
+      return h('section', { class: 'card panel', role: 'status' }, h('div', { class: 'spinner' }), h('h2', null, t(st.stage)), h('p', null, t('loadingBody')));
     }
     if (st.scenario === 'empty') {
-      return h('section', { class: 'state-panel' }, h('h2', null, t('emptyTitle')), h('p', null, t('emptyBody')),
+      return h('section', { class: 'card panel' }, h('h2', null, t('emptyTitle')), h('p', null, t('emptyBody')),
         h('button', { type: 'button', class: 'btn primary', 'data-focus-key': 'analyze', onclick: analyzePage }, t('analyze')),
         h('button', { type: 'button', class: 'foot-link', 'data-focus-key': 'to-paste', onclick: () => set({ tab: 'paste', view: 'main' }) }, t('openPaste')));
     }
@@ -525,37 +560,34 @@ English and Arabic text is in ui-strings.js.
     if (st.errorId === 'no_text' || st.errorId === 'too_short' || st.errorId === 'no_clauses') {
       extra.push(h('button', { type: 'button', class: 'btn ghost', 'data-focus-key': 'to-paste', onclick: () => set({ tab: 'paste', view: 'main' }) }, t('openPaste')));
     }
-    return h('section', { class: 'state-panel error', role: 'alert' },
+    return h('section', { class: 'card panel error', role: 'alert' },
       h('span', { class: 'err-tag' }, t('errorLabel')), h('h2', null, message[0]), body && h('p', null, body),
       h('button', { type: 'button', class: 'btn primary', 'data-focus-key': 'retry', onclick: retry }, t('retry')), extra);
   }
 
-  // Preferences tab: the score before and after the user's choices, and one switch per topic.
-  // The score part only shows once there is a result.
+  // Preferences tab. A live card with the score and a bar showing where it was (the ring) and where it is now (the line),
+  // then one card per topic with Don't accept / Accept and a hint of how many points it moves. The score card only
+  // shows once there is a result.
   function prefsTab() {
     const hasResult = st.scenario === 'result' && st.result;
     const r = hasResult ? rating() : null;
     return h('div', { class: 'stack' },
-      hasResult && h('div', { class: 'stack', style: 'gap:8px', 'aria-live': 'polite' },
-        h('div', { class: 'compare' },
-          h('div', null, h('small', null, t('baseline')), h('b', null, num(r.standardSafety))),
-          h('div', { 'data-level': levelId(r.level) }, h('small', null, t('personalized')), h('b', null, num(r.safety)))),
-        h('p', { class: 'compare-note' }, r.delta === 0 ? t('unchanged') : t('changedBy', { n: num(Math.abs(r.delta)) }))),
-      h('div', { class: 'stack', style: 'gap:4px' }, h('h2', { style: 'font-size:16px' }, t('prefsTitle')), h('p', { class: 'prefs-intro' }, t('prefsIntro'))),
+      hasResult && h('section', { class: 'card live', 'data-level': levelId(r.level), 'aria-live': 'polite' },
+        h('div', { class: 'live-top' }, h('b', null, num(r.safety)), h('span', { class: 'level' }, t('personalized') + ': ' + levelText(r.level))),
+        h('div', { class: 'bar', role: 'img', 'aria-label': t('personalized') + ' ' + num(r.safety) + ', ' + t('baseline') + ' ' + num(r.standardSafety) },
+          h('span', { class: 'mark old', style: 'inset-inline-start:' + r.standardSafety + '%' }),
+          h('span', { class: 'mark', style: 'inset-inline-start:' + r.safety + '%' })),
+        h('div', { class: 'bar-legend' }, h('span', null, t('levelHigh')), h('span', null, t('levelModerate')), h('span', null, t('levelSafe'))),
+        h('p', { class: 'sub' }, t('baseline') + ': ' + num(r.standardSafety) + ', ' + (r.delta === 0 ? t('unchanged') : t('changedBy', { n: num(Math.abs(r.delta)) })))),
+      h('h2', { class: 'prefs-title' }, t('prefsTitle')),
+      h('p', { class: 'intro' }, t('prefsIntro')),
       TOPICS.map(topic => {
         const on = !!st.accepted[topic.id];
         const impact = hasResult ? topicImpact(topic.id) : 0;
         const hint = !hasResult ? '' : impact === 0 ? t('impactNone') : impact < 0 ? t('impactLower', { n: num(-impact) }) : t('impactRaise', { n: num(impact) });
-        const label = t(topic.label);
-        return h('div', { class: 'pref', 'data-on': String(on) },
-          h('div', { class: 'pref-info' }, h('b', null, label), h('span', null, t(topic.desc)), hint && h('em', { class: impact === 0 ? 'none' : '' }, hint)),
-          h('div', { class: 'pref-state' },
-            h('button', {
-              type: 'button', class: 'switch', role: 'switch', 'aria-checked': String(on),
-              'aria-label': label + ': ' + (on ? t('prefAccepted') : t('prefNotAccepted')), 'data-focus-key': 'pref-' + topic.id,
-              onclick: () => set({ accepted: Object.assign({}, st.accepted, { [topic.id]: !on }) })
-            }),
-            h('span', null, on ? t('prefAccepted') : t('prefNotAccepted'))));
+        return h('div', { class: 'pcard', 'data-on': String(on) },
+          h('div', { class: 'pcard-top' }, h('div', null, h('b', null, t(topic.label)), h('span', null, t(topic.desc)))),
+          h('div', { class: 'pcard-foot' }, seg(topic.id, 'p-'), hint && h('span', { class: 'hint ' + (impact === 0 ? 'none' : impact > 0 ? 'up' : '') }, hint)));
       }),
       h('div', { class: 'pair' },
         h('button', { type: 'button', class: 'btn ghost', 'data-focus-key': 'none', onclick: () => set({ accepted: Object.assign({}, NONE) }) }, t('resetPrefs')),
@@ -632,25 +664,24 @@ English and Arabic text is in ui-strings.js.
       h('p', { class: 'msg' }, t('serverHelp')));
   }
 
-  // The panel that slides up over the page, showing one issue or the full report.
-  // The Close button, Esc, or a click outside it closes it.
+  // The full report, in a sheet that slides up from the bottom: the score, then every warning with its details.
+  // The Close button, Esc, or a click on the dark area closes it.
   function sheet() {
     const r = rating();
-    let title, body;
-    if (st.view === 'issue') {
-      const item = r.items.find(i => i.clause.clause_id === st.issueId) || r.items[0];
-      title = t('viewDetails');
-      body = issueDetail(item, true);
-    } else {
-      title = t('report');
-      body = [notices(), r.items.length === 0 ? h('p', { class: 'msg' }, t('noDetails')) : sortedItems(r).map(item => h('div', { class: 'report-item' }, issueDetail(item, false))), h('p', { class: 'fine' }, st.result.disclaimer || t('disclaimer'))];
-    }
-    const dialog = h('div', { class: 'sheet', role: 'dialog', 'aria-modal': 'true', 'aria-label': title },
-      h('div', { class: 'sheet-head' }, h('h2', null, title),
+    const dialog = h('div', { class: 'sheet', role: 'dialog', 'aria-modal': 'true', 'aria-label': t('report') },
+      h('div', { class: 'sheet-head' }, h('h2', null, t('report')),
         h('button', { type: 'button', class: 'x', 'aria-label': t('close'), 'data-focus-key': 'close', onclick: close }, t('close'))),
-      h('div', { class: 'sheet-body', 'data-scroll': 'sheet:' + st.view + ':' + (st.issueId || '') }, body));
+      h('div', { class: 'sheet-body', 'data-scroll': 'sheet' },
+        h('div', { class: 'rep gauge-card', 'data-level': levelId(r.level) },
+          h('div', { class: 'rep-score' }, h('b', null, num(r.safety)), h('span', { class: 'level' }, levelText(r.level))),
+          st.source && h('p', { class: 'page', dir: 'auto' }, st.source.title)),
+        notices(),
+        r.items.length === 0 ? h('p', { class: 'msg' }, t('noDetails')) : sortedItems(r).map(item => h('section', { class: 'rep', 'data-sev': item.effective },
+          h('div', { class: 'rep-head' }, h('b', null, categoryText(item.clause.category)), chip(item.effective)),
+          detail(item, 'r-'))),
+        h('p', { class: 'disc' }, st.result.disclaimer || t('disclaimer'))));
     dialog.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
-    return h('div', { class: 'sheet-wrap' }, h('div', { class: 'sheet-dim', onclick: close }), dialog);
+    return h('div', { style: 'display:contents' }, h('div', { class: 'scrim', onclick: close }), dialog);
   }
 
   // The EN and ع buttons. Switching only redraws. No new request is needed, the backend already sent both languages.
@@ -662,10 +693,10 @@ English and Arabic text is in ui-strings.js.
     return h('div', { class: 'lang-switch', role: 'group', 'aria-label': 'Language / اللغة', dir: 'ltr' }, button('en', 'EN', 'English'), button('ar', 'ع', 'العربية'));
   }
 
-  // The whole popup: header, the content of the current tab, footer, bottom tabs, and the sheet on top if one is open.
+  // The whole popup: header, the content of the current tab, footer, bottom tabs, and the report sheet on top if it is open.
   // While the sheet is open the page behind it is inert, so keyboard focus can't wander behind it.
   function frame() {
-    const hasSheet = !!(st.tab === 'summary' && st.view !== 'main' && st.view !== 'settings' && st.scenario === 'result' && st.result);
+    const hasSheet = !!(st.tab === 'summary' && st.view === 'report' && st.scenario === 'result' && st.result);
     let content;
     if (st.view === 'settings') content = settingsPage();
     else if (st.tab === 'paste') content = pasteTab();
@@ -681,7 +712,7 @@ English and Arabic text is in ui-strings.js.
     return h('div', { style: 'display:contents' },
       h('div', { class: 'g-main', inert: hasSheet },
         h('header', { class: 'top' },
-          h('div', { class: 'brand' }, h('div', null, h('h1', null, t('appName')), h('p', null, t('tagline')))),
+          h('div', { class: 'brand' }, h('h1', null, t('appName')), h('p', null, t('tagline'))),
           langSwitch()),
         h('main', { class: 'body', role: 'tabpanel', 'data-scroll': 'body:' + st.tab + ':' + st.view }, content),
         h('footer', { class: 'foot' },

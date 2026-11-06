@@ -1,18 +1,18 @@
 /*
 Aamen popup styles.
 
-Every element is styled once, in the section for its screen. All colours are variables on :root,
-so to change the look change those first. Text direction (English or Arabic) is handled with
-logical properties like inset-inline-start and border-inline-start, so nothing needs a separate
-right-to-left rule.
+Dark green with a gold accent. All colours are variables on :root, so to change the look change those first.
+Text direction (English or Arabic) is handled with logical properties like inset-inline-start and
+border-inline-start, so nothing here needs a separate right-to-left rule, except the gradient on the preference bar.
 */
 
-/* Colours. The gold accent is the only strong colour. safe, mod and high are for the three levels. */
+/* Colours. gold is the accent. high, moderate and safe are for the three levels, each with a dark background to match. */
 :root {
-  --bg: #0F1B1A; --surface: #172826; --soft: #1E3330; --border: #2B4540; --field-border: #3A5750;
+  --bg: #0F1B1A; --surface: #172826; --surface-2: #1E3330; --border: #2B4540; --field-border: #3A5750;
   --text: #E8F1EE; --muted: #9FB5AE; --accent: #E3C06E; --on-accent: #1B1606;
-  --safe: #5FD3A0; --mod: #FFC857; --high: #FF8A98;
-  --off: #6B8680;
+  --high: #FF8A98; --high-bg: #3A1D24;
+  --moderate: #FFC857; --moderate-bg: #3A2F14;
+  --safe: #5FD3A0; --safe-bg: #14352A;
 }
 
 /* Basics */
@@ -31,161 +31,171 @@ button { cursor: pointer; }
 .popup button { color: inherit; }
 .popup :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 
-/* Colour by level (the score) and by severity (tags and rows). popup.js puts data-level or data-sev on an
-   element, and the rules for that element read --lv or --sv. */
-[data-level="safe"] { --lv: var(--safe); }
-[data-level="moderate"] { --lv: var(--mod); }
-[data-level="high"] { --lv: var(--high); }
-[data-sev="high"] { --sv: var(--high); }
-[data-sev="medium"] { --sv: var(--mod); }
-[data-sev="low"] { --sv: var(--safe); }
+/* Colour by level (the score) and by severity (tags, tiles, dots). popup.js puts data-level or data-sev on an
+   element, and the rules for that element read --lv or --sev. */
+[data-level="high"] { --lv: var(--high); --lv-bg: var(--high-bg); }
+[data-level="moderate"] { --lv: var(--moderate); --lv-bg: var(--moderate-bg); }
+[data-level="safe"] { --lv: var(--safe); --lv-bg: var(--safe-bg); }
+[data-sev="high"] { --sev: var(--high); --sev-bg: var(--high-bg); }
+[data-sev="medium"] { --sev: var(--moderate); --sev-bg: var(--moderate-bg); }
+[data-sev="low"] { --sev: var(--safe); --sev-bg: var(--safe-bg); }
 
-/* Layout of the page: header on top, scrolling middle, footer and tabs at the bottom.
-   g-main wraps all of that. When the sheet is open popup.js marks it inert, so keyboard focus stays in the sheet. */
+/* Page layout: header on top, a scrolling middle, footer and tabs at the bottom.
+   g-main wraps all of that. While the report sheet is open popup.js marks it inert, so keyboard focus stays in the sheet. */
 .g-main { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px 10px; }
-.body { flex: 1; min-height: 0; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
-.stack { display: flex; flex-direction: column; gap: 14px; }
+.body { flex: 1; min-height: 0; overflow-y: auto; padding: 4px 16px 16px; scrollbar-color: #3B5A54 transparent; }
+.stack { display: grid; gap: 12px; align-content: start; }
 
-/* Header: the name and the language switch (two words, with a line under the chosen one) */
-.brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.brand h1 { font-size: 17px; font-weight: 700; line-height: 1.15; }
-.brand p { margin-top: 1px; font-size: 12px; color: var(--muted); }
-.lang-switch { display: flex; flex: none; gap: 2px; }
-.lang-btn { min-width: 34px; min-height: 32px; padding: 0 8px; border: 0; background: none; color: var(--muted); font-weight: 700; box-shadow: inset 0 -2px 0 transparent; }
-.lang-btn[aria-pressed="true"] { color: var(--accent); box-shadow: inset 0 -2px 0 var(--accent); }
+/* Header: the name, the tagline and the language switch */
+.top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 16px 10px; }
+.brand h1 { font-size: 18px; line-height: 1.1; }
+.brand p { margin-top: 1px; font-size: 11px; color: var(--muted); }
+.lang-switch { display: flex; padding: 3px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); }
+.lang-btn { min-width: 38px; min-height: 30px; padding: 4px 10px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font-weight: 700; }
+.lang-btn[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
 
-/* Footer (disclaimer and the Server settings link) */
-.foot { display: flex; flex-direction: column; align-items: center; gap: 0; padding: 8px 16px 10px; border-top: 1px solid var(--border); background: var(--surface); font-size: 11.5px; line-height: 1.4; color: var(--muted); text-align: center; }
-.foot-link { padding: 4px 10px; border: 0; background: none; color: var(--accent); font-size: 12.5px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+/* Footer: the disclaimer, and the Server settings link under it */
+.foot { display: flex; flex-direction: column; align-items: center; padding: 6px 16px 8px; border-top: 1px solid var(--border); background: var(--surface); font-size: 11px; line-height: 1.4; color: var(--muted); text-align: center; }
+.foot-link { padding: 3px 10px; border: 0; background: none; color: var(--accent); font-size: 12px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
 
-/* Bottom tabs: words only, a gold line on top marks the open tab. The hover rule comes before the open-tab rule
-   on purpose, so the open tab keeps no background on hover. */
-.nav { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; padding: 6px 8px 8px; border-top: 1px solid var(--border); background: var(--surface); }
-.nav button { display: grid; justify-items: center; gap: 2px; min-height: 44px; padding: 6px 4px; border: 0; border-radius: 0; background: transparent; color: var(--muted); font-size: 14px; font-weight: 700; }
+/* Bottom tabs, words only. The hover rule comes before the open-tab rule on purpose, so the open tab keeps its look on hover. */
+.nav { display: flex; gap: 6px; padding: 6px 8px 8px; border-top: 1px solid var(--border); background: var(--surface); }
+.nav button { flex: 1; min-height: 44px; padding: 6px; border: 0; border-radius: 12px; background: transparent; color: var(--muted); font-size: 13px; font-weight: 700; }
 .nav button:hover { background: #1F342F; }
-.nav button[aria-selected="true"] { background: none; color: var(--accent); box-shadow: inset 0 2px 0 var(--accent); }
+.nav button[aria-selected="true"] { background: var(--surface-2); color: var(--accent); }
 
-/* Buttons. primary is the filled one, ghost is the outlined one, pair puts two side by side. */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 16px; border: 1.5px solid transparent; border-radius: 6px; font-weight: 700; font-size: 14px; }
+/* Cards and buttons. primary is the filled gold one, ghost is the quiet one, pair puts two in a row. */
+.card { padding: 14px; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); }
+.card h2 { margin-bottom: 6px; font-size: 14px; color: var(--accent); }
+.btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 44px; padding: 10px 14px; border: 1px solid transparent; border-radius: 12px; font-weight: 700; }
 .btn.primary { background: var(--accent); color: var(--on-accent); }
-.btn.primary:hover { background: #EBCB7F; }
-.btn.ghost { background: transparent; border-color: var(--border); color: var(--text); }
-.btn.ghost:hover { background: var(--soft); }
-.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.btn.primary:hover { background: #F0D084; }
+.btn.ghost { background: var(--surface-2); color: var(--text); border-color: var(--border); }
+.btn.ghost:hover { background: #274039; }
+.pair { display: flex; gap: 8px; }
+.pair .btn { min-height: 40px; font-size: 13px; }
 
-/* Small tag (High, Medium, Low). The border is a softer version of the tag colour. */
-.chip { display: inline-flex; align-items: center; gap: 4px; padding: 1px 7px; border: 1px solid color-mix(in srgb, var(--sv) 55%, transparent); border-radius: 3px; font-size: 12px; font-weight: 600; color: var(--sv); white-space: nowrap; }
-.chip.ok { --sv: var(--safe); }
+/* Summary tab: the page name, then the gauge card. The gauge is two arcs on top of each other, grey and coloured.
+   The coloured one is cut short to the score with stroke-dashoffset, which popup.js sets. */
+.page { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.gauge-card { text-align: center; padding-bottom: 12px; }
+.gauge { position: relative; width: 230px; height: 128px; margin: 0 auto; }
+.gauge svg { width: 100%; height: 100%; overflow: visible; }
+.gauge .trk { fill: none; stroke: var(--surface-2); stroke-width: 14; stroke-linecap: round; }
+.gauge .val { fill: none; stroke: var(--lv); stroke-width: 14; stroke-linecap: round; }
+.gauge-num { position: absolute; inset-inline: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; line-height: 1; }
+.gauge-num b { font-size: 44px; color: var(--lv); }
+.gauge-num small { margin-top: 4px; font-size: 11px; color: var(--muted); }
+.gauge-label { margin-top: 6px; font-size: 12px; font-weight: 600; color: var(--muted); }
+.level { display: inline-block; margin: 4px 0; padding: 3px 14px; border-radius: 999px; background: var(--lv-bg); color: var(--lv); font-weight: 800; font-size: 15px; }
+.gauge-note { font-size: 13px; }
+.delta { margin-top: 10px; padding: 7px 10px; border-radius: 10px; background: var(--surface-2); color: var(--accent); font-size: 12px; text-align: center; }
+
+/* Three tiles: how many high, medium and low warnings */
+.tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.tile { padding: 10px 6px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); text-align: center; }
+.tile b { display: block; font-size: 22px; line-height: 1.1; color: var(--sev); }
+.tile span { font-size: 12px; color: var(--muted); }
 
 /* Notices above the result (text was cut, PDPL check incomplete) */
-.notice { display: flex; align-items: flex-start; gap: 10px; padding: 2px 0; padding-inline-start: 12px; border-inline-start: 3px solid var(--mod); font-size: 13px; line-height: 1.5; color: var(--text); }
+.notice { display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; border: 1px solid #5A4720; border-radius: 12px; background: var(--moderate-bg); color: var(--moderate); font-size: 13px; }
 
-/* Summary tab: the score at the top. A big number, the level, a thin meter. */
-.hero { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 2px 0 16px; border-bottom: 1px solid var(--border); text-align: start; }
-.hero-label { font-size: 13px; font-weight: 600; color: var(--muted); }
-.hero-num { display: flex; align-items: baseline; justify-content: center; gap: 6px; }
-.hero-num b { font-size: 56px; line-height: 1; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--lv); }
-.hero-num small { font-size: 18px; color: var(--muted); }
-.level-pill { font-size: 17px; font-weight: 800; color: var(--lv); }
-.meter { width: 100%; height: 4px; margin-top: 6px; overflow: hidden; background: var(--soft); }
-.meter i { display: block; height: 100%; background: var(--lv); transition: width 0.4s; }
-.analyzed { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12.5px; color: var(--muted); }
+/* The summary text. Clicking anywhere on it opens the full report. */
+.summary { cursor: pointer; }
+.summary p { margin-bottom: 12px; font-size: 13.5px; line-height: 1.65; }
 
-/* Summary tab: the summary text (click it for the full report), then the list of warnings.
-   The bar at the start of each row is coloured by severity. */
-.block { display: flex; flex-direction: column; gap: 10px; padding: 14px 0; border-top: 1px solid var(--border); cursor: pointer; }
-.block h2 { font-size: 15px; }
-.block p { font-size: 14px; line-height: 1.65; }
-.list-head { display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px; }
-.list-head h2 { font-size: 15px; }
-.list-head span { font-size: 13px; color: var(--muted); }
-.rows { display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--border); }
-.row { display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px 4px; border: 0; border-bottom: 1px solid var(--border); border-inline-start: 3px solid var(--sv); background: none; text-align: start; }
-.row:hover { background: var(--surface); }
-.row-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
-.row-main b { font-size: 14px; }
-.row-main span { font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* The list of warnings. Each one opens in place to show its details. */
+.list-head { display: flex; justify-content: space-between; align-items: baseline; margin: 2px 2px -4px; }
+.list-head h2 { font-size: 14px; color: var(--accent); }
+.list-head span { font-size: 12px; color: var(--muted); }
+.accs { display: grid; gap: 8px; }
+.acc { overflow: hidden; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+.acc[data-open="true"] { border-color: #4A6E66; }
+.acc-h { display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 12px; border: 0; background: transparent; color: var(--text); text-align: start; }
+.acc-h:hover { background: #1B302D; }
+.dot { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--sev); }
+.acc-h .name { flex: 1; min-width: 0; font-weight: 700; font-size: 14px; }
+.chip { flex: none; padding: 2px 10px; border-radius: 999px; background: var(--sev-bg); color: var(--sev); font-size: 12px; font-weight: 800; }
+.tag-ok { display: inline-block; margin-inline-start: 6px; padding: 1px 8px; border-radius: 8px; background: var(--safe-bg); color: var(--safe); font-size: 11px; font-weight: 700; }
+.acc-b { display: grid; gap: 10px; padding: 0 12px 12px; }
 
-/* Start, loading and error screens, centred in the middle of the page */
-.state-panel { margin: auto 0; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 24px 16px; text-align: center; }
-.state-panel h2 { font-size: 18px; }
-.state-panel p { max-width: 300px; font-size: 14px; line-height: 1.6; color: var(--muted); }
-.state-panel .btn { margin-top: 6px; }
-.state-panel .foot-link { margin-top: 2px; }
-.err-tag { padding: 1px 7px; border: 1px solid color-mix(in srgb, var(--high) 55%, transparent); border-radius: 3px; font-size: 12px; font-weight: 800; color: var(--high); }
+/* The inside of a warning: what the document says, why it was flagged, your preference, the legal references */
+.field h3 { margin-bottom: 3px; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+html[lang="ar"] .field h3 { font-size: 12.5px; letter-spacing: 0; text-transform: none; }
+.field p { font-size: 13.5px; line-height: 1.6; }
+blockquote { margin: 0; padding: 8px 12px; border-inline-start: 3px solid var(--accent); border-radius: 8px; background: var(--bg); font-size: 13px; line-height: 1.6; color: #CFE0DA; }
+.ref { margin-top: 6px; padding: 9px 11px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); }
+.ref b { display: block; font-size: 13px; }
+.ref p { margin: 3px 0 5px; font-size: 12px; color: var(--muted); }
+.ref a { color: var(--accent); font-size: 12px; font-weight: 700; text-underline-offset: 3px; }
+.ref-none { font-size: 13px; color: var(--muted); }
+.assess { display: inline-block; margin-bottom: 3px; font-size: 12px; font-weight: 700; color: var(--accent); }
+
+/* Don't accept / Accept. The pressed button is red or green. */
+.seg { display: inline-flex; padding: 3px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); }
+.seg button { min-height: 34px; padding: 5px 12px; border: 0; border-radius: 9px; background: transparent; color: var(--muted); font-size: 13px; font-weight: 700; white-space: nowrap; }
+.seg button[aria-pressed="true"][data-v="no"] { background: var(--high-bg); color: var(--high); }
+.seg button[aria-pressed="true"][data-v="yes"] { background: var(--safe-bg); color: var(--safe); }
+.pref-inline { display: grid; gap: 6px; }
+.pref-inline p { font-size: 12px; color: var(--muted); }
+
+/* Preferences tab. The live card has a bar from high risk (start) to safe (end). The ring shows where the score was
+   and the line shows where it is now. The gradient is flipped for Arabic. */
+.live { padding: 14px; }
+.live-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.live-top b { font-size: 34px; line-height: 1; color: var(--lv); }
+.bar { position: relative; height: 12px; margin: 12px 0 8px; border-radius: 999px; background: linear-gradient(90deg, var(--high) 0 33%, var(--moderate) 33% 66%, var(--safe) 66% 100%); opacity: 0.85; }
+html[dir="rtl"] .bar { background: linear-gradient(270deg, var(--high) 0 33%, var(--moderate) 33% 66%, var(--safe) 66% 100%); }
+.bar .mark { position: absolute; top: -4px; width: 4px; height: 20px; border-radius: 2px; background: #FFFFFF; transform: translateX(-50%); transition: inset-inline-start 0.3s; }
+.bar .mark.old { top: -1px; width: 14px; height: 14px; border: 2px solid #FFFFFF; border-radius: 50%; background: transparent; opacity: 0.8; }
+.bar-legend { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
+.live .sub { margin-top: 8px; font-size: 12px; color: var(--muted); }
+.prefs-title { margin: 4px 2px 0; font-size: 16px; }
+.intro { font-size: 13px; color: var(--muted); }
+.pcard { display: grid; gap: 10px; padding: 12px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+.pcard[data-on="true"] { border-color: #3E7A62; }
+.pcard-top b { display: block; font-size: 14px; }
+.pcard-top span { font-size: 12px; color: var(--muted); }
+.pcard-foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.hint { font-size: 12px; font-weight: 700; color: var(--safe); }
+.hint.none { font-weight: 600; color: var(--muted); }
+.hint.up { color: var(--high); }
+
+/* Start, loading and error screens, as a card with centred text */
+.panel { display: grid; justify-items: center; gap: 10px; padding: 40px 18px; text-align: center; }
+.panel h2 { margin: 4px 0 0; font-size: 17px; color: var(--text); }
+.panel p { max-width: 290px; color: var(--muted); }
+.panel .btn { width: auto; min-width: 170px; margin-top: 6px; }
+.panel.error { border-color: #6A2D38; }
+.panel.error h2 { color: var(--high); }
+.err-tag { font-size: 11px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--high); }
 @keyframes aamen-spin { to { transform: rotate(360deg); } }
 .spinner { width: 38px; height: 38px; border: 4px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: aamen-spin 0.9s linear infinite; }
 
-/* Back button and title on inner pages (settings) */
-.subbar { display: flex; align-items: center; gap: 10px; }
-.subbar h2 { font-size: 16px; }
-.back { display: inline-flex; align-items: center; gap: 2px; min-height: 40px; padding: 0 14px; border: 1.5px solid var(--border); border-radius: 6px; background: var(--surface); font-weight: 700; font-size: 14px; }
-
-/* One issue in detail, used inside the sheet: heading, the quoted clause, the explanation, the references */
-.issue { display: flex; flex-direction: column; gap: 14px; }
-.issue-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.issue-head h2 { font-size: 18px; }
-.field h3 { margin-bottom: 4px; font-size: 13px; font-weight: 700; color: var(--muted); }
-.field p { font-size: 14px; line-height: 1.65; }
-blockquote { margin: 0; padding: 2px 0; padding-inline-start: 12px; border-inline-start: 2px solid var(--border); font-size: 13.5px; line-height: 1.65; color: var(--text); }
-.assess { display: inline-block; margin-bottom: 6px; padding: 2px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 12px; font-weight: 700; }
-.ref { margin-top: 8px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; }
-.ref b { font-size: 13px; }
-.ref p { margin: 4px 0 6px; font-size: 13px; line-height: 1.55; color: var(--muted); }
-.ref a { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 700; color: var(--accent); }
-.ref-none { font-size: 13px; color: var(--muted); }
-.pref-line { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; border-radius: 6px; background: var(--soft); }
-.pref-line b { font-size: 14px; }
-.pref-line p { margin-top: 2px; font-size: 12.5px; color: var(--muted); }
-
-/* The sheet that slides up over the page for an issue or the full report.
-   sheet-dim is the dark area behind it, and clicking it closes the sheet. The sheet has position: relative
-   so it sits above sheet-dim. Without that, sheet-dim would catch the scroll wheel and the sheet couldn't scroll. */
-@keyframes fade { from { opacity: 0; } }
-@keyframes rise { from { opacity: 0; transform: translateY(30px); } }
-.sheet-wrap { position: absolute; inset: 0; z-index: 5; display: flex; align-items: flex-end; background: rgba(0, 0, 0, 0.6); animation: fade 0.15s; }
-.sheet-dim { position: absolute; inset: 0; }
-.sheet { position: relative; z-index: 1; width: 100%; max-height: 92%; display: flex; flex-direction: column; border-top: 1px solid var(--border); border-radius: 12px 12px 0 0; background: var(--bg); animation: rise 0.2s ease-out; }
-.sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 16px 16px 8px; }
-.sheet-head h2 { font-size: 16px; }
-.x { display: flex; align-items: center; justify-content: center; height: 36px; padding: 0 14px; border: 1.5px solid var(--border); border-radius: 6px; background: var(--surface); font-size: 14px; font-weight: 700; }
-.x:hover { background: var(--soft); }
-.sheet-body { min-height: 0; overflow-y: auto; padding: 4px 16px 18px; display: flex; flex-direction: column; gap: 16px; }
-.report-item { padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-.report-item:last-of-type { padding-bottom: 0; border-bottom: 0; }
-.fine { font-size: 12px; text-align: center; color: var(--muted); }
-
-/* The accept switch. The knob uses inset-inline-start so it slides the right way in Arabic too. */
-.switch { position: relative; flex: none; width: 48px; height: 28px; padding: 0; border: 0; border-radius: 999px; background: var(--off); transition: background 0.15s; }
-.switch::after { content: ""; position: absolute; top: 3px; inset-inline-start: 3px; width: 22px; height: 22px; border-radius: 50%; background: #F4F7F6; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); transition: inset-inline-start 0.15s; }
-.switch[aria-checked="true"] { background: var(--safe); }
-.switch[aria-checked="true"]::after { inset-inline-start: 23px; }
-
-/* Preferences tab: the standard score next to the user's score, then one row per topic */
-.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.compare div { display: flex; flex-direction: column; gap: 2px; padding: 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); }
-.compare div:last-child { border-color: var(--lv); background: none; color: var(--lv); }
-.compare small { font-size: 12px; font-weight: 600; opacity: 0.9; }
-.compare b { font-size: 30px; line-height: 1.1; }
-.compare-note { text-align: center; font-size: 13px; font-weight: 700; color: var(--muted); }
-.prefs-intro { font-size: 14px; line-height: 1.6; color: var(--muted); }
-.pref { display: flex; align-items: center; gap: 12px; padding: 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
-.pref-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.pref-info b { font-size: 15px; }
-.pref-info span { font-size: 13px; line-height: 1.45; color: var(--muted); }
-.pref-info em { margin-top: 2px; font-style: normal; font-size: 12.5px; font-weight: 700; color: var(--accent); }
-.pref-info em.none { font-weight: 500; color: var(--muted); }
-.pref-state { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: none; min-width: 64px; }
-.pref-state span { font-size: 11.5px; font-weight: 700; color: var(--muted); text-align: center; }
-.pref[data-on="true"] .pref-state span { color: var(--safe); }
+/* The report sheet. scrim is the dark area behind it, and clicking it closes the sheet. Both are positioned and the
+   sheet comes after the scrim in the page, so the sheet sits above it. If the sheet were not positioned, the scrim
+   would catch the scroll wheel and the report couldn't scroll. */
+.scrim { position: absolute; inset: 0; background: rgba(3, 8, 7, 0.6); }
+.sheet { position: absolute; inset-inline: 0; bottom: 0; height: 88%; display: flex; flex-direction: column; border-top: 1px solid #4A6E66; border-radius: 22px 22px 0 0; background: var(--bg); }
+.sheet-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 8px; }
+.sheet-head h2 { font-size: 17px; }
+.x { height: 36px; padding: 0 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); color: var(--text); font-size: 14px; font-weight: 700; }
+.x:hover { background: var(--surface-2); }
+.sheet-body { overflow-y: auto; padding: 4px 16px 18px; display: grid; gap: 12px; align-content: start; }
+.rep { display: grid; gap: 10px; padding: 12px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+.rep.gauge-card { text-align: start; }
+.rep-head { display: flex; align-items: center; gap: 8px; }
+.rep-head b { flex: 1; }
+.rep-score { display: flex; align-items: baseline; gap: 8px; }
+.rep-score b { font-size: 36px; line-height: 1; color: var(--lv); }
+.disc { text-align: center; font-size: 11px; color: var(--muted); }
 
 /* Paste tab */
-.paste { display: flex; flex-direction: column; gap: 12px; }
-.paste-head { display: flex; flex-direction: column; gap: 6px; }
+.paste { display: grid; gap: 12px; }
+.paste-head { display: grid; gap: 6px; }
 .paste-head h2 { font-size: 16px; }
 .paste-head p { font-size: 14px; line-height: 1.6; color: var(--muted); }
-.paste-input { display: block; width: 100%; min-height: 130px; padding: 12px; border: 1.5px solid var(--field-border); border-radius: 6px; background: var(--soft); color: var(--text); font-size: 14px; line-height: 1.6; resize: vertical; }
+.paste-input { display: block; width: 100%; min-height: 130px; padding: 12px; border: 1px solid var(--field-border); border-radius: 12px; background: var(--surface-2); color: var(--text); font-size: 14px; line-height: 1.6; resize: vertical; }
 .paste-input::placeholder { color: var(--muted); opacity: 1; }
 .paste-input:focus { outline: 3px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
 .paste-meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; row-gap: 0; font-size: 12.5px; color: var(--muted); }
@@ -194,16 +204,18 @@ blockquote { margin: 0; padding: 2px 0; padding-inline-start: 12px; border-inlin
 .paste-clear { padding: 4px 8px; border: 0; border-radius: 8px; background: transparent; color: var(--accent); font-weight: 700; font-size: 13px; }
 .paste-clear:disabled { opacity: 0.4; cursor: default; }
 .paste-clear:not(:disabled):hover { text-decoration: underline; }
-.paste-error { margin: 0; padding: 2px 0; padding-inline-start: 10px; border-inline-start: 3px solid var(--high); font-size: 13.5px; font-weight: 600; line-height: 1.5; color: var(--high); }
+.paste-error { padding: 10px 12px; border: 1px solid #6A2D38; border-radius: 10px; background: var(--high-bg); color: var(--high); font-size: 13.5px; font-weight: 600; line-height: 1.5; }
 .paste-error[hidden] { display: none; }
-.paste .btn.paste-go { display: flex; width: 100%; align-items: center; justify-content: center; }
 .paste-tip { font-size: 12.5px; line-height: 1.55; color: var(--muted); }
 
-/* Server settings page: the address box and the messages under it */
+/* Server settings page: back button, the address box and the messages under it */
+.subbar { display: flex; align-items: center; gap: 10px; }
+.subbar h2 { font-size: 16px; }
+.back { min-height: 40px; padding: 0 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); font-weight: 700; font-size: 14px; }
 .label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 700; color: var(--muted); }
-.text-input { display: block; width: 100%; min-height: 44px; padding: 10px 12px; border: 1.5px solid var(--field-border); border-radius: 6px; background: var(--soft); color: var(--text); }
+.text-input { display: block; width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid var(--field-border); border-radius: 12px; background: var(--surface-2); color: var(--text); }
 .text-input:focus { outline: 3px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
-.msg { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--muted); }
+.msg { font-size: 13.5px; line-height: 1.55; color: var(--muted); }
 .msg[data-state="success"] { color: var(--safe); }
 .msg[data-state="error"] { color: var(--high); }
 
