@@ -15,14 +15,15 @@ root = Path(__file__).resolve().parent
 if str(root) not in sys.path:
     sys.path.insert(0, str(root))
 
-print("== Backend tests (WP4-WP8) ==")
+print("== Backend tests (WP4-WP8) ==", flush=True)
 suite = unittest.defaultTestLoader.discover(
     start_dir=str(root / "tests"), pattern="test_*.py", top_level_dir=str(root)
 )
-result = unittest.TextTestRunner(verbosity=2).run(suite)
+result = unittest.TextTestRunner(stream=sys.stdout, verbosity=2).run(suite)
+sys.stdout.flush()
 failed = not result.wasSuccessful() or bool(result.skipped)
 
-print("\n== Service worker tests (Node.js) ==")
+print("\n== Service worker tests (Node.js) ==", flush=True)
 node = shutil.which("node")
 if node is None:
     print("Node.js was not found, so the service worker tests could not run.")

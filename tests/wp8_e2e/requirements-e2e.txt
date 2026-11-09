@@ -1,0 +1,3 @@
+# Only for the WP8 live browser test (tests/wp8_e2e/run_e2e.py). The backend does not need these.
+# After installing, also run: python -m playwright install chromium
+playwright>=1.49,<2.0
