@@ -221,3 +221,14 @@ html[dir="rtl"] .bar { background: linear-gradient(270deg, var(--high) 0 33%, va
 
 /* If the user turned animations off in their system settings, turn ours off too */
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
+
+/* WP8: Save and Undo for preferences. The bar sticks to the bottom of the scrolling area, so after changing any
+   card the user can still see that there is something to save. */
+.save-bar { position: sticky; bottom: -16px; display: grid; gap: 8px; margin: 0 -16px -16px; padding: 10px 16px 14px; border-top: 1px solid var(--border); background: var(--bg); }
+.save-bar[data-dirty="true"] { border-top-color: #5A4720; }
+.msg[data-state="warn"] { color: var(--moderate); }
+.btn:disabled { opacity: 0.45; cursor: default; }
+.btn.primary:disabled:hover { background: var(--accent); }
+.btn.ghost:disabled:hover { background: var(--surface-2); }
+.notice { flex-wrap: wrap; }
+.notice-link { padding: 0; color: var(--moderate); }

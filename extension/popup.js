@@ -10,6 +10,12 @@ It talks to background.js with two messages, same as the old popup:
   WP2_ANALYZE            sends legal text to POST /analyze
 Reading the page (content.js and the same-site legal links) is the old WP1 code, moved over as it was.
 English and Arabic text is in ui-strings.js.
+
+WP8 (integration) added:
+  WP8_SAVE_PREFERENCES   saves the accepted topics on this device and in the backend database (WP6),
+                         so the next analysis uses them in the prompts (WP4). Changes are only kept after Save.
+  Error codes from background.js, so every backend error gets a proper English and Arabic screen.
+  The last run is kept in chrome.storage.session, so closing the popup during an analysis doesn't lose it.
 */
 (function () {
   'use strict';
@@ -30,7 +36,13 @@ English and Arabic text is in ui-strings.js.
     analyzeAgain: 'Analyze again', refLocator: 'Locator',
     openSettings: 'Open server settings', openPaste: 'Paste text instead', pastedText: 'Pasted text',
     emptyBody: 'Open a site’s terms or privacy page, then press the button.',
-    noDetails: 'No details are available for this result.'
+    noDetails: 'No details are available for this result.',
+    prefsSave: 'Save preferences', prefsUndo: 'Undo changes', prefsSaving: 'Saving your preferences…',
+    prefsSaved: 'Preferences saved. They will be used in your next analysis.',
+    prefsSavedLocal: 'Saved on this device. They will be sent to the server before your next analysis.',
+    prefsUnsaved: 'You have unsaved changes. The rating shows them as a preview until you save.',
+    prefsApplyNote: 'Your saved preferences are used in every new analysis.',
+    prefsUnsavedNote: 'Preference changes are not saved yet.', prefsReview: 'Review and save'
   });
   Object.assign(STRINGS.ar, {
     settingsLink: 'إعدادات الخادم', settingsTitle: 'إعدادات الخادم', serverLabel: 'عنوان الخادم',
@@ -43,7 +55,13 @@ English and Arabic text is in ui-strings.js.
     analyzeAgain: 'حلّل مرة أخرى', refLocator: 'موضع الإشارة',
     openSettings: 'افتح إعدادات الخادم', openPaste: 'الصق النص بدلًا من ذلك', pastedText: 'نص ملصوق',
     emptyBody: 'افتح صفحة الشروط أو الخصوصية في الموقع ثم اضغط الزر.',
-    noDetails: 'لا توجد تفاصيل متاحة لهذه النتيجة.'
+    noDetails: 'لا توجد تفاصيل متاحة لهذه النتيجة.',
+    prefsSave: 'حفظ التفضيلات', prefsUndo: 'تراجع عن التغييرات', prefsSaving: 'جارٍ حفظ تفضيلاتك…',
+    prefsSaved: 'تم حفظ التفضيلات، وستُستخدم في تحليلك القادم.',
+    prefsSavedLocal: 'تم الحفظ على هذا الجهاز، وستُرسل إلى الخادم قبل تحليلك القادم.',
+    prefsUnsaved: 'لديك تغييرات غير محفوظة. يعرضها التقييم كمعاينة حتى تحفظها.',
+    prefsApplyNote: 'تُستخدم تفضيلاتك المحفوظة في كل تحليل جديد.',
+    prefsUnsavedNote: 'تغييرات التفضيلات لم تُحفظ بعد.', prefsReview: 'راجعها واحفظها'
   });
   ERRORS.no_clauses = {
     en: ['No clear clauses found', 'The AI could not find terms or privacy clauses in this text. Try the full terms page, or paste the text.'],
@@ -57,6 +75,19 @@ English and Arabic text is in ui-strings.js.
   ERRORS.bad_result = {
     en: ['Could not read the result', 'The server sent back something the popup could not read. Try again, or ask whoever runs the server to check it.'],
     ar: ['تعذّرت قراءة النتيجة', 'أرسل الخادم نتيجة تعذّرت قراءتها. حاول مرة أخرى، أو اطلب من مسؤول الخادم التحقق منها.']
+  };
+  // WP8: errors that used to end up as "Something went wrong" with an English sentence.
+  ERRORS.timeout = {
+    en: ['The analysis took too long', 'The server did not answer in time. Long documents take longer, so try again, or paste a shorter part.'],
+    ar: ['استغرق التحليل وقتًا طويلًا', 'لم يرد الخادم في الوقت المحدد. الوثائق الطويلة تحتاج وقتًا أطول، فحاول مرة أخرى أو الصق جزءًا أقصر.']
+  };
+  ERRORS.storage_unavailable = {
+    en: ['Preferences could not be loaded', 'The server could not read its preferences database. Try again, or ask whoever runs the server to check it.'],
+    ar: ['تعذّر تحميل التفضيلات', 'لم يتمكن الخادم من قراءة قاعدة بيانات التفضيلات. حاول مرة أخرى، أو اطلب من مسؤول الخادم التحقق منها.']
+  };
+  ERRORS.interrupted = {
+    en: ['The analysis was interrupted', 'The extension stopped before the result arrived. Press Try again to run it once more.'],
+    ar: ['توقف التحليل', 'توقفت الإضافة قبل وصول النتيجة. اضغط حاول مرة أخرى لإعادة التحليل.']
   };
 
   // The four things a user can accept or refuse. These are the same four the backend has for preferences.
@@ -77,20 +108,29 @@ English and Arabic text is in ui-strings.js.
     stage: 'stageReading', errorId: null, errorDetail: '',
     result: null, source: null, lastAction: 'page',
     accepted: Object.assign({}, NONE),
+    // WP8: saved is what was last saved with the Save button. accepted can differ from it (unsaved changes).
+    saved: Object.assign({}, NONE), prefsMsg: null,
     pasteText: '', pasteError: null,
     serverUrl: DEFAULT_SERVER_URL, serverInput: DEFAULT_SERVER_URL, serverMsg: null
   };
   // Counts analysis runs. If the user starts a new one while an old one is still waiting, the old answer gets thrown away.
   let runToken = 0;
+  // WP8: id of a run started before the popup was opened, that we are waiting for (see restoreRun() at the end).
+  let watchedRunId = null;
+  const RUN_KEY = 'aamen_run';
 
-  // Save the language and the accepted topics so they are still there next time the popup opens.
+  // Save the language so it is still there next time the popup opens.
+  // WP8: the accepted topics are no longer saved on every click. They are saved by savePreferences() (UC-1).
   function persist() {
-    chrome.storage.local.set({ language: st.lang, accepted_topics: st.accepted }).catch(() => {});
+    chrome.storage.local.set({ language: st.lang }).catch(() => {});
   }
 
-  // The only way to change state. Merges the changes into st, saves if the language or choices changed, then redraws.
+  // WP8: true when the choices on screen are not the saved ones.
+  const prefsDirty = () => TOPICS.some(x => !!st.accepted[x.id] !== !!st.saved[x.id]);
+
+  // The only way to change state. Merges the changes into st, saves if the language changed, then redraws.
   function set(patch) {
-    const saveNeeded = 'lang' in patch || 'accepted' in patch;
+    const saveNeeded = 'lang' in patch;
     Object.assign(st, patch);
     if (saveNeeded) persist();
     document.documentElement.lang = st.lang;
@@ -214,6 +254,11 @@ English and Arabic text is in ui-strings.js.
   // error screens, so the same error can also be shown in Arabic. If nothing matches it is 'unknown'.
   function errorIdFor(message) {
     const m = String(message || '');
+    // WP8: checked first, because these messages would otherwise match the wider rules below.
+    if (/timed out|took too long/i.test(m)) return 'timeout';
+    if (/Preference storage/i.test(m)) return 'storage_unavailable';
+    if (/message port closed|Receiving end does not exist|No response from the extension/i.test(m)) return 'interrupted';
+    if (/classifier omitted|complete structured response|PDPL model/i.test(m)) return 'ai_unavailable';
     if (/Cannot reach the FastAPI server/i.test(m)) return 'server_unreachable';
     if (/permission missing|server origin|Server URL/i.test(m)) return 'permission';
     if (/not configured/i.test(m)) return 'ai_not_configured';
@@ -238,7 +283,8 @@ English and Arabic text is in ui-strings.js.
   // Show the error screen for a message and drop any old result. id is optional, for when we already know which error it is.
   // If the browser is offline, a failure that was probably caused by that is shown as "no internet" instead.
   function fail(message, id) {
-    let errorId = id || errorIdFor(message);
+    // WP8: id can be a code from background.js. Use it only if there is a screen for it.
+    let errorId = id && ERRORS[id] ? id : errorIdFor(message);
     if (isOffline() && ['server_unreachable', 'ai_unavailable', 'no_text', 'unknown'].includes(errorId)) errorId = 'offline';
     set({ scenario: 'error', errorId, errorDetail: String(message || ''), tab: 'summary', view: 'main', result: null });
   }
@@ -248,18 +294,24 @@ English and Arabic text is in ui-strings.js.
   async function sendText(text, source, action) {
     if (isOffline()) { st.lastAction = action; fail('No internet connection', 'offline'); return; }
     const token = ++runToken;
+    watchedRunId = null;
     set({ scenario: 'loading', stage: 'stageSending', tab: 'summary', view: 'main', result: null, openId: null, source, lastAction: action });
     try {
       const response = await chrome.runtime.sendMessage({
         type: 'WP2_ANALYZE',
-        payload: { page_url: source.url, page_title: source.title, terms_text: text, language: st.lang }
+        // WP8: source is kept with the run, so a reopened popup can say which page the result is for.
+        payload: { page_url: source.url, page_title: source.title, terms_text: text, language: st.lang, source }
       });
       if (token !== runToken) return;
-      if (!response || !response.ok) throw new Error((response && response.error) || 'No response from the extension.');
+      if (!response || !response.ok) {
+        const error = new Error((response && response.error) || 'No response from the extension.');
+        error.code = response && response.code;
+        throw error;
+      }
       if (!isUsableResult(response.data)) throw new Error('The result could not be read.', { cause: 'bad_result' });
       set({ scenario: 'result', result: response.data, errorId: null });
     } catch (error) {
-      if (token === runToken) fail(error.message, error.cause === 'bad_result' ? 'bad_result' : undefined);
+      if (token === runToken) fail(error.message, error.cause === 'bad_result' ? 'bad_result' : error.code);
     }
   }
 
@@ -322,6 +374,7 @@ English and Arabic text is in ui-strings.js.
   async function analyzePage() {
     if (isOffline()) { st.lastAction = 'page'; fail('No internet connection', 'offline'); return; }
     const token = ++runToken;
+    watchedRunId = null;
     set({ scenario: 'loading', stage: 'stageReading', tab: 'summary', view: 'main', result: null, openId: null, lastAction: 'page' });
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -411,6 +464,22 @@ English and Arabic text is in ui-strings.js.
     }).catch(error => set({ serverMsg: { text: error.message, state: 'error' } }));
   }
 
+  // WP8: the Save preferences button (UC-1 step 4). background.js keeps the choice on this device and sends it to
+  // the backend database (WP6). If the server can't be reached it is still saved here and sent before the next analysis.
+  // Closing the popup without pressing Save keeps the old preferences (UC-1 alternate course 2).
+  function savePreferences() {
+    const accepted = Object.assign({}, NONE, st.accepted);
+    set({ prefsMsg: { key: 'prefsSaving', state: '' } });
+    chrome.runtime.sendMessage({ type: 'WP8_SAVE_PREFERENCES', payload: { accepted } }).then(response => {
+      if (!response || !response.ok) throw new Error((response && response.error) || 'No response from the extension.');
+      const synced = !!(response.data && response.data.synced);
+      set({ saved: accepted, prefsMsg: { key: synced ? 'prefsSaved' : 'prefsSavedLocal', state: synced ? 'success' : 'warn' } });
+    }).catch(error => set({ prefsMsg: { text: error.message, state: 'error' } }));
+  }
+
+  // WP8: change the choices on screen. They stay a preview until Save is pressed.
+  const choose = accepted => set({ accepted, prefsMsg: null });
+
   // The screens below each return the DOM for one part of the popup.
 
   // Go to another page or open the sheet. openerKey is the button that was pressed, so focus can go back to it when we close.
@@ -431,6 +500,11 @@ English and Arabic text is in ui-strings.js.
     const make = text => h('div', { class: 'notice', role: 'note' }, h('span', null, text));
     if (r.input_truncated) out.push(make(t('warnTruncated')));
     if (!r.pdpl || r.pdpl.status !== 'completed') out.push(make(t('warnPdpl')));
+    // WP8: a choice was changed from a warning, but not saved yet. The button goes to the Preferences tab.
+    if (prefsDirty()) {
+      out.push(h('div', { class: 'notice', role: 'note' }, h('span', null, t('prefsUnsavedNote')),
+        h('button', { type: 'button', class: 'foot-link notice-link', 'data-focus-key': 'to-prefs', onclick: () => set({ tab: 'prefs', view: 'main' }) }, t('prefsReview'))));
+    }
     return out;
   }
 
@@ -454,7 +528,7 @@ English and Arabic text is in ui-strings.js.
     const on = !!st.accepted[topicId];
     const button = (value, label, pressed) => h('button', {
       type: 'button', 'data-v': value, 'aria-pressed': String(pressed), 'data-focus-key': scope + 'seg-' + topicId + '-' + value,
-      onclick: () => set({ accepted: Object.assign({}, st.accepted, { [topicId]: value === 'yes' }) })
+      onclick: () => choose(Object.assign({}, st.accepted, { [topicId]: value === 'yes' }))
     }, label);
     return h('div', { class: 'seg', role: 'group', 'aria-label': topicLabel(topicId) },
       button('no', t('dontAccept'), !on), button('yes', t('accept'), on));
@@ -590,8 +664,21 @@ English and Arabic text is in ui-strings.js.
           h('div', { class: 'pcard-foot' }, seg(topic.id, 'p-'), hint && h('span', { class: 'hint ' + (impact === 0 ? 'none' : impact > 0 ? 'up' : '') }, hint)));
       }),
       h('div', { class: 'pair' },
-        h('button', { type: 'button', class: 'btn ghost', 'data-focus-key': 'none', onclick: () => set({ accepted: Object.assign({}, NONE) }) }, t('resetPrefs')),
-        h('button', { type: 'button', class: 'btn ghost', 'data-focus-key': 'all', onclick: () => set({ accepted: { location: true, photos: true, banking_information: true, third_party_sharing: true } }) }, t('acceptAll'))));
+        h('button', { type: 'button', class: 'btn ghost', 'data-focus-key': 'none', onclick: () => choose(Object.assign({}, NONE)) }, t('resetPrefs')),
+        h('button', { type: 'button', class: 'btn ghost', 'data-focus-key': 'all', onclick: () => choose({ location: true, photos: true, banking_information: true, third_party_sharing: true }) }, t('acceptAll'))),
+      saveBar());
+  }
+
+  // WP8: Save and Undo under the preferences, with a line that says whether there is anything to save.
+  // It sticks to the bottom of the scrolling area, so it can be seen after changing any of the cards.
+  function saveBar() {
+    const dirty = prefsDirty(), msg = st.prefsMsg;
+    const text = msg ? (msg.key ? t(msg.key) : msg.text) : dirty ? t('prefsUnsaved') : t('prefsApplyNote');
+    return h('div', { class: 'save-bar', 'data-dirty': String(dirty) },
+      h('p', { class: 'msg', role: 'status', 'aria-live': 'polite', 'data-state': msg ? msg.state : dirty ? 'warn' : '' }, text),
+      h('div', { class: 'pair' },
+        h('button', { type: 'button', class: 'btn primary', disabled: !dirty, 'data-focus-key': 'prefs-save', onclick: savePreferences }, t('prefsSave')),
+        h('button', { type: 'button', class: 'btn ghost', disabled: !dirty, 'data-focus-key': 'prefs-undo', onclick: () => choose(Object.assign({}, st.saved)) }, t('prefsUndo'))));
   }
 
   // Paste tab, for sites the popup can't read by itself. Typing doesn't redraw the page, it only updates
@@ -765,10 +852,56 @@ English and Arabic text is in ui-strings.js.
     if (target) target.focus();
   };
 
+  // WP8: showing a run that background.js remembered. A run still going is shown as loading until it ends.
+  // How long a run is worth showing again: a result for 30 minutes, an error for 5. A run still "running" after
+  // RUN_LIMIT has lost its service worker (background.js gives up at 150 seconds), so it is shown as interrupted.
+  const RESULT_KEEP_MS = 30 * 60 * 1000, ERROR_KEEP_MS = 5 * 60 * 1000, RUN_LIMIT_MS = 165 * 1000;
+  let watchTimer = null;
+
+  function showRun(run) {
+    if (!run || run.id !== watchedRunId) return;
+    if (run.status === 'running') return;
+    watchedRunId = null;
+    clearTimeout(watchTimer);
+    if (run.status === 'done' && isUsableResult(run.result)) set({ scenario: 'result', result: run.result, errorId: null, source: run.source });
+    else if (run.status === 'done') fail('The result could not be read.', 'bad_result');
+    else fail(run.error, run.code);
+  }
+
+  function restoreRun(run) {
+    if (!run || typeof run !== 'object' || !run.id || !run.source) return;
+    const now = Date.now();
+    const source = { kind: run.source.kind === 'paste' ? 'paste' : 'page', url: String(run.source.url || ''), title: String(run.source.title || '') };
+    const lastAction = source.kind;
+    if (run.status === 'running' && now - run.started_at < RUN_LIMIT_MS) {
+      watchedRunId = run.id;
+      set({ scenario: 'loading', stage: 'stageSending', source, lastAction });
+      watchTimer = setTimeout(() => {
+        if (watchedRunId === run.id) { watchedRunId = null; fail('The analysis was interrupted.', 'interrupted'); }
+      }, RUN_LIMIT_MS - (now - run.started_at));
+    } else if (run.status === 'done' && now - run.finished_at < RESULT_KEEP_MS && isUsableResult(run.result)) {
+      set({ scenario: 'result', result: run.result, source, lastAction });
+    } else if (run.status === 'error' && now - run.finished_at < ERROR_KEEP_MS) {
+      st.lastAction = lastAction;
+      fail(run.error, run.code);
+    }
+  }
+
+  // When a watched run finishes while the popup is open, background.js writes it here and the popup shows it.
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'session' && changes[RUN_KEY]) showRun(changes[RUN_KEY].newValue);
+  });
+
   // Start: load the saved language, accepted topics and server address, then draw the popup for the first time.
+  // WP8: the saved topics are both what is shown (accepted) and what Undo goes back to (saved). Then the last run is restored.
   chrome.storage.local.get({ language: 'en', accepted_topics: {}, server_url: DEFAULT_SERVER_URL }).then(saved => {
     const accepted = Object.assign({}, NONE);
-    TOPICS.forEach(x => { if (typeof saved.accepted_topics[x.id] === 'boolean') accepted[x.id] = saved.accepted_topics[x.id]; });
-    set({ lang: saved.language === 'ar' ? 'ar' : 'en', accepted, serverUrl: saved.server_url, serverInput: saved.server_url });
-  }).catch(() => set({ lang: 'en' }));
+    const topics = saved.accepted_topics && typeof saved.accepted_topics === 'object' ? saved.accepted_topics : {};
+    TOPICS.forEach(x => { if (typeof topics[x.id] === 'boolean') accepted[x.id] = topics[x.id]; });
+    set({ lang: saved.language === 'ar' ? 'ar' : 'en', accepted, saved: Object.assign({}, accepted), serverUrl: saved.server_url, serverInput: saved.server_url });
+    return chrome.storage.session.get({ [RUN_KEY]: null });
+  }).then(session => {
+    // Only if the user hasn't already started something in the short time this took.
+    if (session && st.scenario === 'empty' && runToken === 0) restoreRun(session[RUN_KEY]);
+  }).catch(() => { if (st.scenario === 'empty') set({ lang: st.lang }); });
 })();
