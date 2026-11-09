@@ -185,7 +185,8 @@ class WP6CacheTests(unittest.TestCase):
                 self.assertEqual(self.row_count(), 0)
 
     def test_08_incomplete_pdpl_results_not_cached(self):
-        for status in ("partial", "unavailable", None):
+        # WP8: "partial" is now cached (see CACHEABLE_PDPL_STATUSES); failed or missing screening is not.
+        for status in ("unavailable", None):
             with self.subTest(pdpl_status=status):
                 self.assertFalse(
                     save_cached_analysis(
@@ -277,7 +278,7 @@ class WP6CacheTests(unittest.TestCase):
         self.assertEqual(third.headers["x-aamen-cache"], "MISS")
         self.assertEqual(mocked_ai.call_count, 2)
 
-    @patch("backend.main.analyze_terms", return_value=sample_result("partial"))
+    @patch("backend.main.analyze_terms", return_value=sample_result("unavailable"))
     def test_14_api_incomplete_pdpl_is_skipped(self, mocked_ai):
         first = self.client.post("/analyze", json=self.request_body())
         second = self.client.post("/analyze", json=self.request_body())

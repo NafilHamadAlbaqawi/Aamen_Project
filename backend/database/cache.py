@@ -16,6 +16,12 @@ from .storage import database_connection, initialize_database
 CACHE_VERSION = "wp6-v1"
 CACHE_TTL_SECONDS = 24 * 60 * 60
 
+# WP8: "partial" means WP5 screened every clause that has PDPL context, and the other clauses (for example
+# liability or changes to the terms) have no matching article. Retrieval is deterministic, so running again
+# would give the same result, and real terms pages are almost always "partial". Only failed or missing
+# screening ("unavailable" / None) is still not cached.
+CACHEABLE_PDPL_STATUSES = ("completed", "partial")
+
 
 def make_cache_key(
     device_id: str,
@@ -81,7 +87,7 @@ def save_cached_analysis(
     language: str,
     result: AnalysisResponse,
 ) -> bool:
-    if result.pdpl is None or result.pdpl.status != "completed":
+    if result.pdpl is None or result.pdpl.status not in CACHEABLE_PDPL_STATUSES:
         return False
 
     key = make_cache_key(device_id, terms_text, preferences, language)

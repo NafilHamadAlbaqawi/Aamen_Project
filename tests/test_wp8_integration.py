@@ -44,7 +44,8 @@ TERMS = (
     "We collect your precise location even when the app is closed. "
     "We may share your personal information with advertising partners and affiliates. "
     "We keep copies of your uploaded photos on our servers for as long as we decide. "
-    "You can delete your account at any time from the settings page."
+    "You can delete your account at any time from the settings page. "
+    "Rihla is not liable for late, missing or damaged orders."
 )
 
 # The clauses the fake model "finds". Every excerpt is copied from TERMS, as WP3 requires.
@@ -261,6 +262,18 @@ class WP8IntegrationTests(unittest.TestCase):
         third = self.analyze()
         self.assertEqual(third.headers["x-aamen-cache"], "MISS")
         self.assertEqual(len(fake.calls), 8)
+
+    def test_06b_partial_pdpl_result_is_cached(self):
+        # A liability clause has no PDPL article, so WP5 returns "partial", as it does for most real terms pages.
+        clauses = FAKE_CLAUSES + [("liability", "Rihla is not liable for late, missing or damaged orders.", "medium")]
+        fake = self.use_model(FakeModel(clauses=clauses))
+
+        first = self.analyze()
+        self.assertEqual(first.json()["pdpl"]["status"], "partial")
+        self.assertEqual(len(first.json()["pdpl"]["findings"]), 4)
+        second = self.analyze()
+        self.assertEqual((first.headers["x-aamen-cache"], second.headers["x-aamen-cache"]), ("MISS", "HIT"))
+        self.assertEqual(len(fake.calls), 4)
 
     # ---- Errors: what background.js turns into error codes ------------------------------------------
 
