@@ -1,0 +1,203 @@
+{
+  "started": "2026-11-10 02:44:35 +0300",
+  "finished": "2026-11-10 02:46:23 +0300",
+  "browser": "Chromium 158.0.0.0 (Playwright, unpacked extension)",
+  "model": "gpt-4o-2024-08-06",
+  "passed": 11,
+  "total": 11,
+  "scenarios": [
+    {
+      "id": "WP8-E2E-01",
+      "title": "Backend connection from Server settings",
+      "use_case": "Integration",
+      "expected": "Default server works without a permission step; /health reports ok",
+      "passed": true,
+      "actual": "Server settings -> Check connection: \"Connected to the Aamen server.\" (default server, no permission prompt needed)",
+      "screenshots": [
+        "docs/screenshots/WP8-E2E-01-connection.png"
+      ],
+      "seconds": 0.3
+    },
+    {
+      "id": "WP8-E2E-02",
+      "title": "Analyze an open Terms and Conditions page",
+      "use_case": "UC-2",
+      "expected": "Extract -> service worker -> backend -> AI -> PDPL -> result with rating, summary and warnings",
+      "passed": true,
+      "actual": "Result in 19.9s: safety 10/100, High risk, 6 warnings; cache rows = 1",
+      "screenshots": [
+        "docs/screenshots/WP8-E2E-02-terms-summary.png",
+        "docs/screenshots/WP8-E2E-02-warning-open.png"
+      ],
+      "seconds": 20.3
+    },
+    {
+      "id": "WP8-E2E-03",
+      "title": "View Details report with PDPL references",
+      "use_case": "UC-3",
+      "expected": "Full report of every clause with PDPL assessment and official links; closes back to the popup",
+      "passed": true,
+      "actual": "View Details opened: 6 clauses, 9 Saudi PDPL references with official links; Esc closes it",
+      "screenshots": [
+        "docs/screenshots/WP8-E2E-03-report.png",
+        "docs/screenshots/WP8-E2E-03-report-pdpl.png"
+      ],
+      "seconds": 0.2
+    },
+    {
+      "id": "WP8-E2E-04",
+      "title": "Homepage: follow the site's legal links",
+      "use_case": "UC-2",
+      "expected": "Terms and Privacy links are found and both documents analyzed",
+      "passed": true,
+      "actual": "Homepage has no legal text; the popup followed its Terms and Privacy links and analyzed both in 18.4s: High risk, 7 warnings",
+      "screenshots": [
+        "docs/screenshots/WP8-E2E-04-homepage.png"
+      ],
+      "seconds": 18.6
+    },
+    {
+      "id": "WP8-E2E-05",
+      "title": "Save preferences (popup -> WP6 database)",
+      "use_case": "UC-1",
+      "expected": "Unsaved changes shown; Save stores them; not-accepted topics are stored as extra attention",
+      "passed": true,
+      "actual": "Accepted photos + banking and pressed Save. GET /preferences = {\"location\": true, \"photos\": false, \"banking_information\": false, \"third_party_sharing\": true}",
+      "screenshots": [
+        "docs/screenshots/WP8-E2E-05-prefs-unsaved.png",
+        "docs/screenshots/WP8-E2E-05-prefs-saved.png"
+      ],
+      "seconds": 0.5
+    },
+    {
+      "id": "WP8-E2E-06",
+      "title": "Exit without saving",
+      "use_case": "UC-1 alt. 2",
+      "expected": "Preferences are not updated",
+      "passed": true,
+      "actual": "Changed Location to Accept, closed without saving, reopened: Location is still Don't accept, the server is unchanged",
+      "screenshots": [
+        "docs/screenshots/WP8-E2E-06-exit-without-saving.png"
+      ],
+      "seconds": 0.5
+    },
+    {
+      "id": "WP8-E2E-07",
+      "title": "Saved preferences used in the next analysis, then cache",
+      "use_case": "UC-1 step 5 / WP6",
+      "expected": "New analysis with WP4 personalization (cache MISS); same request again is a cache HIT",
+      "passed": true,
+      "actual": "New preferences -> new analysis (cache MISS, rows 2->3) in 20.8s: High risk, \"Your choices changed the rating by 5 points\". Same page again: cache HIT in 0.1s (rows unchanged)",
+      "screenshots": [
+        "docs/screenshots/WP8-E2E-07-personalized.png"
+      ],
+      "seconds": 21.1
+    },
+    {
+      "id": "WP8-E2E-08",
+      "title": "Popup closed during the analysis",
+      "use_case": "Integration",
+      "expected": "Reopened popup shows the running analysis and then its result",
+      "passed": true,
+      "actual": "Popup closed right after the analysis started and reopened 2 s later: it showed the running analysis, then the result (Moderate, 4 warnings) for \"Analyzed page: Privacy Policy — Rihla Delivery\"",
+      "screenshots": [
+        "docs/screenshots/WP8-E2E-08-reopened-loading.png",
+        "docs/screenshots/WP8-E2E-08-restored-result.png"
+      ],
+      "seconds": 14.0
+    },
+    {
+      "id": "WP8-E2E-09",
+      "title": "Arabic interface with pasted text",
+      "use_case": "UC-2 (manual paste)",
+      "expected": "Pasted text analyzed; result and report shown right-to-left in Arabic",
+      "passed": true,
+      "actual": "Pasted fictional DOC-C (PayNest Wallet) with the Arabic interface: متوسط, ٨ تحذيرات in 18.8s",
+      "screenshots": [
+        "docs/screenshots/WP8-E2E-09-arabic-paste.png",
+        "docs/screenshots/WP8-E2E-09-arabic-report.png"
+      ],
+      "seconds": 19.2
+    },
+    {
+      "id": "WP8-E2E-10",
+      "title": "Error messages",
+      "use_case": "UC-2 alt. 1-3",
+      "expected": "Clear messages for server down, no API key (EN/AR), short text, no legal text, offline",
+      "passed": true,
+      "actual": "server down -> \"Can’t reach the server\" + Open server settings; no API key (HTTP 503) -> \"Analysis isn’t set up yet\" / \"التحليل غير مفعّل بعد\"; too short -> \"Add at least 50 characters before analyzing.\"; no legal text -> \"No legal text found\" + Paste text instead; offline -> \"No internet connection\"",
+      "screenshots": [
+        "docs/screenshots/WP8-E2E-10a-server-down.png",
+        "docs/screenshots/WP8-E2E-10b-no-key-arabic.png",
+        "docs/screenshots/WP8-E2E-10c-too-short.png",
+        "docs/screenshots/WP8-E2E-10d-no-legal-text.png",
+        "docs/screenshots/WP8-E2E-10e-offline.png"
+      ],
+      "seconds": 1.2
+    },
+    {
+      "id": "WP8-E2E-11",
+      "title": "Preferences saved while the server is down",
+      "use_case": "UC-1 / Integration",
+      "expected": "Saved on the device, then sent to the server before the next analysis",
+      "passed": true,
+      "actual": "Saved with the server down: \"Saved on this device. They will be sent to the server before your next analysis.\". Next analysis sent them first: location True -> False, then analyzed in 9.0s",
+      "screenshots": [
+        "docs/screenshots/WP8-E2E-11-saved-locally.png"
+      ],
+      "seconds": 9.5
+    }
+  ],
+  "analysis_timings": [
+    {
+      "analysis": "terms page (first run)",
+      "seconds": 19.9,
+      "outcome": "result"
+    },
+    {
+      "analysis": "homepage (terms + privacy links)",
+      "seconds": 18.4,
+      "outcome": "result"
+    },
+    {
+      "analysis": "terms page with saved preferences",
+      "seconds": 20.8,
+      "outcome": "result"
+    },
+    {
+      "analysis": "same page again (cache)",
+      "seconds": 0.1,
+      "outcome": "result"
+    },
+    {
+      "analysis": "privacy page (popup closed and reopened)",
+      "seconds": 11.6,
+      "outcome": "result"
+    },
+    {
+      "analysis": "pasted DOC-C, Arabic interface",
+      "seconds": 18.8,
+      "outcome": "result"
+    },
+    {
+      "analysis": "server down",
+      "seconds": 0.0,
+      "outcome": "error"
+    },
+    {
+      "analysis": "no API key",
+      "seconds": 0.0,
+      "outcome": "error"
+    },
+    {
+      "analysis": "page without legal text",
+      "seconds": 0.0,
+      "outcome": "error"
+    },
+    {
+      "analysis": "pasted DOC-A after an offline save",
+      "seconds": 9.0,
+      "outcome": "result"
+    }
+  ]
+}
