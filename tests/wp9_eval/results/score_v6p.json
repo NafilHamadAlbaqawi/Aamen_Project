@@ -1,0 +1,875 @@
+{
+  "tag": "v6p",
+  "summary": {
+    "documents": 10,
+    "level_exact_pct": 100.0,
+    "level_over": 0,
+    "level_under": 0,
+    "benign_rated_safe": "4/4",
+    "risky_rated_high": "5/5",
+    "severity_matched": 60,
+    "severity_exact_pct": 93.3,
+    "severity_within_one_pct": 100.0,
+    "severity_over_pct": 3.3,
+    "severity_under_pct": 3.3,
+    "missed_risks": 4,
+    "extra_medium_high_flags": 2,
+    "pdpl_labelled_found": 23,
+    "pdpl_accuracy_pct": 91.3,
+    "pdpl_needs_context_pct": 15.6,
+    "pdpl_assessments": {
+      "no_concern_identified": 33,
+      "potential_concern": 21,
+      "needs_context": 10
+    },
+    "hedged_explanations_pct": 10.1,
+    "summaries_over_4_sentences": 3,
+    "verbatim_pct": 100.0,
+    "invented_article_runs": 0,
+    "runs_ok": "10/10"
+  },
+  "documents": [
+    {
+      "doc_id": "WP4-DOC-A",
+      "expected_level": "Moderate",
+      "level": "Moderate",
+      "score": 43,
+      "clauses": 3,
+      "level_diff": 0,
+      "severity": [
+        {
+          "anchor": "We collect your location only with permission",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "share your email with advertising partners",
+          "expected": "medium",
+          "got": "medium",
+          "diff": 0
+        },
+        {
+          "anchor": "store data for up to two years after account closure",
+          "expected": "medium",
+          "got": "medium",
+          "diff": 0
+        }
+      ],
+      "pdpl": [
+        {
+          "anchor": "We collect your location only with permission",
+          "expected": "no_concern_identified",
+          "got": "no_concern_identified"
+        },
+        {
+          "anchor": "share your email with advertising partners",
+          "expected": "potential_concern",
+          "got": "potential_concern"
+        }
+      ],
+      "missed_risks": [],
+      "extra_flags": [],
+      "explanations": 6,
+      "hedged_explanations": 1,
+      "hedge_examples": [
+        {
+          "text": "Storing data for up to two years after account closure may exceed the necessity principle outlined in Article 18 if not legally justified.",
+          "words": [
+            "may"
+          ]
+        }
+      ],
+      "assessments": {
+        "no_concern_identified": 1,
+        "potential_concern": 2
+      },
+      "pdpl_status": "completed",
+      "summary_sentences_en": 3,
+      "verbatim": 3,
+      "invented_article": false,
+      "repeat": 1,
+      "seconds": 2.6
+    },
+    {
+      "doc_id": "WP4-DOC-B",
+      "expected_level": "High Risk",
+      "level": "High Risk",
+      "score": 100,
+      "clauses": 9,
+      "level_diff": 0,
+      "severity": [
+        {
+          "anchor": "collect precise location information in the background",
+          "expected": "medium",
+          "got": "high",
+          "diff": 1
+        },
+        {
+          "anchor": "share your email address with selected advertising partners",
+          "expected": "medium",
+          "got": "medium",
+          "diff": 0
+        },
+        {
+          "anchor": "order history, approximate location and device identifiers with analytics providers",
+          "expected": "high",
+          "got": "medium",
+          "diff": -1
+        },
+        {
+          "anchor": "for up to five years after account closure for business purposes",
+          "expected": "medium",
+          "got": "low",
+          "diff": -1
+        },
+        {
+          "anchor": "suspend or terminate any account at our sole discretion and without prior notice",
+          "expected": "medium",
+          "got": "high",
+          "diff": 1
+        },
+        {
+          "anchor": "not liable for indirect or consequential damages",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "close accounts after repeated violations",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        }
+      ],
+      "pdpl": [
+        {
+          "anchor": "order history, approximate location and device identifiers with analytics providers",
+          "expected": "potential_concern",
+          "got": "potential_concern"
+        },
+        {
+          "anchor": "for up to five years after account closure for business purposes",
+          "expected": "potential_concern",
+          "got": "potential_concern"
+        }
+      ],
+      "missed_risks": [
+        "Continued use of the application after changes are posted"
+      ],
+      "extra_flags": [
+        {
+          "excerpt": "We may modify these Terms at any time.",
+          "severity": "medium"
+        }
+      ],
+      "explanations": 16,
+      "hedged_explanations": 6,
+      "hedge_examples": [
+        {
+          "text": "Your email address can be shared with advertising partners, which could lead to unsolicited promotions.",
+          "words": [
+            "could"
+          ]
+        },
+        {
+          "text": "The continual collection of location data even when the app is closed could exceed what is necessary, conflicting with Article 11.",
+          "words": [
+            "could"
+          ]
+        },
+        {
+          "text": "Sharing personal data for promotional activities could conflict with Article 13 if not properly disclosed to users.",
+          "words": [
+            "could"
+          ]
+        }
+      ],
+      "assessments": {
+        "no_concern_identified": 2,
+        "potential_concern": 4,
+        "needs_context": 1
+      },
+      "pdpl_status": "partial",
+      "summary_sentences_en": 4,
+      "verbatim": 9,
+      "invented_article": false,
+      "repeat": 1,
+      "seconds": 6.5
+    },
+    {
+      "doc_id": "WP4-DOC-C",
+      "expected_level": "High Risk",
+      "level": "High Risk",
+      "score": 79,
+      "clauses": 8,
+      "level_diff": 0,
+      "severity": [
+        {
+          "anchor": "upload a photograph of your national ID card and a selfie photograph",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "Verification photographs are kept for seven years and may be used to improve our fraud-detection models",
+          "expected": "medium",
+          "got": "medium",
+          "diff": 0
+        },
+        {
+          "anchor": "We store your bank account number, IBAN and transaction history",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "share transaction data with credit bureaus and our banking partners",
+          "expected": "high",
+          "got": "high",
+          "diff": 0
+        },
+        {
+          "anchor": "will notify you in the application",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "You may close your wallet at any time",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        }
+      ],
+      "pdpl": [
+        {
+          "anchor": "share transaction data with credit bureaus and our banking partners",
+          "expected": "potential_concern",
+          "got": "potential_concern"
+        }
+      ],
+      "missed_risks": [
+        "responsible for all transactions made with your credentials until you report a lost device"
+      ],
+      "extra_flags": [],
+      "explanations": 15,
+      "hedged_explanations": 1,
+      "hedge_examples": [
+        {
+          "text": "Sharing with credit bureaus for credit assessment may not be directly related to the original purpose, potentially conflicting with PDPL Article 13 requirements.",
+          "words": [
+            "potentially"
+          ]
+        }
+      ],
+      "assessments": {
+        "needs_context": 2,
+        "potential_concern": 2,
+        "no_concern_identified": 3
+      },
+      "pdpl_status": "partial",
+      "summary_sentences_en": 4,
+      "verbatim": 8,
+      "invented_article": false,
+      "repeat": 1,
+      "seconds": 4.9
+    },
+    {
+      "doc_id": "WP4-DOC-D",
+      "expected_level": "Safe",
+      "level": "Safe",
+      "score": 12,
+      "clauses": 6,
+      "level_diff": 0,
+      "severity": [
+        {
+          "anchor": "close accounts after repeated violations",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "permanently erased after 30 days",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "your notes are erased within 90 days",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "not liable for loss of notes caused by events outside our reasonable control",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "email you at least 14 days before material changes",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "We do not send marketing emails unless you opt in",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        }
+      ],
+      "pdpl": [
+        {
+          "anchor": "permanently erased after 30 days",
+          "expected": "no_concern_identified",
+          "got": "no_concern_identified"
+        },
+        {
+          "anchor": "your notes are erased within 90 days",
+          "expected": "no_concern_identified",
+          "got": "potential_concern"
+        },
+        {
+          "anchor": "We do not send marketing emails unless you opt in",
+          "expected": "no_concern_identified",
+          "got": "no_concern_identified"
+        }
+      ],
+      "missed_risks": [],
+      "extra_flags": [],
+      "explanations": 10,
+      "hedged_explanations": 1,
+      "hedge_examples": [
+        {
+          "text": "The clause might conflict with Article 18 due to the prolonged retention of backups, potentially delaying data destruction.",
+          "words": [
+            "might",
+            "potentially"
+          ]
+        }
+      ],
+      "assessments": {
+        "no_concern_identified": 2,
+        "potential_concern": 1,
+        "needs_context": 1
+      },
+      "pdpl_status": "partial",
+      "summary_sentences_en": 4,
+      "verbatim": 6,
+      "invented_article": false,
+      "repeat": 1,
+      "seconds": 2.9
+    },
+    {
+      "doc_id": "WP8-RIHLA-TERMS",
+      "expected_level": "High Risk",
+      "level": "High Risk",
+      "score": 100,
+      "clauses": 10,
+      "level_diff": 0,
+      "severity": [
+        {
+          "anchor": "collects your precise GPS location while it is open",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "location in the background, even when the app is closed",
+          "expected": "high",
+          "got": "high",
+          "diff": 0
+        },
+        {
+          "anchor": "We store your card number, expiry date and billing address",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "banking details may be shared with our lending partners",
+          "expected": "high",
+          "got": "high",
+          "diff": 0
+        },
+        {
+          "anchor": "advertising partners, analytics providers and affiliated companies for their own marketing purposes",
+          "expected": "high",
+          "got": "high",
+          "diff": 0
+        },
+        {
+          "anchor": "for as long as we consider necessary for our business",
+          "expected": "high",
+          "got": "high",
+          "diff": 0
+        },
+        {
+          "anchor": "suspend or close your account at any time and for any reason without notice",
+          "expected": "medium",
+          "got": "medium",
+          "diff": 0
+        },
+        {
+          "anchor": "wallet balance on a closed account may be forfeited",
+          "expected": "high",
+          "got": "high",
+          "diff": 0
+        },
+        {
+          "anchor": "Continued use of the service after a change means you accept the new Terms",
+          "expected": "medium",
+          "got": "medium",
+          "diff": 0
+        },
+        {
+          "anchor": "not liable for late, missing or damaged orders",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        }
+      ],
+      "pdpl": [
+        {
+          "anchor": "banking details may be shared with our lending partners",
+          "expected": "potential_concern",
+          "got": "needs_context"
+        },
+        {
+          "anchor": "advertising partners, analytics providers and affiliated companies for their own marketing purposes",
+          "expected": "potential_concern",
+          "got": "potential_concern"
+        },
+        {
+          "anchor": "for as long as we consider necessary for our business",
+          "expected": "potential_concern",
+          "got": "potential_concern"
+        }
+      ],
+      "missed_risks": [
+        "perpetual licence to use, modify and publish that photo"
+      ],
+      "extra_flags": [],
+      "explanations": 18,
+      "hedged_explanations": 0,
+      "hedge_examples": [],
+      "assessments": {
+        "no_concern_identified": 2,
+        "potential_concern": 3,
+        "needs_context": 3
+      },
+      "pdpl_status": "partial",
+      "summary_sentences_en": 5,
+      "verbatim": 10,
+      "invented_article": false,
+      "repeat": 1,
+      "seconds": 6.9
+    },
+    {
+      "doc_id": "WP8-RIHLA-PRIVACY",
+      "expected_level": "Safe",
+      "level": "Safe",
+      "score": 16,
+      "clauses": 8,
+      "level_diff": 0,
+      "severity": [
+        {
+          "anchor": "with your permission, your location while you use the app",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "You can withdraw your consent to marketing messages at any time",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "We share the delivery address and phone number with the rider",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "We do not sell your personal data",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "Order records are kept for five years to meet accounting obligations",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "ask to access, correct or delete your personal data",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        }
+      ],
+      "pdpl": [
+        {
+          "anchor": "You can withdraw your consent to marketing messages at any time",
+          "expected": "no_concern_identified",
+          "got": "no_concern_identified"
+        },
+        {
+          "anchor": "We do not sell your personal data",
+          "expected": "no_concern_identified",
+          "got": "no_concern_identified"
+        },
+        {
+          "anchor": "Order records are kept for five years to meet accounting obligations",
+          "expected": "no_concern_identified",
+          "got": "no_concern_identified"
+        },
+        {
+          "anchor": "ask to access, correct or delete your personal data",
+          "expected": "no_concern_identified",
+          "got": "no_concern_identified"
+        }
+      ],
+      "missed_risks": [],
+      "extra_flags": [],
+      "explanations": 15,
+      "hedged_explanations": 1,
+      "hedge_examples": [
+        {
+          "text": "The clause mentions collecting data with user permission but includes location, which may not be necessary for the service, potentially conflicting with PDPL's purpose limitation principle.",
+          "words": [
+            "may",
+            "potentially"
+          ]
+        }
+      ],
+      "assessments": {
+        "potential_concern": 1,
+        "no_concern_identified": 6
+      },
+      "pdpl_status": "partial",
+      "summary_sentences_en": 5,
+      "verbatim": 8,
+      "invented_article": false,
+      "repeat": 1,
+      "seconds": 5.6
+    },
+    {
+      "doc_id": "WP9-SANAD",
+      "expected_level": "Safe",
+      "level": "Safe",
+      "score": 18,
+      "clauses": 9,
+      "level_diff": 0,
+      "severity": [
+        {
+          "anchor": "your workout data is encrypted and stored on servers in Saudi Arabia",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "We share data only with the hosting provider",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "You can export or delete all your data from the Settings screen",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "notify you in the app at least 30 days before the change",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        }
+      ],
+      "pdpl": [
+        {
+          "anchor": "You can export or delete all your data from the Settings screen",
+          "expected": "no_concern_identified",
+          "got": "no_concern_identified"
+        }
+      ],
+      "missed_risks": [],
+      "extra_flags": [],
+      "explanations": 18,
+      "hedged_explanations": 0,
+      "hedge_examples": [],
+      "assessments": {
+        "no_concern_identified": 7,
+        "needs_context": 2
+      },
+      "pdpl_status": "completed",
+      "summary_sentences_en": 5,
+      "verbatim": 9,
+      "invented_article": false,
+      "repeat": 1,
+      "seconds": 6.1
+    },
+    {
+      "doc_id": "WP9-LAMHA",
+      "expected_level": "High Risk",
+      "level": "High Risk",
+      "score": 100,
+      "clauses": 9,
+      "level_diff": 0,
+      "severity": [
+        {
+          "anchor": "perpetual, irrevocable, worldwide licence to use, copy, modify, sublicense and sell your photos",
+          "expected": "high",
+          "got": "high",
+          "diff": 0
+        },
+        {
+          "anchor": "scans the faces in every photo you upload to create face templates",
+          "expected": "high",
+          "got": "high",
+          "diff": 0
+        },
+        {
+          "anchor": "adds your exact location to each photo you post unless you turn this off",
+          "expected": "medium",
+          "got": "medium",
+          "diff": 0
+        },
+        {
+          "anchor": "You can delete a photo at any time",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "you waive your right to join a class action",
+          "expected": "medium",
+          "got": "medium",
+          "diff": 0
+        },
+        {
+          "anchor": "You must be at least 13 years old",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        }
+      ],
+      "pdpl": [
+        {
+          "anchor": "scans the faces in every photo you upload to create face templates",
+          "expected": "potential_concern",
+          "got": "potential_concern"
+        }
+      ],
+      "missed_risks": [
+        "New accounts are public by default"
+      ],
+      "extra_flags": [
+        {
+          "excerpt": "uses these templates and your photos to train machine-learning models that we may license to other companies.",
+          "severity": "high"
+        }
+      ],
+      "explanations": 17,
+      "hedged_explanations": 2,
+      "hedge_examples": [
+        {
+          "text": "Sharing data with third parties for licensing may not align with declaring collection purposes clearly, possibly conflicting with legal requirements.",
+          "words": [
+            "possibly"
+          ]
+        },
+        {
+          "text": "Age restriction might relate to consent validity; specific consent processes need reviewing.",
+          "words": [
+            "might"
+          ]
+        }
+      ],
+      "assessments": {
+        "potential_concern": 4,
+        "no_concern_identified": 3,
+        "needs_context": 1
+      },
+      "pdpl_status": "partial",
+      "summary_sentences_en": 4,
+      "verbatim": 9,
+      "invented_article": false,
+      "repeat": 1,
+      "seconds": 5.4
+    },
+    {
+      "doc_id": "WP9-SOUQ-AR",
+      "expected_level": "High Risk",
+      "level": "High Risk",
+      "score": 95,
+      "clauses": 6,
+      "level_diff": 0,
+      "severity": [
+        {
+          "anchor": "مشاركة بيانات مشترياتك وبطاقتك مع شركات التمويل الشريكة",
+          "expected": "high",
+          "got": "high",
+          "diff": 0
+        },
+        {
+          "anchor": "مع شركات التسويق والإعلان لأغراضها الخاصة",
+          "expected": "high",
+          "got": "high",
+          "diff": 0
+        },
+        {
+          "anchor": "لمدة غير محددة حتى بعد حذف حسابك",
+          "expected": "high",
+          "got": "high",
+          "diff": 0
+        },
+        {
+          "anchor": "تعديل هذه الشروط في أي وقت دون إشعار",
+          "expected": "medium",
+          "got": "medium",
+          "diff": 0
+        },
+        {
+          "anchor": "لا يتحمل المتجر أي مسؤولية عن التأخير في التوصيل",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "يجب أن يكون عمرك ١٨ سنة على الأقل",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        }
+      ],
+      "pdpl": [
+        {
+          "anchor": "مشاركة بيانات مشترياتك وبطاقتك مع شركات التمويل الشريكة",
+          "expected": "potential_concern",
+          "got": "potential_concern"
+        },
+        {
+          "anchor": "مع شركات التسويق والإعلان لأغراضها الخاصة",
+          "expected": "potential_concern",
+          "got": "potential_concern"
+        },
+        {
+          "anchor": "لمدة غير محددة حتى بعد حذف حسابك",
+          "expected": "potential_concern",
+          "got": "potential_concern"
+        }
+      ],
+      "missed_risks": [],
+      "extra_flags": [],
+      "explanations": 11,
+      "hedged_explanations": 2,
+      "hedge_examples": [
+        {
+          "text": "The clause permits sharing personal data with third parties for installment plans without clear user consent, possibly conflicting with PDPL Articles 12 and 13 on informed consent and specified purposes.",
+          "words": [
+            "possibly"
+          ]
+        },
+        {
+          "text": "The clause allows changes to terms without notice or explicit consent, potentially conflicting with PDPL Article 5 regarding consent for changes.",
+          "words": [
+            "potentially"
+          ]
+        }
+      ],
+      "assessments": {
+        "no_concern_identified": 1,
+        "potential_concern": 4
+      },
+      "pdpl_status": "partial",
+      "summary_sentences_en": 4,
+      "verbatim": 6,
+      "invented_article": false,
+      "repeat": 1,
+      "seconds": 4.9
+    },
+    {
+      "doc_id": "WP9-MAWID-AR",
+      "expected_level": "Safe",
+      "level": "Safe",
+      "score": 14,
+      "clauses": 7,
+      "level_diff": 0,
+      "severity": [
+        {
+          "anchor": "نجمع اسمك ورقم جوالك والعيادة والموعد الذي تختاره فقط",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "ولا نبيع بياناتك ولا نشاركها لأغراض إعلانية",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "ويمكنك إيقافها في أي وقت من الإعدادات",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "وتُحذف بياناتك من أنظمتنا خلال ٣٠ يومًا",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "تُخزن البيانات مشفرة على خوادم داخل المملكة",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        },
+        {
+          "anchor": "نخطرك داخل التطبيق قبل ١٤ يومًا",
+          "expected": "low",
+          "got": "low",
+          "diff": 0
+        }
+      ],
+      "pdpl": [
+        {
+          "anchor": "ولا نبيع بياناتك ولا نشاركها لأغراض إعلانية",
+          "expected": "no_concern_identified",
+          "got": "no_concern_identified"
+        },
+        {
+          "anchor": "ويمكنك إيقافها في أي وقت من الإعدادات",
+          "expected": "no_concern_identified",
+          "got": "no_concern_identified"
+        },
+        {
+          "anchor": "وتُحذف بياناتك من أنظمتنا خلال ٣٠ يومًا",
+          "expected": "no_concern_identified",
+          "got": "no_concern_identified"
+        }
+      ],
+      "missed_risks": [],
+      "extra_flags": [],
+      "explanations": 13,
+      "hedged_explanations": 0,
+      "hedge_examples": [],
+      "assessments": {
+        "no_concern_identified": 6
+      },
+      "pdpl_status": "partial",
+      "summary_sentences_en": 4,
+      "verbatim": 7,
+      "invented_article": false,
+      "repeat": 1,
+      "seconds": 4.6
+    }
+  ]
+}

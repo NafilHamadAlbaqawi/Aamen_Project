@@ -33,7 +33,7 @@
         {"anchor": "collect precise location information in the background", "severity": "medium"},
         {"anchor": "share your email address with selected advertising partners", "severity": "medium"},
         {"anchor": "order history, approximate location and device identifiers with analytics providers", "severity": "high", "pdpl": "potential_concern"},
-        {"anchor": "for up to five years after account closure for business purposes", "severity": "high", "pdpl": "potential_concern"},
+        {"anchor": "for up to five years after account closure for business purposes", "severity": "medium", "pdpl": "potential_concern", "note": "Corrected from high after the baseline: a stated period is medium under the rubric (same as WP4-DOC-A); the label contradicted the rubric."},
         {"anchor": "suspend or terminate any account at our sole discretion and without prior notice", "severity": "medium"},
         {"anchor": "Continued use of the application after changes are posted", "severity": "medium"},
         {"anchor": "not liable for indirect or consequential damages", "severity": "low"},

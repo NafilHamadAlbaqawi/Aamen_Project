@@ -13,7 +13,7 @@ from ..prompt_adjuster import PrivacyPreferences
 from .storage import database_connection, initialize_database
 
 
-CACHE_VERSION = "wp6-v1"
+CACHE_VERSION = "wp9-v1"  # WP9: prompts recalibrated, so results cached with the old prompts are not reused
 CACHE_TTL_SECONDS = 24 * 60 * 60
 
 # WP8: "partial" means WP5 screened every clause that has PDPL context, and the other clauses (for example

@@ -1,0 +1,909 @@
+{
+  "tag": "v7probe",
+  "from": null,
+  "rerun": "all",
+  "commit": "cc8343c",
+  "started": "2026-11-10 03:24:01 +0300",
+  "runs": [
+    {
+      "doc_id": "WP8-RIHLA-TERMS",
+      "repeat": 1,
+      "status": "ok",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 100,
+        "risk_level": "High Risk",
+        "summary_en": "The terms permit tracking of your location in the background for advertising purposes, affecting privacy even when the app is closed. Uploaded photos can be used perpetually in marketing, even post account deletion. Personal data is shared with third parties for marketing and retained indefinitely, raising privacy concerns and limiting user control. Account closure can occur anytime without notice, possibly forfeiting any balance, and the terms may change without notification. Location data collection while the app is open and liability limitations for delivery issues are more standard practices.",
+        "summary_ar": "تسمح الشروط بتتبع موقعك في الخلفية لأغراض الإعلانات، مما يؤثر على خصوصيتك حتى عند إغلاق التطبيق. يمكن استخدام الصور المحملة بشكل دائم في التسويق حتى بعد حذف الحساب. تُشارك البيانات الشخصية مع جهات خارجية للإعلانات وتُحتفظ لفترة غير محددة، مما يثير مخاوف الخصوصية ويحد من تحكم المستخدم. يمكن إغلاق الحساب في أي وقت دون إشعار، مما قد يؤدي إلى فقدان الرصيد، ويمكن تغيير الشروط دون إخطار. جمع بيانات الموقع أثناء فتح التطبيق وتحديد المسؤوليات في مشاكل التسليم هي ممارسات أكثر شيوعًا.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "The app collects your precise GPS location while it is open so riders can find you.",
+            "explanation_en": "The app uses your GPS location to ensure riders can find you, which is necessary for the service.",
+            "explanation_ar": "تستخدم التطبيق موقع GPS الخاص بك لضمان عثور السائقين عليك، وهو ضروري للخدمة."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "data_collection",
+            "severity": "high",
+            "source_excerpt": "We may also collect your location in the background, even when the app is closed, to suggest nearby restaurants and to measure our advertising campaigns.",
+            "explanation_en": "Your location is tracked in the background for advertising, which invades privacy when the app is closed.",
+            "explanation_ar": "يتم تتبع موقعك في الخلفية للإعلانات، مما يشكل انتهاكًا للخصوصية عند إغلاق التطبيق."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "other",
+            "severity": "high",
+            "source_excerpt": "If you upload a photo of an order or a profile picture, you grant Rihla a worldwide, royalty-free and perpetual licence to use, modify and publish that photo in our marketing, and this licence continues after you delete your account.",
+            "explanation_en": "You grant a perpetual licence to use your photos in marketing, even after account deletion, limiting control over your content.",
+            "explanation_ar": "تمنح رخصة دائمة لاستخدام صورك في التسويق، حتى بعد حذف الحساب، مما يقلل من السيطرة على المحتوى الخاص بك."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "By creating an account or placing an order you agree to these Terms.",
+            "explanation_en": "You agree to the Terms by using the service, which is standard practice to ensure consent.",
+            "explanation_ar": "توافق على الشروط عند استخدام الخدمة، وهذا هو الإجراء المعتاد لضمان الموافقة."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "third_party_sharing",
+            "severity": "high",
+            "source_excerpt": "We may share your name, phone number, order history and location with advertising partners, analytics providers and affiliated companies for their own marketing purposes.",
+            "explanation_en": "Your personal data is shared with partners for their marketing, impacting your privacy through third-party access.",
+            "explanation_ar": "يتم مشاركة بياناتك الشخصية مع شركاء للإعلانات الخاصة بهم، مما يؤثر على خصوصيتك من خلال وصول جهات خارجية."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "data_retention",
+            "severity": "high",
+            "source_excerpt": "We keep your order history and personal information for as long as we consider necessary for our business, including after your account is closed.",
+            "explanation_en": "Your data is retained indefinitely at the company’s discretion, affecting your control over personal information.",
+            "explanation_ar": "يتم الاحتفاظ ببياناتك إلى أجل غير مسمى وفقًا لتقدير الشركة، مما يؤثر على التحكم في معلوماتك الشخصية."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "account_termination",
+            "severity": "medium",
+            "source_excerpt": "Rihla may suspend or close your account at any time and for any reason without notice.",
+            "explanation_en": "Your account can be closed without notice, which might disrupt access unexpectedly.",
+            "explanation_ar": "يمكن إغلاق حسابك دون إشعار، مما قد يعطل الوصول بشكل غير متوقع."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "account_termination",
+            "severity": "high",
+            "source_excerpt": "Any wallet balance on a closed account may be forfeited.",
+            "explanation_en": "Any money left in your account may be lost if it is closed, resulting in financial loss.",
+            "explanation_ar": "يمكن فقدان أي رصيد في حسابك عند إغلاقه، مما يؤدي إلى خسارة مادية."
+          },
+          {
+            "clause_id": "clause_009",
+            "category": "terms_changes",
+            "severity": "medium",
+            "source_excerpt": "We may change these Terms at any time. Continued use of the service after a change means you accept the new Terms.",
+            "explanation_en": "The Terms can change without notice, requiring you to review regularly or face unexpected conditions.",
+            "explanation_ar": "يمكن تغيير الشروط دون إشعار، مما يتطلب منك مراجعتها بانتظام أو مواجهة شروط غير متوقعة."
+          },
+          {
+            "clause_id": "clause_010",
+            "category": "liability",
+            "severity": "low",
+            "source_excerpt": "To the maximum extent permitted by law, Rihla is not liable for late, missing or damaged orders, or for any indirect or consequential loss.",
+            "explanation_en": "The company limits liability for delivery issues as permitted by law, which is a common limitation to manage risk.",
+            "explanation_ar": "تحد الشركة من المسؤولية عن مشاكل التسليم كما يسمح القانون، وهو قيد شائع لإدارة المخاطر."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination.",
+        "pdpl": {
+          "status": "partial",
+          "findings": [
+            {
+              "clause_id": "clause_001",
+              "source_excerpt": "The app collects your precise GPS location while it is open so riders can find you.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The clause restricts data collection to the period the app is open, directly for the service purpose. This aligns with Articles 10 and 11 regarding data limitation and lawful purpose.",
+              "explanation_ar": "تقيد الفقرة جمع البيانات بالفترة التي يكون فيها التطبيق مفتوحًا، مباشرة لأغراض الخدمة. هذا يتماشى مع المادتين 10 و11 بخصوص تحديد البيانات والغرض المشروع.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 10",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "other purposes"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_002",
+              "source_excerpt": "We may also collect your location in the background, even when the app is closed, to suggest nearby restaurants and to measure our advertising campaigns.",
+              "assessment": "potential_concern",
+              "explanation_en": "Collecting location data in the background for advertising isn't necessary for the stated purposes and may exceed the lawful limitation principle of Article 11.",
+              "explanation_ar": "جمع بيانات الموقع في الخلفية لأغراض الإعلان ليس ضروريًا للأغراض المذكورة وقد يتجاوز مبدأ الحد القانوني وفقًا للمادة 11.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_003",
+              "source_excerpt": "If you upload a photo of an order or a profile picture, you grant Rihla a worldwide, royalty-free and perpetual licence to use, modify and publish that photo in our marketing, and this licence continues after you delete your account.",
+              "assessment": "potential_concern",
+              "explanation_en": "The clause permits perpetual use of images even after account deletion, which contradicts data destruction principles in Article 18.",
+              "explanation_ar": "تجيز الفقرة استخدام الصور بشكل دائم حتى بعد حذف الحساب، مما يتعارض مع مبادئ إتلاف البيانات الواردة في المادة 18.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_004",
+              "source_excerpt": "By creating an account or placing an order you agree to these Terms.",
+              "assessment": "needs_context",
+              "explanation_en": "Acceptance through account creation suggests consent, but it lacks specific mention of consent withdrawal, which Article 5 and Regulation 12 highlight as necessary.",
+              "explanation_ar": "تشير الموافقة عبر إنشاء الحساب إلى الموافقة، ولكنها تفتقر إلى ذكر صريح لسحب الموافقة، وهو ما تشير إليه المادة 5 واللائحة 12 على أنه ضروري.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 5",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "withdraw the consent"
+                },
+                {
+                  "source_id": "PDPL_IR",
+                  "title": "Implementing Regulation of the Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2",
+                  "excerpt": "withdraw their consent"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_005",
+              "source_excerpt": "We may share your name, phone number, order history and location with advertising partners, analytics providers and affiliated companies for their own marketing purposes.",
+              "assessment": "potential_concern",
+              "explanation_en": "Sharing personal data for third-parties' marketing purposes may violate data sharing limitations specified in Article 13.",
+              "explanation_ar": "قد يخرق مشاركة البيانات الشخصية لأغراض تسويقية لأطراف ثالثة قيود مشاركة البيانات المحددة في المادة 13.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_006",
+              "source_excerpt": "We keep your order history and personal information for as long as we consider necessary for our business, including after your account is closed.",
+              "assessment": "potential_concern",
+              "explanation_en": "Retaining personal data indefinitely contradicts the principle of data minimization and timely destruction outlined in Article 18.",
+              "explanation_ar": "الاحتفاظ بالبيانات الشخصية إلى أجل غير مسمى يتعارض مع مبدأ تقليل البيانات والإتلاف في الوقت المناسب المحدد في المادة 18.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_007",
+              "source_excerpt": "Rihla may suspend or close your account at any time and for any reason without notice.",
+              "assessment": "needs_context",
+              "explanation_en": "Account suspension without notice may impact data subject rights, needing clarity on related procedures as per Article 4.",
+              "explanation_ar": "قد يؤثر تعليق الحساب دون إشعار على حقوق أصحاب البيانات، مما يتطلب وضوحًا حول الإجراءات ذات الصلة وفقًا للمادة 4.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Data Subject"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_008",
+              "source_excerpt": "Any wallet balance on a closed account may be forfeited.",
+              "assessment": "needs_context",
+              "explanation_en": "The forfeiture of wallet balances on account closure might conflict with data subject rights, depending on the specific regulatory context of Article 4.",
+              "explanation_ar": "قد يتعارض مصادرة أرصدة المحفظة عند إغلاق الحساب مع حقوق أصحاب البيانات، حسب السياق التنظيمي المحدد في المادة 4.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Data Subject"
+                }
+              ]
+            }
+          ],
+          "disclaimer": "Automated, limited PDPL screening using selected legal summaries; not a legal compliance determination. Check the latest official provisions."
+        }
+      },
+      "seconds": 13.2,
+      "calls": [
+        {
+          "stage": "ExtractionOutput",
+          "seconds": 2.79,
+          "usd": 0.005965
+        },
+        {
+          "stage": "ClassificationOutput",
+          "seconds": 4.99,
+          "usd": 0.009602
+        },
+        {
+          "stage": "SummaryOutput",
+          "seconds": 2.52,
+          "usd": 0.006085
+        },
+        {
+          "stage": "AIReviewBatch",
+          "seconds": 5.33,
+          "usd": 0.015305
+        }
+      ]
+    },
+    {
+      "doc_id": "WP8-RIHLA-TERMS",
+      "repeat": 2,
+      "status": "ok",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 100,
+        "risk_level": "High Risk",
+        "summary_en": "The app collects precise location data in the background for advertising, which impacts privacy, and shares personal information, including banking details, with third parties. Rihla retains personal data indefinitely and can suspend accounts without notice, with the risk of losing wallet balances. Uploaded photos can be used perpetually for marketing. Terms can change anytime, requiring users to accept new conditions, and liability for indirect losses is limited, a standard practice.",
+        "summary_ar": "يجمع التطبيق بيانات الموقع الخلفية لأغراض الإعلان، مما يؤثر على الخصوصية، ويُشارك المعلومات الشخصية، بما في ذلك التفاصيل المصرفية، مع جهات ثالثة. تحتفظ ريهلا بالبيانات الشخصية إلى أجل غير مسمى ويمكنها تعليق الحسابات دون إخطار، مع خطر فقدان أرصدة المحفظة. يمكن استخدام الصور المحملة بشكل دائم لأغراض التسويق. يمكن تغيير الشروط في أي وقت، ويجب على المستخدمين قبول الشروط الجديدة، ويتم تحديد المسؤولية عن الخسائر غير المباشرة، وهو إجراء قياسي.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "The app collects your precise GPS location while it is open so riders can find you.",
+            "explanation_en": "The app collects precise location while open to enable riders to find you, which is necessary for the service.",
+            "explanation_ar": "يجمع التطبيق موقعك الدقيق عند فتحه لتمكين السائقين من العثور عليك، وهو ضروري للخدمة."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "data_collection",
+            "severity": "high",
+            "source_excerpt": "We may also collect your location in the background, even when the app is closed, to suggest nearby restaurants and to measure our advertising campaigns.",
+            "explanation_en": "The app collects location data in the background for advertising, which impacts privacy significantly.",
+            "explanation_ar": "يجمع التطبيق بيانات الموقع في الخلفية لأغراض إعلانية، مما يؤثر بشكل كبير على الخصوصية."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "other",
+            "severity": "high",
+            "source_excerpt": "If you upload a photo of an order or a profile picture, you grant Rihla a worldwide, royalty-free and perpetual licence to use, modify and publish that photo in our marketing, and this licence continues after you delete your account.",
+            "explanation_en": "Rihla gets a perpetual licence to use uploaded photos for marketing, even after account deletion.",
+            "explanation_ar": "تحصل ريهلا على ترخيص دائم لاستخدام الصور المحملة في التسويق حتى بعد حذف الحساب."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "We store your card number, expiry date and billing address with our payment processor so you can pay faster.",
+            "explanation_en": "Card details are stored for faster payments, a standard and user-friendly practice.",
+            "explanation_ar": "يتم تخزين تفاصيل البطاقة لتسريع الدفع، وهو إجراء قياسي وملائم للمستخدم."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "third_party_sharing",
+            "severity": "high",
+            "source_excerpt": "Your banking details may be shared with our lending partners to offer you buy-now-pay-later plans.",
+            "explanation_en": "Banking details are shared with lending partners for promotional financing offers.",
+            "explanation_ar": "تُشارك التفاصيل المصرفية مع شركاء الإقراض لعروض التمويل الترويجية."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "third_party_sharing",
+            "severity": "high",
+            "source_excerpt": "We may share your name, phone number, order history and location with advertising partners, analytics providers and affiliated companies for their own marketing purposes.",
+            "explanation_en": "Personal data is shared with third parties for their own marketing purposes, affecting privacy.",
+            "explanation_ar": "تتم مشاركة البيانات الشخصية مع أطراف ثالثة لأغراض تسويقية تخصهم، مما يؤثر على الخصوصية."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "data_retention",
+            "severity": "high",
+            "source_excerpt": "We keep your order history and personal information for as long as we consider necessary for our business, including after your account is closed.",
+            "explanation_en": "Personal information is retained indefinitely based on the company's discretion.",
+            "explanation_ar": "تُحتفظ بالمعلومات الشخصية إلى أجل غير مسمى بناءً على تقدير الشركة."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "account_termination",
+            "severity": "medium",
+            "source_excerpt": "Rihla may suspend or close your account at any time and for any reason without notice.",
+            "explanation_en": "Rihla can suspend accounts without notice, which may affect service access suddenly.",
+            "explanation_ar": "يمكن لريهلا تعليق الحسابات دون إخطار، مما قد يؤثر على الوصول إلى الخدمة بشكل مفاجئ."
+          },
+          {
+            "clause_id": "clause_009",
+            "category": "account_termination",
+            "severity": "high",
+            "source_excerpt": "Any wallet balance on a closed account may be forfeited.",
+            "explanation_en": "Any wallet balance can be forfeited when an account is closed.",
+            "explanation_ar": "يمكن مصادرة أي رصيد متبقي في المحفظة عند إغلاق الحساب."
+          },
+          {
+            "clause_id": "clause_010",
+            "category": "terms_changes",
+            "severity": "medium",
+            "source_excerpt": "We may change these Terms at any time. Continued use of the service after a change means you accept the new Terms.",
+            "explanation_en": "Terms can change without notice, and using the service implies acceptance of new terms.",
+            "explanation_ar": "يمكن تغيير الشروط دون إشعار، واستخدام الخدمة يعني قبول الشروط الجديدة."
+          },
+          {
+            "clause_id": "clause_011",
+            "category": "liability",
+            "severity": "low",
+            "source_excerpt": "To the maximum extent permitted by law, Rihla is not liable for late, missing or damaged orders, or for any indirect or consequential loss.",
+            "explanation_en": "Rihla limits liability for indirect or consequential loss, which is standard practice.",
+            "explanation_ar": "تحدد ريهلا المسؤولية عن الخسائر غير المباشرة أو التبعية، وهو إجراء قياسي."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination.",
+        "pdpl": {
+          "status": "partial",
+          "findings": [
+            {
+              "clause_id": "clause_001",
+              "source_excerpt": "The app collects your precise GPS location while it is open so riders can find you.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The app collects GPS location only while open, which aligns with using data for the stated purpose of riders finding users. This complies with Article 11.",
+              "explanation_ar": "يجمع التطبيق الموقع الجغرافي فقط عند فتحه، مما يتماشى مع استخدام البيانات للغرض المحدد وهو تمكين الركاب من العثور على المستخدمين. يتوافق هذا مع المادة 11.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_002",
+              "source_excerpt": "We may also collect your location in the background, even when the app is closed, to suggest nearby restaurants and to measure our advertising campaigns.",
+              "assessment": "potential_concern",
+              "explanation_en": "Collecting location data in the background for marketing and advertising goes beyond the necessary purpose, conflicting with Article 11.",
+              "explanation_ar": "جمع بيانات الموقع في الخلفية لأغراض التسويق والإعلانات يتجاوز الغرض الضروري، ويتعارض مع المادة 11.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_003",
+              "source_excerpt": "If you upload a photo of an order or a profile picture, you grant Rihla a worldwide, royalty-free and perpetual licence to use, modify and publish that photo in our marketing, and this licence continues after you delete your account.",
+              "assessment": "potential_concern",
+              "explanation_en": "Perpetual licence for photo use after account deletion conflicts with the right to request data destruction under Article 18.",
+              "explanation_ar": "الترخيص الدائم لاستخدام الصور بعد حذف الحساب يتعارض مع حق طلب إتلاف البيانات وفقًا للمادة 18.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_004",
+              "source_excerpt": "We store your card number, expiry date and billing address with our payment processor so you can pay faster.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "Storing payment information with a processor to facilitate payments is lawful and necessary, consistent with Article 11.",
+              "explanation_ar": "تخزين معلومات الدفع مع معالج لتسهيل المدفوعات قانوني وضروري، ويتماشى مع المادة 11.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_005",
+              "source_excerpt": "Your banking details may be shared with our lending partners to offer you buy-now-pay-later plans.",
+              "assessment": "needs_context",
+              "explanation_en": "Sharing banking details requires assessing if a privacy policy specifies the sharing purpose and legal basis as per Article 13.",
+              "explanation_ar": "مشاركة التفاصيل المصرفية تتطلب تقييم ما إذا كانت سياسة الخصوصية تحدد الغرض من المشاركة والأساس القانوني وفقًا للمادة 13.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_006",
+              "source_excerpt": "We may share your name, phone number, order history and location with advertising partners, analytics providers and affiliated companies for their own marketing purposes.",
+              "assessment": "potential_concern",
+              "explanation_en": "Sharing personal data with third parties for their own purposes without a specified basis may violate data protection principles in Article 13.",
+              "explanation_ar": "مشاركة البيانات الشخصية مع أطراف ثالثة لأغراضهم الخاصة دون أساس محدد قد يخالف مبادئ حماية البيانات في المادة 13.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_007",
+              "source_excerpt": "We keep your order history and personal information for as long as we consider necessary for our business, including after your account is closed.",
+              "assessment": "potential_concern",
+              "explanation_en": "Retaining data indefinitely for business purposes after account closure conflicts with the principles of Article 18.",
+              "explanation_ar": "الاحتفاظ بالبيانات لأغراض تجارية بعد إغلاق الحساب يتعارض مع مبادئ المادة 18.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_008",
+              "source_excerpt": "Rihla may suspend or close your account at any time and for any reason without notice.",
+              "assessment": "needs_context",
+              "explanation_en": "Account termination policy lacks clarity on data retention or destruction procedures, needing more context under Article 4.",
+              "explanation_ar": "سياسة إنهاء الحساب تفتقر إلى وضوح حول إجراءات الاحتفاظ بالبيانات أو إتلافها، مما يحتاج إلى مزيد من السياق وفقًا للمادة 4.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Data Subject"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_009",
+              "source_excerpt": "Any wallet balance on a closed account may be forfeited.",
+              "assessment": "needs_context",
+              "explanation_en": "Forfeiting wallet balances upon account closure may require additional context on user rights, potentially relevant under Article 4.",
+              "explanation_ar": "مصادرة أرصدة المحفظة عند إغلاق الحساب قد يتطلب سياق إضافي حول حقوق المستخدم، مما قد يكون ذو صلة بالمادة 4.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Data Subject"
+                }
+              ]
+            }
+          ],
+          "disclaimer": "Automated, limited PDPL screening using selected legal summaries; not a legal compliance determination. Check the latest official provisions."
+        }
+      },
+      "seconds": 19.5,
+      "calls": [
+        {
+          "stage": "ExtractionOutput",
+          "seconds": 3.04,
+          "usd": 0.006345
+        },
+        {
+          "stage": "ClassificationOutput",
+          "seconds": 5.16,
+          "usd": 0.009718
+        },
+        {
+          "stage": "SummaryOutput",
+          "seconds": 2.17,
+          "usd": 0.005933
+        },
+        {
+          "stage": "AIReviewBatch",
+          "seconds": 11.23,
+          "usd": 0.016792
+        }
+      ]
+    },
+    {
+      "doc_id": "WP9-LAMHA",
+      "repeat": 1,
+      "status": "ok",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 90,
+        "risk_level": "High Risk",
+        "summary_en": "By using the service, you grant Lamha a perpetual license to use and sell your photos, even after deletion. Additionally, Lamha creates face templates from your photos for machine learning, which can be licensed to other companies. The app geotags your photos by default, but this can be turned off. Disputes are settled through arbitration, and users waive the right to participate in class actions. You have the ability to delete photos from your profile and switch to a private account for more control over your content.",
+        "summary_ar": "بمجرد استخدام الخدمة، تمنح لمحة ترخيصًا دائمًا لاستخدام وبيع صورك، حتى بعد الحذف. بالإضافة إلى ذلك، تقوم لمحة بإنشاء قوالب وجوه من صورك لاستخدامها في التعلم الآلي وترخيصها للشركات الأخرى. التطبيق يضيف الموقع الجغرافي إلى صورك بشكل افتراضي ويمكن تعطيله. يتم حل النزاعات عن طريق التحكيم والتنازل عن الحق في الانضمام إلى الدعاوى الجماعية. يمكنك حذف الصور من ملفك الشخصي والتحويل إلى حساب خاص للتحكم بمحتواك بشكل أكبر.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "other",
+            "severity": "high",
+            "source_excerpt": "By posting, you grant Lamha a perpetual, irrevocable, worldwide licence to use, copy, modify, sublicense and sell your photos, including after you delete them.",
+            "explanation_en": "Granting a perpetual licence allows the company to use and sell your photos indefinitely, even after deletion.",
+            "explanation_ar": "منح ترخيص دائم يسمح للشركة باستخدام وبيع صورك إلى الأبد، حتى بعد الحذف."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "sensitive_data",
+            "severity": "high",
+            "source_excerpt": "Lamha scans the faces in every photo you upload to create face templates, and uses these templates and your photos to train machine-learning models that we may license to other companies.",
+            "explanation_en": "Face templates are created from your photos and used for machine learning, which are licensed to other companies.",
+            "explanation_ar": "يتم إنشاء قالب للوجه من صورك واستخدامها في التعلم الآلي الذي يُرخص للشركات الأخرى."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "data_collection",
+            "severity": "medium",
+            "source_excerpt": "The app adds your exact location to each photo you post unless you turn this off.",
+            "explanation_en": "The app geotags your photos by default, but this can be disabled, affecting privacy.",
+            "explanation_ar": "يقوم التطبيق بإضافة موقع جغرافي إلى صورك افتراضيًا، ولكن يمكن تعطيله، مما يؤثر على الخصوصية."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "You can delete a photo at any time, and deleted photos are removed from your profile immediately.",
+            "explanation_en": "You can delete photos from your profile at any time, ensuring control over your content.",
+            "explanation_ar": "يمكنك حذف الصور من ملفك الشخصي في أي وقت، مما يتيح لك السيطرة على محتواك."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "You can switch your account to private in Settings.",
+            "explanation_en": "Switching to a private account offers more control over who sees your content.",
+            "explanation_ar": "التحويل إلى حساب خاص يوفر مزيد من التحكم في من يرى محتواك."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "Any dispute must be resolved through binding arbitration, and you waive your right to join a class action.",
+            "explanation_en": "Disputes are resolved by arbitration, and the right to join class actions is waived.",
+            "explanation_ar": "يتم حل النزاعات عن طريق التحكيم، والتنازل عن الحق في الانضمام إلى الدعاوى الجماعية."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination.",
+        "pdpl": {
+          "status": "partial",
+          "findings": [
+            {
+              "clause_id": "clause_001",
+              "source_excerpt": "By posting, you grant Lamha a perpetual, irrevocable, worldwide licence to use, copy, modify, sublicense and sell your photos, including after you delete them.",
+              "assessment": "potential_concern",
+              "explanation_en": "The clause allows indefinite use of data after deletion, conflicting with the right to request destruction under Article 4 and data destruction requirements under Article 18.",
+              "explanation_ar": "يسمح البند باستخدام البيانات إلى أجل غير مسمى بعد الحذف، مما يتعارض مع الحق في طلب الإتلاف بموجب المادة 4 ومتطلبات إتلاف البيانات بموجب المادة 18.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Data Subject"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_002",
+              "source_excerpt": "Lamha scans the faces in every photo you upload to create face templates, and uses these templates and your photos to train machine-learning models that we may license to other companies.",
+              "assessment": "potential_concern",
+              "explanation_en": "The clause involves using data for purposes not originally collected for and sharing it, conflicting with the purpose limitation principle under Article 11 and Reg 19.",
+              "explanation_ar": "يتضمن البند استخدام البيانات لأغراض غير التي جمعت من أجلها ومشاركتها، مما يتعارض مع مبدأ تحديد الأغراض بموجب المادة 11 واللائحة 19.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                },
+                {
+                  "source_id": "PDPL_IR",
+                  "title": "Implementing Regulation of the Personal Data Protection Law",
+                  "article_id": "Article 19",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_003",
+              "source_excerpt": "The app adds your exact location to each photo you post unless you turn this off.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The clause provides an option to disable location data collection, aligning with the principle of limiting data collection to necessity under Article 11.",
+              "explanation_ar": "يوفر البند خيارًا لتعطيل جمع بيانات الموقع، مما يتماشى مع مبدأ قصر جمع البيانات على الضرورة بموجب المادة 11.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_004",
+              "source_excerpt": "You can delete a photo at any time, and deleted photos are removed from your profile immediately.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The clause permits deletion of photos at any time, aligning with the right to request destruction under Article 4 and prompt destruction under Article 18.",
+              "explanation_ar": "يسمح البند بحذف الصور في أي وقت، بما يتماشى مع الحق في طلب الإتلاف بموجب المادة 4 والإتلاف الفوري بموجب المادة 18.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Data Subject"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_005",
+              "source_excerpt": "You can switch your account to private in Settings.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The clause allows changing account to private, which aligns with consent withdrawal mechanisms under Article 5 and Reg 12.",
+              "explanation_ar": "يسمح البند بتغيير الحساب إلى خاص، مما يتماشى مع آليات سحب الموافقة بموجب المادة 5 واللائحة 12.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 5",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "withdraw the consent"
+                },
+                {
+                  "source_id": "PDPL_IR",
+                  "title": "Implementing Regulation of the Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2",
+                  "excerpt": "withdraw their consent"
+                }
+              ]
+            }
+          ],
+          "disclaimer": "Automated, limited PDPL screening using selected legal summaries; not a legal compliance determination. Check the latest official provisions."
+        }
+      },
+      "seconds": 10.0,
+      "calls": [
+        {
+          "stage": "ExtractionOutput",
+          "seconds": 2.42,
+          "usd": 0.003978
+        },
+        {
+          "stage": "ClassificationOutput",
+          "seconds": 3.19,
+          "usd": 0.006497
+        },
+        {
+          "stage": "SummaryOutput",
+          "seconds": 2.23,
+          "usd": 0.004848
+        },
+        {
+          "stage": "AIReviewBatch",
+          "seconds": 4.34,
+          "usd": 0.010138
+        }
+      ]
+    },
+    {
+      "doc_id": "WP9-LAMHA",
+      "repeat": 2,
+      "status": "ok",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 88,
+        "risk_level": "High Risk",
+        "summary_en": "Lamha is allowed to use, modify, sublicense, and sell your photos indefinitely, even after deletion, which limits your control over them. The platform also uses facial data from your photos to train machine-learning models, potentially affecting your privacy. Your exact location is added to photos by default, impacting privacy unless manually disabled. Disputes must go through arbitration, individual only, limiting legal actions like class actions. However, you can delete photos from your profile at any time, ensuring some level of content control.",
+        "summary_ar": "لامها تسمح لنفسها باستخدام وتعديل وترخيص وبيع صورك إلى أجل غير مسمى حتى بعد حذفها، مما يقلل من سيطرتك عليها. تستخدم المنصة أيضاً بيانات الوجه من صورك لتدريب نماذج تعلم الآلة، مما قد يؤثر على خصوصيتك. تتم إضافة موقعك الدقيق إلى الصور افتراضياً، مما يؤثر على الخصوصية ما لم تقم بتعطيله يدوياً. يجب حل النزاعات عبر التحكيم الفردي، مما يمنع الدعاوى الجماعية ويحد من بعض السبل القانونية. ومع ذلك، يمكنك حذف الصور من ملفك الشخصي في أي وقت، مما يضمن مستوىً معيناً من التحكم في المحتوى.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "other",
+            "severity": "high",
+            "source_excerpt": "By posting, you grant Lamha a perpetual, irrevocable, worldwide licence to use, copy, modify, sublicense and sell your photos, including after you delete them.",
+            "explanation_en": "Lamha can use and sell your photos indefinitely, even after deletion, which removes your control over them.",
+            "explanation_ar": "لامها يمكنها استخدام وبيع صورك بشكل دائم حتى بعد الحذف، مما يُفقدك السيطرة عليها."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "sensitive_data",
+            "severity": "high",
+            "source_excerpt": "Lamha scans the faces in every photo you upload to create face templates, and uses these templates and your photos to train machine-learning models that we may license to other companies.",
+            "explanation_en": "Lamha uses your facial data to train models that can be licensed to others, affecting your privacy and control.",
+            "explanation_ar": "لامها تستخدم بيانات وجهك لتدريب نماذج يمكن ترخيصها للآخرين، مما يؤثر على خصوصيتك وسيطرتك."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "data_collection",
+            "severity": "medium",
+            "source_excerpt": "The app adds your exact location to each photo you post unless you turn this off.",
+            "explanation_en": "Your exact location is added to photos by default, which may impact your privacy unless you disable this setting.",
+            "explanation_ar": "يتم إضافة موقعك الدقيق إلى الصور افتراضياً، مما قد يؤثر على خصوصيتك ما لم تقم بتعطيل هذا الإعداد."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "You can delete a photo at any time, and deleted photos are removed from your profile immediately.",
+            "explanation_en": "You can delete photos anytime, and they are immediately removed from your profile, protecting your control over content.",
+            "explanation_ar": "يمكنك حذف الصور في أي وقت، وتُزال فوراً من ملفك الشخصي، مما يحمي سيطرتك على المحتوى."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "Any dispute must be resolved through binding arbitration, and you waive your right to join a class action.",
+            "explanation_en": "All disputes must be arbitrated individually, preventing class actions, which limits certain legal recourse.",
+            "explanation_ar": "يجب حل النزاعات عبر التحكيم الفردي، مما يمنع الدعاوى الجماعية، ويمكن أن يحدد بعض السبل القانونية."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination.",
+        "pdpl": {
+          "status": "partial",
+          "findings": [
+            {
+              "clause_id": "clause_001",
+              "source_excerpt": "By posting, you grant Lamha a perpetual, irrevocable, worldwide licence to use, copy, modify, sublicense and sell your photos, including after you delete them.",
+              "assessment": "potential_concern",
+              "explanation_en": "The clause conflicts with the principle of data destruction after it's no longer needed, as it allows perpetual use of data even post-deletion.",
+              "explanation_ar": "تتعارض الفقرة مع مبدأ إتلاف البيانات بعد انتهاء الحاجة، إذ تسمح بالاستخدام الأبدي للبيانات حتى بعد حذفها.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_002",
+              "source_excerpt": "Lamha scans the faces in every photo you upload to create face templates, and uses these templates and your photos to train machine-learning models that we may license to other companies.",
+              "assessment": "potential_concern",
+              "explanation_en": "The clause allows data collection beyond what is necessary for the stated purpose, conflicting with limitations on unnecessary data collection.",
+              "explanation_ar": "تسمح الفقرة بجمع البيانات بما يتجاوز الحاجة للغرض المعلن، مما يتعارض مع القيود على جمع البيانات غير الضرورية.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_003",
+              "source_excerpt": "The app adds your exact location to each photo you post unless you turn this off.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The clause allows users to control location data collection, aligning with the principle of limiting collection to the necessary data.",
+              "explanation_ar": "تسمح الفقرة للمستخدمين بالتحكم في جمع بيانات الموقع، بما يتوافق مع مبدأ تقييد جمع البيانات للحد الأدنى اللازم.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL_IR",
+                  "title": "Implementing Regulation of the Personal Data Protection Law",
+                  "article_id": "Article 19",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_004",
+              "source_excerpt": "You can delete a photo at any time, and deleted photos are removed from your profile immediately.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The clause supports data subjects' rights to request destruction of personal data, aligning with destruction without undue delay.",
+              "explanation_ar": "تدعم الفقرة حقوق أصحاب البيانات في طلب إتلاف البيانات الشخصية، مما يتماشى مع الإتلاف دون تأخير غير مبرر.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            }
+          ],
+          "disclaimer": "Automated, limited PDPL screening using selected legal summaries; not a legal compliance determination. Check the latest official provisions."
+        }
+      },
+      "seconds": 9.7,
+      "calls": [
+        {
+          "stage": "ExtractionOutput",
+          "seconds": 1.81,
+          "usd": 0.003788
+        },
+        {
+          "stage": "ClassificationOutput",
+          "seconds": 3.63,
+          "usd": 0.00622
+        },
+        {
+          "stage": "SummaryOutput",
+          "seconds": 3.09,
+          "usd": 0.004945
+        },
+        {
+          "stage": "AIReviewBatch",
+          "seconds": 4.23,
+          "usd": 0.00801
+        }
+      ]
+    }
+  ],
+  "finished": "2026-11-10 03:24:53 +0300",
+  "usd_total_so_far": 1.102413
+}

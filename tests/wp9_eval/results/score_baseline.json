@@ -8,10 +8,10 @@
     "benign_rated_safe": "1/4",
     "risky_rated_high": "5/5",
     "severity_matched": 58,
-    "severity_exact_pct": 70.7,
+    "severity_exact_pct": 72.4,
     "severity_within_one_pct": 98.3,
     "severity_over_pct": 22.4,
-    "severity_under_pct": 6.9,
+    "severity_under_pct": 5.2,
     "missed_risks": 4,
     "extra_medium_high_flags": 1,
     "pdpl_labelled_found": 23,
@@ -118,9 +118,9 @@
         },
         {
           "anchor": "for up to five years after account closure for business purposes",
-          "expected": "high",
+          "expected": "medium",
           "got": "medium",
-          "diff": -1
+          "diff": 0
         },
         {
           "anchor": "suspend or terminate any account at our sole discretion and without prior notice",
