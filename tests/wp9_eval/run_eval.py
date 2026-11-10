@@ -12,6 +12,7 @@ Needs OPENAI_API_KEY. Every call is counted in results/usage.json and the run st
 
 import argparse
 import json
+import logging
 import subprocess
 import sys
 import time
@@ -24,12 +25,11 @@ sys.path.insert(0, str(ROOT))
 from openai import OpenAIError  # noqa: E402
 
 from backend.analysis.openai_client import AnalysisFailure  # noqa: E402
-from backend.analysis.pipeline import analyze_terms  # noqa: E402
+from backend.analysis.pipeline import analyze_terms, screen_pdpl  # noqa: E402
 from backend.analysis.rating import calculate_rating  # noqa: E402
 from backend.analysis.risk_classifier import classify_clauses  # noqa: E402
 from backend.analysis.schemas import AnalysisResponse, ExtractedClause, FlaggedClause  # noqa: E402
 from backend.analysis.summary_generator import generate_summary  # noqa: E402
-from backend.pdpl.checker import check_pdpl  # noqa: E402
 from backend.pdpl.schemas import PDPLCheckResult  # noqa: E402
 from backend.prompt_adjuster import build_prompt_bundle  # noqa: E402
 from tests.wp9_eval.budget import BudgetExceeded, install  # noqa: E402
@@ -37,6 +37,25 @@ from tests.wp9_eval.corpus import load_corpus  # noqa: E402
 
 RESULTS = HERE / "results"
 STAGES = ("extract", "classify", "summary", "pdpl")
+
+
+class _FailureLog(logging.Handler):
+    """Keeps the reason when the pipeline logs a PDPL failure, so it is saved with the run."""
+
+    def __init__(self):
+        super().__init__(level=logging.ERROR)
+        self.reasons = []
+
+    def emit(self, record):
+        if record.exc_info and record.exc_info[1] is not None:
+            self.reasons.append(f"{type(record.exc_info[1]).__name__}: {record.exc_info[1]}")
+        else:
+            self.reasons.append(record.getMessage())
+
+
+FAILURES = _FailureLog()
+logging.getLogger("backend.analysis.pipeline").addHandler(FAILURES)
+logging.getLogger("backend.analysis.pipeline").propagate = False
 
 
 def git_commit():
@@ -62,11 +81,11 @@ def rerun_stages(saved, rerun):
         summary_en, summary_ar = summary.summary_en, summary.summary_ar
     if "pdpl" in rerun:
         try:
-            pdpl = check_pdpl(classified)
+            pdpl = screen_pdpl(classified)  # same as the backend, including its retry
         except BudgetExceeded:
             raise
         except Exception as error:  # same fallback as backend/analysis/pipeline.py
-            print(f"    PDPL screening failed: {type(error).__name__}: {error}")
+            FAILURES.reasons.append(f"{type(error).__name__}: {error}")
             pdpl = PDPLCheckResult(status="unavailable", disclaimer="PDPL screening failed; no PDPL conclusion is available.")
 
     score, level = calculate_rating(classified)
@@ -118,6 +137,7 @@ def main():
                 break
             run = {"doc_id": doc["doc_id"], "repeat": repeat}
             ledger.log.clear()
+            FAILURES.reasons.clear()
             start = time.perf_counter()
             try:
                 if rerun and rerun != set(STAGES):
@@ -135,10 +155,13 @@ def main():
                 run.update(status="error", error=f"{type(error).__name__}: {error}")
             run["seconds"] = round(time.perf_counter() - start, 1)
             run["calls"] = [{"stage": s, "seconds": t, "usd": c} for s, t, c in ledger.log]
+            if FAILURES.reasons:
+                run["pdpl_failure"] = list(FAILURES.reasons)
             out["runs"].append(run)
             level = run.get("response", {}).get("risk_level", run.get("error", ""))
+            note = f" [PDPL failed: {run['pdpl_failure'][0]}]" if run.get("pdpl_failure") else ""
             print(f"{doc['doc_id']:18s} r{repeat} -> {run['status']:7s} {level} ({run['seconds']}s, "
-                  f"total {ledger.data['total_usd']:.3f} USD)", flush=True)
+                  f"total {ledger.data['total_usd']:.3f} USD){note}", flush=True)
             save()
 
     save()
