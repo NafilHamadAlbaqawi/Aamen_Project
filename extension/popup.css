@@ -232,3 +232,6 @@ html[dir="rtl"] .bar { background: linear-gradient(270deg, var(--high) 0 33%, va
 .btn.ghost:disabled:hover { background: var(--surface-2); }
 .notice { flex-wrap: wrap; }
 .notice-link { padding: 0; color: var(--moderate); }
+
+/* WP9: a neutral note (not a warning), for example when some clauses have no PDPL article. */
+.notice.info { border-color: var(--border); background: var(--surface); color: var(--muted); }

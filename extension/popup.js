@@ -42,7 +42,8 @@ WP8 (integration) added:
     prefsSavedLocal: 'Saved on this device. They will be sent to the server before your next analysis.',
     prefsUnsaved: 'You have unsaved changes. The rating shows them as a preview until you save.',
     prefsApplyNote: 'Your saved preferences are used in every new analysis.',
-    prefsUnsavedNote: 'Preference changes are not saved yet.', prefsReview: 'Review and save'
+    prefsUnsavedNote: 'Preference changes are not saved yet.', prefsReview: 'Review and save',
+    notePdplPartial: 'Some clauses, such as liability or fees, are not about personal data, so they have no PDPL reference.'
   });
   Object.assign(STRINGS.ar, {
     settingsLink: 'إعدادات الخادم', settingsTitle: 'إعدادات الخادم', serverLabel: 'عنوان الخادم',
@@ -61,7 +62,8 @@ WP8 (integration) added:
     prefsSavedLocal: 'تم الحفظ على هذا الجهاز، وستُرسل إلى الخادم قبل تحليلك القادم.',
     prefsUnsaved: 'لديك تغييرات غير محفوظة. يعرضها التقييم كمعاينة حتى تحفظها.',
     prefsApplyNote: 'تُستخدم تفضيلاتك المحفوظة في كل تحليل جديد.',
-    prefsUnsavedNote: 'تغييرات التفضيلات لم تُحفظ بعد.', prefsReview: 'راجعها واحفظها'
+    prefsUnsavedNote: 'تغييرات التفضيلات لم تُحفظ بعد.', prefsReview: 'راجعها واحفظها',
+    notePdplPartial: 'بعض البنود، مثل المسؤولية أو الرسوم، لا تتعلق بالبيانات الشخصية، لذلك لا يوجد لها مرجع في نظام حماية البيانات الشخصية.'
   });
   ERRORS.no_clauses = {
     en: ['No clear clauses found', 'The AI could not find terms or privacy clauses in this text. Try the full terms page, or paste the text.'],
@@ -499,7 +501,10 @@ WP8 (integration) added:
     const r = st.result, out = [];
     const make = text => h('div', { class: 'notice', role: 'note' }, h('span', null, text));
     if (r.input_truncated) out.push(make(t('warnTruncated')));
-    if (!r.pdpl || r.pdpl.status !== 'completed') out.push(make(t('warnPdpl')));
+    // WP9: "partial" is the normal result for real terms: clauses such as liability or fees are not about
+    // personal data, so no PDPL article matches them. It gets a neutral note; the warning is only for a failed check.
+    if (r.pdpl && r.pdpl.status === 'partial') out.push(h('div', { class: 'notice info', role: 'note' }, h('span', null, t('notePdplPartial'))));
+    else if (!r.pdpl || r.pdpl.status !== 'completed') out.push(make(t('warnPdpl')));
     // WP8: a choice was changed from a warning, but not saved yet. The button goes to the Preferences tab.
     if (prefsDirty()) {
       out.push(h('div', { class: 'notice', role: 'note' }, h('span', null, t('prefsUnsavedNote')),
