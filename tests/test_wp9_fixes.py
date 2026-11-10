@@ -34,6 +34,15 @@ class LocateExcerptTests(unittest.TestCase):
         self.assertEqual(got, "we may share your email with advertising partners")
         self.assertIn(got, SOURCE)
 
+    def test_line_breaks_inside_a_sentence_are_matched(self):
+        # Found in the WP9 browser regression: the extension keeps the HTML source's line breaks, so
+        # "collect your\nlocation" was quoted as "collect your location" and the clause was dropped.
+        page = ("The app collects your precise GPS location while it is open. We may also collect your\n"
+                "       location in the background, even when the app is closed.")
+        got = locate_excerpt("We may also collect your location in the background, even when the app is closed.", page)
+        self.assertEqual(got, "We may also collect your\n       location in the background, even when the app is closed")
+        self.assertIn(got, page)
+
     def test_quotes_are_removed(self):
         self.assertEqual(locate_excerpt("“We store data for up to two years”", SOURCE), "We store data for up to two years")
 
