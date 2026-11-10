@@ -1,0 +1,21 @@
+INFO:     Started server process [18088]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:32061 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32070 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32070 - "POST /analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32070 - "POST /analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32070 - "PUT /preferences/ee34e8a8-cacf-43f4-a788-ab62413a11c2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32091 - "GET /preferences/ee34e8a8-cacf-43f4-a788-ab62413a11c2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32092 - "GET /preferences/ee34e8a8-cacf-43f4-a788-ab62413a11c2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32070 - "POST /analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32070 - "POST /analyze HTTP/1.1" 200 OK
+WP5 answer failed validation (PDPL model cited an unverified or duplicate reference ID.); retrying once.
+INFO:     127.0.0.1:32070 - "POST /analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32070 - "POST /analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32116 - "GET /preferences/ee34e8a8-cacf-43f4-a788-ab62413a11c2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32070 - "PUT /preferences/ee34e8a8-cacf-43f4-a788-ab62413a11c2 HTTP/1.1" 200 OK
+WP5 answer failed validation (PDPL model cited an unverified or duplicate reference ID.); retrying once.
+INFO:     127.0.0.1:32070 - "POST /analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:32122 - "GET /preferences/ee34e8a8-cacf-43f4-a788-ab62413a11c2 HTTP/1.1" 200 OK

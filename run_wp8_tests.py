@@ -1,6 +1,6 @@
 """Run the WP8 integration checks from the VS Code Run Python File button; no typed commands.
 
-1. The full backend test suite (WP4, WP5, WP6 and WP8 tests), so integration did not break earlier work.
+1. The full backend test suite (WP4, WP5, WP6, WP8 and WP9 tests), so later work did not break earlier work.
 2. The service worker tests in tests/wp8_js (needs Node.js 18 or newer).
 No OpenAI requests are made. The live browser test is separate: see tests/wp8_e2e/README.md.
 """
@@ -15,7 +15,7 @@ root = Path(__file__).resolve().parent
 if str(root) not in sys.path:
     sys.path.insert(0, str(root))
 
-print("== Backend tests (WP4-WP8) ==", flush=True)
+print("== Backend tests (WP4-WP9) ==", flush=True)
 suite = unittest.defaultTestLoader.discover(
     start_dir=str(root / "tests"), pattern="test_*.py", top_level_dir=str(root)
 )
@@ -34,4 +34,4 @@ else:
 
 if failed:
     raise SystemExit(1)
-print("\nAll WP8 checks passed.")
+print("\nAll checks passed.")

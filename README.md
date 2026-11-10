@@ -51,3 +51,14 @@ python run_wp8_tests.py                 # all offline tests (WP4-WP8) + service 
 
 No API key is needed and no OpenAI request is made. The live browser test with the real model is described in
 [`tests/wp8_e2e/README.md`](tests/wp8_e2e/README.md).
+
+## 4. Evaluation (WP9)
+
+The analysis is measured against 10 documents with expected results (`tests/wp9_eval/corpus.json`).
+Too severe and too lenient both count as errors. Results and method: [`docs/WP9-testing.md`](docs/WP9-testing.md).
+
+```powershell
+$env:OPENAI_API_KEY = "sk-..."
+python tests/wp9_eval/run_eval.py --tag mytest     # about 0.03 USD per document; stops before a usage limit
+python tests/wp9_eval/score.py baseline mytest     # no API calls
+```
