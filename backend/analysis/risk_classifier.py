@@ -1,3 +1,4 @@
+# Code overview: This section gives each extracted clause its severity and explanation.
 
 """Stage 2: Classify each verified clause using an AI model."""
 import json

@@ -1,3 +1,4 @@
+# Code overview: This section evaluates potential personal-data concerns against the legal references our project includes.
 """WP5: AI-assisted PDPL screening grounded in retrieved local legal references."""
 
 import json

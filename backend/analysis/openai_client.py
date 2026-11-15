@@ -1,3 +1,4 @@
+# Code overview: This is the shared helper that calls the OpenAI API from Python and validates structured results.
 
 """Centralized, backend-only OpenAI API wrapper. Never expose API keys to Chrome."""
 import os

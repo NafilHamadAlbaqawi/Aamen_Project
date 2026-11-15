@@ -1,3 +1,4 @@
+# Code overview: This section opens the SQLite database and prepares the tables used by the project.
 
 """SQLite database initialization and connection management for WP6."""
 

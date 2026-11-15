@@ -1,3 +1,4 @@
+# Code overview: These examples show the AI what kind of answer structure is expected.
 """WP4 fictional few-shot examples; they are NEVER evidence from a user's document.
 
 WP9: the examples now show the expected tone (plain facts, no hedging) and include a protective, low clause,

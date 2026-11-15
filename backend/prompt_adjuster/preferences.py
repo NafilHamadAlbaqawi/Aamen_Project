@@ -1,3 +1,4 @@
+# Code overview: This section checks and normalizes the four preference values.
 """WP4 preference contract. WP6 owns persistence and preference retrieval."""
 
 from typing import Mapping

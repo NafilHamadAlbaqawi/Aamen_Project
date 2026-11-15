@@ -1,3 +1,4 @@
+# Code overview: These classes keep the PDPL screening output in a predictable structure.
 
 """Structured data models for Aamen PDPL screening."""
 

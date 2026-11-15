@@ -1,3 +1,4 @@
+# Code overview: This pipeline connects the main AI steps. Keeping the steps separate makes it easier to test the results.
 
 """Orchestrate WP3, WP4, and WP5 while preserving the WP2 response fields."""
 

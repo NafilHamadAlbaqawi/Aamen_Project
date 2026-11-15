@@ -1,3 +1,4 @@
+# Code overview: This section saves completed results for a limited time so we do not repeat the same AI work unnecessarily.
 
 """WP6 SQLite cache for completed WP3-WP5 analysis responses."""
 
@@ -13,13 +14,9 @@ from ..prompt_adjuster import PrivacyPreferences
 from .storage import database_connection, initialize_database
 
 
-CACHE_VERSION = "wp9-v1"  # WP9: prompts recalibrated, so results cached with the old prompts are not reused
+CACHE_VERSION = "wp9-calibrated-v2"
 CACHE_TTL_SECONDS = 24 * 60 * 60
 
-# WP8: "partial" means WP5 screened every clause that has PDPL context, and the other clauses (for example
-# liability or changes to the terms) have no matching article. Retrieval is deterministic, so running again
-# would give the same result, and real terms pages are almost always "partial". Only failed or missing
-# screening ("unavailable" / None) is still not cached.
 CACHEABLE_PDPL_STATUSES = ("completed", "partial")
 
 

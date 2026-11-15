@@ -1,3 +1,4 @@
+# Code overview: This section makes the short English and Arabic summaries from the analysis result.
 
 """Stage 3: Summarize the verified risk classifications in English and Arabic."""
 import json

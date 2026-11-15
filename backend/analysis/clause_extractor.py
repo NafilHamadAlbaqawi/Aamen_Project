@@ -1,3 +1,4 @@
+# Code overview: This section extracts exact policy clauses so we can refer back to the original wording.
 
 """Stage 1: Ask AI for short, verbatim clauses and verify them against source text."""
 import re
