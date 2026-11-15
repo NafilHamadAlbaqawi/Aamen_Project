@@ -1,3 +1,4 @@
+/* Code overview: This script builds the popup, manages state, and connects the tabs to backend requests. */
 /*
 Aamen popup.
 
@@ -92,6 +93,26 @@ WP8 (integration) added:
     ar: ['توقف التحليل', 'توقفت الإضافة قبل وصول النتيجة. اضغط حاول مرة أخرى لإعادة التحليل.']
   };
 
+  // WP10: Keep the new labels together, so all four tabs work in both languages.
+  Object.assign(STRINGS.en, {
+    tabAsk: 'Ask Aamen', askTitle: 'Ask Aamen', askIntro: 'Ask a question about the terms you just analyzed.',
+    askPlaceholder: 'Can this service share my location?', askSend: 'Ask', askFirst: 'Analyze a document in Summary first.',
+    askBusy: 'Checking the clauses…', askEvidence: 'Referenced clauses:', askNoEvidence: 'The analyzed clauses did not give a clear answer.',
+    askClear: 'Clear chat', pdfHeading: 'Or upload a Terms & Conditions PDF', pdfDrop: 'Drop a PDF here or choose a file',
+    pdfBrowse: 'Choose PDF', pdfReading: 'Reading PDF…', pdfReady: 'PDF loaded. Review the text, then analyze.',
+    pdfLimit: 'PDF only, up to 6 MB, 100 pages. Scanned PDFs need selectable text.',
+    pdfFailed: 'Could not read the PDF.', pdfTruncated: 'Only the first 120,000 characters were loaded.'
+  });
+  Object.assign(STRINGS.ar, {
+    tabAsk: 'اسأل آمن', askTitle: 'اسأل آمن', askIntro: 'اسأل عن الشروط التي حللتها للتو.',
+    askPlaceholder: 'هل يمكن للخدمة مشاركة موقعي؟', askSend: 'اسأل', askFirst: 'حلّل مستندًا في تبويب الملخص أولًا.',
+    askBusy: 'جارٍ مراجعة البنود…', askEvidence: 'البنود المستخدمة:', askNoEvidence: 'لا تكفي البنود المحللة للإجابة بشكل واضح.',
+    askClear: 'مسح المحادثة', pdfHeading: 'أو ارفع ملف PDF للشروط والأحكام', pdfDrop: 'اسحب ملف PDF هنا أو اختر ملفًا',
+    pdfBrowse: 'اختر PDF', pdfReading: 'جارٍ قراءة PDF…', pdfReady: 'تم تحميل PDF. راجع النص ثم حلّله.',
+    pdfLimit: 'PDF فقط، حتى ٦ ميغابايت و١٠٠ صفحة. الملفات المصورة تحتاج نصًا قابلًا للتحديد.',
+    pdfFailed: 'تعذرت قراءة PDF.', pdfTruncated: 'تم تحميل أول ١٢٠٬٠٠٠ حرف فقط.'
+  });
+
   // The four things a user can accept or refuse. These are the same four the backend has for preferences.
   const TOPICS = [
     { id: 'location', label: 'pLocation', desc: 'pLocationD' },
@@ -112,7 +133,8 @@ WP8 (integration) added:
     accepted: Object.assign({}, NONE),
     // WP8: saved is what was last saved with the Save button. accepted can differ from it (unsaved changes).
     saved: Object.assign({}, NONE), prefsMsg: null,
-    pasteText: '', pasteError: null,
+    pasteText: '', pasteError: null, pdfName: '', pdfNotice: '', pdfBusy: false,
+    askText: '', askBusy: false, askMessages: [],
     serverUrl: DEFAULT_SERVER_URL, serverInput: DEFAULT_SERVER_URL, serverMsg: null
   };
   // Counts analysis runs. If the user starts a new one while an old one is still waiting, the old answer gets thrown away.
@@ -132,6 +154,7 @@ WP8 (integration) added:
 
   // The only way to change state. Merges the changes into st, saves if the language changed, then redraws.
   function set(patch) {
+    if ('result' in patch && patch.result !== st.result) { st.askMessages = []; st.askText = ''; }
     const saveNeeded = 'lang' in patch;
     Object.assign(st, patch);
     if (saveNeeded) persist();
@@ -182,20 +205,20 @@ WP8 (integration) added:
     return el;
   }
 
-  // An accepted topic lowers a clause by one level: high becomes medium, medium becomes low.
+  // Personalization changes the user's tolerance-based view, not the original AI findings.
+  // An accepted topic lowers its displayed severity by one level; the raw clause remains unchanged.
   const DOWN = { high: 'medium', medium: 'low', low: 'low' };
 
-  // Risk score from a list of severities. Same formula as backend/analysis/rating.py, so if that file changes this one has to change too.
-  // Start at 67 if there is any high, else 34 if any medium. Add 12 per extra high, 7 per extra medium, 2 per low.
-  // 67 and up is High Risk, 34 and up is Moderate, below that is Safe.
+  // WP9+ calibrated risk formula: one high clause is NOT automatically a very low safety rating.
+  // Every high severity leaves 69% of remaining safety, every medium leaves 91%.
+  // Low severity (including protective clauses) has no penalty. Mirrors backend/analysis/rating.py.
+  // Safety categories are 0-39 High Risk, 40-69 Moderate, 70-100 Safe.
+  // Their exact visual boundaries are also used by the CSS rating bar.
   function backendRating(severities) {
     const high = severities.filter(s => s === 'high').length;
     const medium = severities.filter(s => s === 'medium').length;
-    const low = severities.filter(s => s === 'low').length;
-    const baseline = high ? 67 : medium ? 34 : 0;
-    const bonus = Math.max(0, high - 1) * 12 + Math.max(0, medium - 1) * 7 + low * 2;
-    const score = Math.min(100, baseline + bonus);
-    return { score, level: score >= 67 ? 'High Risk' : score >= 34 ? 'Moderate' : 'Safe' };
+    const score = Math.max(0, Math.min(100, Math.round(100 * (1 - Math.pow(0.69, high) * Math.pow(0.91, medium)))));
+    return { score, level: score >= 61 ? 'High Risk' : score >= 31 ? 'Moderate' : 'Safe' };
   }
 
   // The backend doesn't say which preference a clause is about, so we guess from the words in it. English and Arabic.
@@ -653,7 +676,7 @@ WP8 (integration) added:
     return h('div', { class: 'stack' },
       hasResult && h('section', { class: 'card live', 'data-level': levelId(r.level), 'aria-live': 'polite' },
         h('div', { class: 'live-top' }, h('b', null, num(r.safety)), h('span', { class: 'level' }, t('personalized') + ': ' + levelText(r.level))),
-        h('div', { class: 'bar', role: 'img', 'aria-label': t('personalized') + ' ' + num(r.safety) + ', ' + t('baseline') + ' ' + num(r.standardSafety) },
+        h('div', { class: 'bar', role: 'img', 'aria-label': t('personalized') + ' ' + num(r.safety) + ' (' + levelText(r.level) + '), ' + t('baseline') + ' ' + num(r.standardSafety) },
           h('span', { class: 'mark old', style: 'inset-inline-start:' + r.standardSafety + '%' }),
           h('span', { class: 'mark', style: 'inset-inline-start:' + r.safety + '%' })),
         h('div', { class: 'bar-legend' }, h('span', null, t('levelHigh')), h('span', null, t('levelModerate')), h('span', null, t('levelSafe'))),
@@ -686,6 +709,84 @@ WP8 (integration) added:
         h('button', { type: 'button', class: 'btn ghost', disabled: !dirty, 'data-focus-key': 'prefs-undo', onclick: () => choose(Object.assign({}, st.saved)) }, t('prefsUndo'))));
   }
 
+  // WP10: Answers are based on the excerpts returned by the current analysis.
+  // We send only selected evidence, not the full page or the user's conversation history.
+  async function askQuestion(question) {
+    if (!st.result || st.askBusy || question.length < 3) return;
+    const clauses = (st.result.flagged_clauses || []).slice(0, 15).map(c => ({
+      clause_id: String(c.clause_id), source_excerpt: String(c.source_excerpt || '').slice(0, 2200),
+      severity: c.severity, category: String(c.category || ''),
+      explanation_en: String(c.explanation_en || '').slice(0, 1600),
+      explanation_ar: String(c.explanation_ar || '').slice(0, 1600)
+    }));
+    if (!clauses.length) { st.askMessages.push({ who: 'aamen', text: t('askNoEvidence'), refs: [] }); draw(); return; }
+    st.askMessages.push({ who: 'user', text: question, refs: [] });
+    st.askText = ''; st.askBusy = true; draw();
+    try {
+      const result = await chrome.runtime.sendMessage({ type: 'WP10_ASK', payload: {
+        question, clauses, language: st.lang
+      } });
+      if (!result?.ok) throw new Error(result?.error || 'Ask Aamen is unavailable.');
+      st.askMessages.push({ who: 'aamen', text: String(result.data.answer || t('askNoEvidence')),
+        refs: result.data.clause_ids || [] });
+    } catch (error) {
+      st.askMessages.push({ who: 'aamen', text: error.message, refs: [] });
+    } finally { st.askBusy = false; draw(); }
+  }
+
+  function askTab() {
+    const available = st.scenario === 'result' && st.result;
+    const field = h('textarea', { class: 'ask-input', rows: 3, maxlength: '1200',
+      placeholder: t('askPlaceholder'), 'aria-label': t('askTitle') });
+    field.value = st.askText;
+    field.addEventListener('input', () => { st.askText = field.value; });
+    field.addEventListener('keydown', event => {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault(); const q = field.value.trim(); if (q.length >= 3) askQuestion(q);
+      }
+    });
+    const messages = st.askMessages.map(msg => h('div', { class: 'ask-bubble ' + msg.who, dir: 'auto' },
+      h('p', null, msg.text),
+      msg.refs.length > 0 && h('small', null, t('askEvidence') + ' ' + msg.refs.join(', '))));
+    return h('div', { class: 'stack' },
+      h('section', { class: 'card' }, h('h2', null, t('askTitle')), h('p', { class: 'msg' }, t('askIntro'))),
+      !available && h('p', { class: 'msg' }, t('askFirst')),
+      h('div', { class: 'ask-conversation', role: 'log', 'aria-live': 'polite' },
+        messages.length ? messages : h('p', { class: 'msg' }, available ? t('askPlaceholder') : t('askFirst')),
+        st.askBusy && h('p', { class: 'msg' }, t('askBusy'))),
+      field,
+      h('div', { class: 'pair' },
+        h('button', { class: 'btn primary', type: 'button', disabled: !available || st.askBusy,
+          onclick: () => askQuestion(field.value.trim()) }, t('askSend')),
+        h('button', { class: 'btn ghost', type: 'button',
+          onclick: () => { st.askMessages = []; st.askText = ''; draw(); } }, t('askClear'))));
+  }
+
+  // WP10: The file stays on the user's device until the user chooses it.
+  // We only send its bytes to Aamen's configured backend for text extraction.
+  async function loadPdf(file) {
+    if (!file || !/\.pdf$/i.test(file.name) || file.size > 6 * 1024 * 1024 || file.size === 0) {
+      st.pdfNotice = t('pdfLimit'); draw(); return;
+    }
+    st.pdfBusy = true; st.pdfNotice = t('pdfReading'); draw();
+    try {
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      let binary = '';
+      for (let i = 0; i < bytes.length; i += 8192) {
+        binary += String.fromCharCode(...bytes.subarray(i, i + 8192));
+      }
+      const reply = await chrome.runtime.sendMessage({ type: 'WP10_EXTRACT_PDF', payload: {
+        file_name: file.name, pdf_base64: btoa(binary)
+      } });
+      if (!reply?.ok) throw new Error(reply?.error || t('pdfFailed'));
+      st.pasteText = reply.data.text;
+      st.pasteError = null;
+      st.pdfName = file.name;
+      st.pdfNotice = t('pdfReady') + (reply.data.truncated ? ' ' + t('pdfTruncated') : '');
+    } catch (error) { st.pdfNotice = error.message || t('pdfFailed'); }
+    finally { st.pdfBusy = false; draw(); }
+  }
+
   // Paste tab, for sites the popup can't read by itself. Typing doesn't redraw the page, it only updates
   // st.pasteText. If it did, the cursor would jump out of the box on every key.
   function pasteTab() {
@@ -711,8 +812,8 @@ WP8 (integration) added:
       count.setAttribute('data-over', String(length > PASTE_MAX));
       clear.disabled = st.pasteText.length === 0;
     };
-    field.addEventListener('input', () => { st.pasteText = field.value; showError(null); sync(); });
-    clear.addEventListener('click', () => { field.value = ''; st.pasteText = ''; showError(null); sync(); field.focus(); });
+    field.addEventListener('input', () => { st.pasteText = field.value; st.pdfName = ''; st.pdfNotice = ''; showError(null); sync(); });
+    clear.addEventListener('click', () => { field.value = ''; st.pasteText = ''; st.pdfName = ''; st.pdfNotice = ''; showError(null); sync(); field.focus(); });
     // Analyze pasted text. Checks the same 50 to 120,000 limit as the backend before sending anything.
     const submit = () => {
       const length = st.pasteText.trim().length;
@@ -722,12 +823,32 @@ WP8 (integration) added:
         error.scrollIntoView({ block: 'nearest' });
         return;
       }
-      sendText(st.pasteText.trim(), { kind: 'paste', url: '', title: t('pastedText') }, 'paste');
+      sendText(st.pasteText.trim(), { kind: 'paste', url: '', title: st.pdfName || t('pastedText') }, 'paste');
     };
     showError(st.pasteError);
     sync();
 
+    // WP10: The drop area accepts a PDF file and fills the same textbox used by manual paste.
+    const pdfInput = h('input', { type: 'file', accept: '.pdf,application/pdf', class: 'sr-only', id: 'pdf-file' });
+    pdfInput.addEventListener('change', () => { if (pdfInput.files[0]) loadPdf(pdfInput.files[0]); });
+    const drop = h('div', { class: 'pdf-drop', role: 'group', 'aria-label': t('pdfHeading') },
+      h('b', null, t('pdfHeading')),
+      h('p', null, t('pdfDrop')),
+      h('button', { type: 'button', class: 'btn ghost', disabled: st.pdfBusy,
+        onclick: () => pdfInput.click() }, t('pdfBrowse')),
+      pdfInput,
+      h('small', null, t('pdfLimit')),
+      st.pdfName && h('p', { class: 'pdf-name' }, st.pdfName),
+      st.pdfNotice && h('p', { class: 'msg', role: 'status' }, st.pdfNotice));
+    drop.addEventListener('dragover', event => { event.preventDefault(); drop.classList.add('dragging'); });
+    drop.addEventListener('dragleave', () => drop.classList.remove('dragging'));
+    drop.addEventListener('drop', event => {
+      event.preventDefault(); drop.classList.remove('dragging');
+      const file = event.dataTransfer?.files?.[0]; if (file) loadPdf(file);
+    });
+
     return h('section', { class: 'paste' },
+      drop,
       h('div', { class: 'paste-head' }, h('h2', null, t('pasteTitle')), h('p', null, t('pasteIntro'))),
       h('label', { class: 'sr-only', for: 'paste-input' }, t('pasteTitle')),
       field,
@@ -792,6 +913,7 @@ WP8 (integration) added:
     let content;
     if (st.view === 'settings') content = settingsPage();
     else if (st.tab === 'paste') content = pasteTab();
+    else if (st.tab === 'ask') content = askTab();
     else if (st.tab === 'prefs') content = prefsTab();
     else if (st.scenario === 'result' && st.result) content = summaryResult();
     else content = statePanel();
@@ -804,13 +926,13 @@ WP8 (integration) added:
     return h('div', { style: 'display:contents' },
       h('div', { class: 'g-main', inert: hasSheet },
         h('header', { class: 'top' },
-          h('div', { class: 'brand' }, h('h1', null, t('appName')), h('p', null, t('tagline'))),
+          h('div', { class: 'brand' }, h('img', { class: 'brand-logo', src: 'assets/aamen-shield.png', alt: '' }), h('div', null, h('h1', null, t('appName')), h('p', null, t('tagline')))),
           langSwitch()),
         h('main', { class: 'body', role: 'tabpanel', 'data-scroll': 'body:' + st.tab + ':' + st.view }, content),
         h('footer', { class: 'foot' },
           h('span', null, t('disclaimer')),
           h('button', { type: 'button', class: 'foot-link', 'data-focus-key': 'settings', onclick: () => open('settings', 'settings') }, t('settingsLink'))),
-        h('nav', { class: 'nav', role: 'tablist' }, navBtn('summary', t('tabSummary')), navBtn('prefs', t('tabPrefs')), navBtn('paste', t('tabPaste')))),
+        h('nav', { class: 'nav', role: 'tablist' }, navBtn('summary', t('tabSummary')), navBtn('ask', t('tabAsk')), navBtn('prefs', t('tabPrefs')), navBtn('paste', t('tabPaste')))),
       hasSheet && sheet());
   }
 

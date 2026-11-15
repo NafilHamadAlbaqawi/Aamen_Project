@@ -1,9 +1,8 @@
-
 {
   "manifest_version": 3,
-  "name": "Aamen - آمن",
-  "version": "1.1.0",
-  "description": "Aamen: AI-assisted Terms and Conditions analysis with Saudi PDPL screening and personal privacy preferences.",
+  "name": "Aamen WP10 - آمن",
+  "version": "1.2.0",
+  "description": "Ask Aamen about analyzed terms and import PDF terms alongside existing privacy and PDPL checks.",
   "permissions": [
     "activeTab",
     "scripting",
@@ -18,9 +17,21 @@
     "https://*/*"
   ],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "assets/aamen-16.png",
+      "32": "assets/aamen-32.png",
+      "48": "assets/aamen-48.png",
+      "128": "assets/aamen-128.png"
+    }
   },
   "background": {
     "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "assets/aamen-16.png",
+    "32": "assets/aamen-32.png",
+    "48": "assets/aamen-48.png",
+    "128": "assets/aamen-128.png"
   }
 }

@@ -1,3 +1,4 @@
+/* Code overview: This stylesheet covers the interface colors, layout, mobile-sized popup, and the new WP10 elements. */
 /*
 Aamen popup styles.
 
@@ -144,11 +145,13 @@ blockquote { margin: 0; padding: 8px 12px; border-inline-start: 3px solid var(--
 .live { padding: 14px; }
 .live-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
 .live-top b { font-size: 34px; line-height: 1; color: var(--lv); }
-.bar { position: relative; height: 12px; margin: 12px 0 8px; border-radius: 999px; background: linear-gradient(90deg, var(--high) 0 33%, var(--moderate) 33% 66%, var(--safe) 66% 100%); opacity: 0.85; }
-html[dir="rtl"] .bar { background: linear-gradient(270deg, var(--high) 0 33%, var(--moderate) 33% 66%, var(--safe) 66% 100%); }
-.bar .mark { position: absolute; top: -4px; width: 4px; height: 20px; border-radius: 2px; background: #FFFFFF; transform: translateX(-50%); transition: inset-inline-start 0.3s; }
-.bar .mark.old { top: -1px; width: 14px; height: 14px; border: 2px solid #FFFFFF; border-radius: 50%; background: transparent; opacity: 0.8; }
-.bar-legend { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
+.bar { position: relative; height: 12px; margin: 12px 0 8px; border-radius: 999px; background: linear-gradient(90deg, var(--high) 0 40%, var(--moderate) 40% 70%, var(--safe) 70% 100%); opacity: 0.95; }
+html[dir="rtl"] .bar { background: linear-gradient(270deg, var(--high) 0 40%, var(--moderate) 40% 70%, var(--safe) 70% 100%); }
+.bar .mark { position: absolute; top: -4px; width: 4px; height: 20px; border-radius: 2px; background: #FFFFFF; transform: translateX(-50%); transition: inset-inline-start 0.3s; z-index: 2; box-shadow: 0 0 0 2px var(--surface); }
+html[dir="rtl"] .bar .mark { transform: translateX(50%); }
+.bar .mark.old { top: -2px; width: 16px; height: 16px; border: 2px solid #FFFFFF; border-radius: 50%; background: var(--surface); opacity: 0.9; z-index: 1; }
+.bar-legend { display: grid; grid-template-columns: 40% 30% 30%; font-size: 11px; color: var(--muted); }
+.bar-legend span { text-align: center; }
 .live .sub { margin-top: 8px; font-size: 12px; color: var(--muted); }
 .prefs-title { margin: 4px 2px 0; font-size: 16px; }
 .intro { font-size: 13px; color: var(--muted); }
@@ -235,3 +238,25 @@ html[dir="rtl"] .bar { background: linear-gradient(270deg, var(--high) 0 33%, va
 
 /* WP9: a neutral note (not a warning), for example when some clauses have no PDPL article. */
 .notice.info { border-color: var(--border); background: var(--surface); color: var(--muted); }
+
+
+/* WP10: A compact logo in the header and room for the four main tabs. */
+.brand { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.brand-logo { width: 40px; height: 40px; object-fit: contain; flex: 0 0 40px; }
+.nav { gap: 3px; padding-inline: 5px; }
+.nav button { font-size: 12px; padding-inline: 2px; white-space: nowrap; }
+
+/* WP10: Chat stays inside the scrollable middle part of the popup. */
+.ask-conversation { display: grid; align-content: start; gap: 9px; max-height: 230px; min-height: 110px; overflow-y: auto; padding: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
+.ask-bubble { max-width: 96%; padding: 10px; border-radius: 12px; overflow-wrap: anywhere; background: var(--surface-2); }
+.ask-bubble.user { justify-self: end; border: 1px solid var(--accent); }
+.ask-bubble.aamen { justify-self: start; border: 1px solid var(--field-border); }
+.ask-bubble small { display: block; margin-top: 8px; color: var(--muted); }
+.ask-input { width: 100%; min-height: 75px; resize: vertical; color: var(--text); background: var(--surface); border: 1px solid var(--field-border); border-radius: 12px; padding: 12px; }
+
+/* WP10: The same paste screen accepts either typed text or a dropped PDF. */
+.pdf-drop { display: grid; gap: 8px; padding: 14px; border: 2px dashed var(--field-border); border-radius: 14px; text-align: center; background: var(--surface); }
+.pdf-drop.dragging { border-color: var(--accent); background: var(--surface-2); }
+.pdf-drop p, .pdf-drop small { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+.pdf-drop .btn { max-width: 165px; margin: 0 auto; }
+.pdf-name { color: var(--accent) !important; font-weight: 700; }

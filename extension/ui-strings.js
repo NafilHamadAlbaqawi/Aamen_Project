@@ -1,3 +1,4 @@
+/* Code overview: All the standard interface labels are kept here in English and Arabic. The new WP10 labels are grouped with the WP10 interface code. */
 /* English and Arabic text for the Aamen popup. Text that only the extension needs is added in popup.js. */
 (function () {
   'use strict';
@@ -35,7 +36,7 @@
         pPhotos: 'Photos', pPhotosD: 'Your photos and how the service may use them',
         pBanking: 'Banking details', pBankingD: 'Cards, accounts and payment information',
         pThirdParty: 'Third-party sharing', pThirdPartyD: 'Your data passed to advertisers and partners',
-        tabPaste: 'Paste', pasteTitle: 'Paste the text yourself',
+        tabPaste: 'Paste / PDF', pasteTitle: 'Paste the text yourself',
         pasteIntro: 'Use this when Aamen can’t read a site automatically. Copy the terms or privacy policy, paste it here and analyze it.',
         pastePlaceholder: 'Paste the terms or privacy policy here…',
         pasteCount: '{n} / {max} characters', pasteLimit: 'Needs {min} to {max} characters.',
@@ -93,7 +94,7 @@
         pPhotos: 'الصور', pPhotosD: 'صورك وكيف قد تستخدمها الخدمة',
         pBanking: 'البيانات المصرفية', pBankingD: 'البطاقات والحسابات ومعلومات الدفع',
         pThirdParty: 'مشاركة الطرف الثالث', pThirdPartyD: 'تمرير بياناتك إلى المعلنين والشركاء',
-        tabPaste: 'لصق', pasteTitle: 'الصق النص بنفسك',
+        tabPaste: 'لصق / PDF', pasteTitle: 'الصق النص بنفسك',
         pasteIntro: 'استخدم هذا عندما لا يستطيع آمن قراءة الموقع تلقائيًا. انسخ الشروط أو سياسة الخصوصية، والصقها هنا ثم حلّلها.',
         pastePlaceholder: 'الصق الشروط أو سياسة الخصوصية هنا…',
         pasteCount: '{n} / {max} حرف', pasteLimit: 'يلزم من {min} إلى {max} حرف.',

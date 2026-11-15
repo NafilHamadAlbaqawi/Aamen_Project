@@ -1,3 +1,4 @@
+/* Code overview: This script handles extension requests to the backend and keeps the API key out of the Chrome code. */
 
 /*
 WP2 — Chrome Extension to FastAPI Communication
@@ -320,7 +321,7 @@ async function analyzeText(payload) {
 // 6. Receive extension messages and return backend responses.
 // WP8: messages are accepted from the extension's own pages only (the popup, or popup.html opened in a tab).
 // Content scripts and websites can't use these messages, because their sender URL is the website.
-const MESSAGE_TYPES = ['WP2_CHECK_CONNECTION', 'WP2_ANALYZE', 'WP8_SAVE_PREFERENCES'];
+const MESSAGE_TYPES = ['WP2_CHECK_CONNECTION', 'WP2_ANALYZE', 'WP8_SAVE_PREFERENCES', 'WP10_ASK', 'WP10_EXTRACT_PDF'];
 
 function fromExtensionPage(sender) {
   return sender.id === chrome.runtime.id &&
@@ -343,6 +344,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         data = await requestBackend('/health');
       } else if (message.type === 'WP8_SAVE_PREFERENCES') {
         data = await savePreferences(message.payload);
+      } else if (message.type === 'WP10_ASK') {
+        data = await requestBackend('/ask', { method: 'POST', body: message.payload, timeout: 60000 });
+      } else if (message.type === 'WP10_EXTRACT_PDF') {
+        data = await requestBackend('/extract-pdf', { method: 'POST', body: message.payload, timeout: 45000 });
       } else {
         data = await analyzeText(message.payload);
       }
