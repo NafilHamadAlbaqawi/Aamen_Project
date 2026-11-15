@@ -1,452 +1,1034 @@
+/* Code overview: This script builds the popup, manages state, and connects the tabs to backend requests. */
+/*
+Aamen popup.
 
-/* WP2 — Keep WP1 extraction and add FastAPI communication. */
+popup.html is an empty <div id="app">. This file builds everything inside it.
+All the data the screen depends on sits in one object (st). You change it only
+through set(), which updates st and redraws the whole popup.
 
-// 1. Connect to the HTML elements created in WP1 and WP2.
-const appTitle = document.getElementById('appTitle');
-const description = document.getElementById('description');
-const analyzeButton = document.getElementById('analyzeButton');
-const englishButton = document.getElementById('englishButton');
-const arabicButton = document.getElementById('arabicButton');
-const extractionTitle = document.getElementById('extractionTitle');
-const previewTitle = document.getElementById('previewTitle');
-const linksTitle = document.getElementById('linksTitle');
-const statusBox = document.getElementById('status');
-const pageTitle = document.getElementById('pageTitle');
-const manualHelp = document.getElementById('manualHelp');
-const termsInput = document.getElementById('termsInput');
-const legalLinksList = document.getElementById('legalLinksList');
-const footerText = document.getElementById('footerText');
-const serverTitle = document.getElementById('serverTitle');
-const serverLabel = document.getElementById('serverLabel');
-const serverUrlInput = document.getElementById('serverUrl');
-const saveServerButton = document.getElementById('saveServerButton');
-const checkServerButton = document.getElementById('checkServerButton');
-const backendStatus = document.getElementById('backendStatus');
+It talks to background.js with two messages, same as the old popup:
+  WP2_CHECK_CONNECTION   checks the backend /health
+  WP2_ANALYZE            sends legal text to POST /analyze
+Reading the page (content.js and the same-site legal links) is the old WP1 code, moved over as it was.
+English and Arabic text is in ui-strings.js.
 
-// 2. Interface text in English and Arabic.
-const translations = {
-  en: {
-    title: 'Aamen', description: 'T&C and Privacy Policy Extraction',
-    extraction: 'Legal Document Extraction', analyze: 'Analyze Current Page',
-    preview: 'Extracted Legal Text', links: 'Discovered Legal Documents',
-    help: 'You can paste legal text manually if extraction fails.',
-    placeholder: 'Extracted Terms & Conditions or Privacy Policy text will appear here.',
-    footer: 'Aamen — Legal document extraction', ready: 'Ready to extract.',
-    working: 'Extracting legal documents...', terms: 'Terms & Conditions',
-    privacy: 'Privacy Policy', other: 'Legal document',
-    missing: 'No legal text extracted. You can paste it manually.',
-    found: 'legal document(s) extracted', failed: 'Some links could not be retrieved',
-    serverTitle: 'Backend Server Settings', serverLabel: 'Backend URL',
-    save: 'Save Server', check: 'Check Connection', send: 'Send Text to Server',
-    saved: 'Server address saved and permission granted.',
-    connected: 'Connected to the Aamen backend.',
-    sending: 'Sending text to FastAPI...', received: 'Analysis response received.',
-    results: 'Backend Response', risk: 'Risk score', summary: 'Summary',
-    empty: 'Extract or paste at least 50 characters before sending.'
-  },
-  ar: {
-    title: 'آمن', description: 'استخراج الشروط والأحكام وسياسة الخصوصية',
-    extraction: 'استخراج المستندات القانونية', analyze: 'تحليل الصفحة الحالية',
-    preview: 'النص القانوني المستخرج', links: 'المستندات القانونية المكتشفة',
-    help: 'يمكنك لصق النص القانوني يدويًا إذا فشل الاستخراج.',
-    placeholder: 'سيظهر هنا نص الشروط والأحكام أو سياسة الخصوصية.',
-    footer: 'آمن — استخراج المستندات القانونية', ready: 'جاهز للاستخراج.',
-    working: 'جارٍ استخراج المستندات القانونية...', terms: 'الشروط والأحكام',
-    privacy: 'سياسة الخصوصية', other: 'مستند قانوني',
-    missing: 'لم يتم استخراج نص قانوني. يمكنك لصقه يدويًا.',
-    found: 'مستندات قانونية تم استخراجها', failed: 'تعذر جلب بعض الروابط',
-    serverTitle: 'إعدادات الخادم', serverLabel: 'رابط الخادم',
-    save: 'حفظ الخادم', check: 'اختبار الاتصال', send: 'إرسال النص إلى الخادم',
-    saved: 'تم حفظ عنوان الخادم والسماح بالاتصال.',
-    connected: 'تم الاتصال بخادم آمن بنجاح.',
-    sending: 'جارٍ إرسال النص إلى الخادم...', received: 'تم استلام نتيجة التحليل.',
-    results: 'استجابة الخادم', risk: 'درجة الخطورة', summary: 'الملخص',
-    empty: 'استخرج أو الصق نصًا لا يقل عن 50 حرفًا قبل الإرسال.'
-  }
-};
+WP8 (integration) added:
+  WP8_SAVE_PREFERENCES   saves the accepted topics on this device and in the backend database (WP6),
+                         so the next analysis uses them in the prompts (WP4). Changes are only kept after Save.
+  Error codes from background.js, so every backend error gets a proper English and Arabic screen.
+  The last run is kept in chrome.storage.session, so closing the popup during an analysis doesn't lose it.
+*/
+(function () {
+  'use strict';
 
-let language = 'en';
-let lastLinks = [];
-let lastResult = null;
-let lastPageUrl = '';
-let lastPageTitle = '';
-const DEFAULT_SERVER_URL = 'http://127.0.0.1:8000';
-const termsWords = /terms|conditions|agreement|tos|eula|الشروط|الأحكام|اتفاقية|الاستخدام/i;
-const privacyWords = /privacy|personal.data|data.protection|الخصوصية|حماية.البيانات/i;
+  const { STRINGS, ERRORS } = window.AAMEN_TEXT;
+  const DEFAULT_SERVER_URL = 'http://127.0.0.1:8000';
+  const PASTE_MIN = 50, PASTE_MAX = 120000;   // same limits as backend/main.py
 
-// 3. Create a send button and results panel, using the existing CSS classes.
-const sendActions = document.createElement('div');
-sendActions.className = 'server-actions';
-const sendTextButton = document.createElement('button');
-sendTextButton.id = 'sendTextButton';
-sendTextButton.type = 'button';
-sendTextButton.style.background = '#0D5B43';
-sendTextButton.style.color = '#FFFFFF';
-sendActions.append(sendTextButton);
-backendStatus.after(sendActions);
+  // Extra text that ui-strings.js doesn't have: server settings, loading steps, a couple of errors.
+  Object.assign(STRINGS.en, {
+    settingsLink: 'Server settings', settingsTitle: 'Server settings', serverLabel: 'Server address',
+    serverSave: 'Save server', serverCheck: 'Check connection',
+    serverHelp: 'Chrome asks for permission the first time you use a new address.',
+    serverIdle: 'Not checked yet.', serverSaved: 'Server saved and access allowed.',
+    serverOk: 'Connected to the Aamen server.', serverChecking: 'Checking the server…',
+    serverDenied: 'Chrome did not allow access to that address.',
+    stageReading: 'Reading the page…', stageSending: 'Analyzing the terms…',
+    analyzeAgain: 'Analyze again', refLocator: 'Locator',
+    openSettings: 'Open server settings', openPaste: 'Paste text instead', pastedText: 'Pasted text',
+    emptyBody: 'Open a site’s terms or privacy page, then press the button.',
+    noDetails: 'No details are available for this result.',
+    prefsSave: 'Save preferences', prefsUndo: 'Undo changes', prefsSaving: 'Saving your preferences…',
+    prefsSaved: 'Preferences saved. They will be used in your next analysis.',
+    prefsSavedLocal: 'Saved on this device. They will be sent to the server before your next analysis.',
+    prefsUnsaved: 'You have unsaved changes. The rating shows them as a preview until you save.',
+    prefsApplyNote: 'Your saved preferences are used in every new analysis.',
+    prefsUnsavedNote: 'Preference changes are not saved yet.', prefsReview: 'Review and save',
+    notePdplPartial: 'Some clauses, such as liability or fees, are not about personal data, so they have no PDPL reference.'
+  });
+  Object.assign(STRINGS.ar, {
+    settingsLink: 'إعدادات الخادم', settingsTitle: 'إعدادات الخادم', serverLabel: 'عنوان الخادم',
+    serverSave: 'حفظ الخادم', serverCheck: 'اختبار الاتصال',
+    serverHelp: 'يطلب المتصفح إذنًا في أول مرة تستخدم فيها عنوانًا جديدًا.',
+    serverIdle: 'لم يتم الاختبار بعد.', serverSaved: 'تم حفظ الخادم والسماح بالوصول إليه.',
+    serverOk: 'تم الاتصال بخادم آمن.', serverChecking: 'جارٍ اختبار الخادم…',
+    serverDenied: 'لم يسمح المتصفح بالوصول إلى هذا العنوان.',
+    stageReading: 'جارٍ قراءة الصفحة…', stageSending: 'جارٍ تحليل الشروط…',
+    analyzeAgain: 'حلّل مرة أخرى', refLocator: 'موضع الإشارة',
+    openSettings: 'افتح إعدادات الخادم', openPaste: 'الصق النص بدلًا من ذلك', pastedText: 'نص ملصوق',
+    emptyBody: 'افتح صفحة الشروط أو الخصوصية في الموقع ثم اضغط الزر.',
+    noDetails: 'لا توجد تفاصيل متاحة لهذه النتيجة.',
+    prefsSave: 'حفظ التفضيلات', prefsUndo: 'تراجع عن التغييرات', prefsSaving: 'جارٍ حفظ تفضيلاتك…',
+    prefsSaved: 'تم حفظ التفضيلات، وستُستخدم في تحليلك القادم.',
+    prefsSavedLocal: 'تم الحفظ على هذا الجهاز، وستُرسل إلى الخادم قبل تحليلك القادم.',
+    prefsUnsaved: 'لديك تغييرات غير محفوظة. يعرضها التقييم كمعاينة حتى تحفظها.',
+    prefsApplyNote: 'تُستخدم تفضيلاتك المحفوظة في كل تحليل جديد.',
+    prefsUnsavedNote: 'تغييرات التفضيلات لم تُحفظ بعد.', prefsReview: 'راجعها واحفظها',
+    notePdplPartial: 'بعض البنود، مثل المسؤولية أو الرسوم، لا تتعلق بالبيانات الشخصية، لذلك لا يوجد لها مرجع في نظام حماية البيانات الشخصية.'
+  });
+  ERRORS.no_clauses = {
+    en: ['No clear clauses found', 'The AI could not find terms or privacy clauses in this text. Try the full terms page, or paste the text.'],
+    ar: ['لم يتم العثور على بنود واضحة', 'لم يتمكن الذكاء الاصطناعي من إيجاد بنود شروط أو خصوصية في هذا النص. جرّب صفحة الشروط كاملة أو الصق النص.']
+  };
+  ERRORS.unknown = { en: ['Something went wrong', ''], ar: ['حدث خطأ ما', ''] };
+  ERRORS.offline = {
+    en: ['No internet connection', 'Your browser is offline. Check your connection and try again.'],
+    ar: ['لا يوجد اتصال بالإنترنت', 'المتصفح غير متصل بالإنترنت. تحقق من اتصالك ثم حاول مرة أخرى.']
+  };
+  ERRORS.bad_result = {
+    en: ['Could not read the result', 'The server sent back something the popup could not read. Try again, or ask whoever runs the server to check it.'],
+    ar: ['تعذّرت قراءة النتيجة', 'أرسل الخادم نتيجة تعذّرت قراءتها. حاول مرة أخرى، أو اطلب من مسؤول الخادم التحقق منها.']
+  };
+  // WP8: errors that used to end up as "Something went wrong" with an English sentence.
+  ERRORS.timeout = {
+    en: ['The analysis took too long', 'The server did not answer in time. Long documents take longer, so try again, or paste a shorter part.'],
+    ar: ['استغرق التحليل وقتًا طويلًا', 'لم يرد الخادم في الوقت المحدد. الوثائق الطويلة تحتاج وقتًا أطول، فحاول مرة أخرى أو الصق جزءًا أقصر.']
+  };
+  ERRORS.storage_unavailable = {
+    en: ['Preferences could not be loaded', 'The server could not read its preferences database. Try again, or ask whoever runs the server to check it.'],
+    ar: ['تعذّر تحميل التفضيلات', 'لم يتمكن الخادم من قراءة قاعدة بيانات التفضيلات. حاول مرة أخرى، أو اطلب من مسؤول الخادم التحقق منها.']
+  };
+  ERRORS.interrupted = {
+    en: ['The analysis was interrupted', 'The extension stopped before the result arrived. Press Try again to run it once more.'],
+    ar: ['توقف التحليل', 'توقفت الإضافة قبل وصول النتيجة. اضغط حاول مرة أخرى لإعادة التحليل.']
+  };
 
-const resultPanel = document.createElement('section');
-resultPanel.className = 'card';
-resultPanel.hidden = true;
-document.getElementById('serverSection').after(resultPanel);
-
-// 4. Switch interface language without making a new backend request.
-function setLanguage(value) {
-  language = value === 'ar' ? 'ar' : 'en';
-  const t = translations[language];
-  document.documentElement.lang = language;
-  document.body.dir = language === 'ar' ? 'rtl' : 'ltr';
-  appTitle.textContent = t.title;
-  description.textContent = t.description;
-  extractionTitle.textContent = t.extraction;
-  analyzeButton.textContent = t.analyze;
-  previewTitle.textContent = t.preview;
-  linksTitle.textContent = t.links;
-  manualHelp.textContent = t.help;
-  termsInput.placeholder = t.placeholder;
-  footerText.textContent = t.footer;
-  serverTitle.textContent = t.serverTitle;
-  serverLabel.textContent = t.serverLabel;
-  saveServerButton.textContent = t.save;
-  checkServerButton.textContent = t.check;
-  sendTextButton.textContent = t.send;
-  if (!lastLinks.length && !termsInput.value) statusBox.textContent = t.ready;
-  renderLinks(lastLinks);
-  renderBackendResult();
-  chrome.storage.local.set({ language }).catch(() => {});
-}
-
-function setBackendStatus(message, state = '') {
-  backendStatus.textContent = message;
-  backendStatus.dataset.state = state;
-}
-
-// 5. Preserve WP1 legal-link discovery and display.
-function classifyLink(text) {
-  if (privacyWords.test(text)) return 'privacy';
-  if (termsWords.test(text)) return 'terms';
-  return 'other';
-}
-
-function renderLinks(links) {
-  legalLinksList.replaceChildren();
-  for (const url of links) {
-    const item = document.createElement('li');
-    const anchor = document.createElement('a');
-    anchor.href = url;
-    anchor.target = '_blank';
-    anchor.rel = 'noopener noreferrer';
-    anchor.textContent = `${translations[language][classifyLink(url)]}: ${url}`;
-    item.append(anchor);
-    legalLinksList.append(item);
-  }
-}
-
-function isSameOrigin(url, currentUrl) {
-  try {
-    const candidate = new URL(url);
-    const current = new URL(currentUrl);
-    return ['http:', 'https:'].includes(candidate.protocol) &&
-      candidate.origin === current.origin &&
-      !candidate.username && !candidate.password &&
-      !/\.(pdf|docx?|zip|png|jpe?g)$/i.test(candidate.pathname);
-  } catch {
-    return false;
-  }
-}
-
-// 6. Preserve WP1 public same-origin HTML extraction and its size limit.
-async function fetchLegalText(url) {
-  const site = new URL(url);
-  const originPattern = `${site.protocol}//${site.hostname}/*`;
-  const allowed = await chrome.permissions.contains({ origins: [originPattern] }) ||
-    await chrome.permissions.request({ origins: [originPattern] });
-  if (!allowed) throw new Error('Site permission denied');
-
-  const response = await fetch(url, {
-    credentials: 'omit',
-    redirect: 'error',
-    signal: AbortSignal.timeout(15000)
+  // WP10: Keep the new labels together, so all four tabs work in both languages.
+  Object.assign(STRINGS.en, {
+    tabAsk: 'Ask Aamen', askTitle: 'Ask Aamen', askIntro: 'Ask a question about the terms you just analyzed.',
+    askPlaceholder: 'Can this service share my location?', askSend: 'Ask', askFirst: 'Analyze a document in Summary first.',
+    askBusy: 'Checking the clauses…', askEvidence: 'Referenced clauses:', askNoEvidence: 'The analyzed clauses did not give a clear answer.',
+    askClear: 'Clear chat', pdfHeading: 'Or upload a Terms & Conditions PDF', pdfDrop: 'Drop a PDF here or choose a file',
+    pdfBrowse: 'Choose PDF', pdfReading: 'Reading PDF…', pdfReady: 'PDF loaded. Review the text, then analyze.',
+    pdfLimit: 'PDF only, up to 6 MB, 100 pages. Scanned PDFs need selectable text.',
+    pdfFailed: 'Could not read the PDF.', pdfTruncated: 'Only the first 120,000 characters were loaded.'
+  });
+  Object.assign(STRINGS.ar, {
+    tabAsk: 'اسأل آمن', askTitle: 'اسأل آمن', askIntro: 'اسأل عن الشروط التي حللتها للتو.',
+    askPlaceholder: 'هل يمكن للخدمة مشاركة موقعي؟', askSend: 'اسأل', askFirst: 'حلّل مستندًا في تبويب الملخص أولًا.',
+    askBusy: 'جارٍ مراجعة البنود…', askEvidence: 'البنود المستخدمة:', askNoEvidence: 'لا تكفي البنود المحللة للإجابة بشكل واضح.',
+    askClear: 'مسح المحادثة', pdfHeading: 'أو ارفع ملف PDF للشروط والأحكام', pdfDrop: 'اسحب ملف PDF هنا أو اختر ملفًا',
+    pdfBrowse: 'اختر PDF', pdfReading: 'جارٍ قراءة PDF…', pdfReady: 'تم تحميل PDF. راجع النص ثم حلّله.',
+    pdfLimit: 'PDF فقط، حتى ٦ ميغابايت و١٠٠ صفحة. الملفات المصورة تحتاج نصًا قابلًا للتحديد.',
+    pdfFailed: 'تعذرت قراءة PDF.', pdfTruncated: 'تم تحميل أول ١٢٠٬٠٠٠ حرف فقط.'
   });
 
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  if (!/text\/html|application\/xhtml\+xml/i.test(response.headers.get('content-type') || '')) {
-    throw new Error('Link is not an HTML page');
+  // The four things a user can accept or refuse. These are the same four the backend has for preferences.
+  const TOPICS = [
+    { id: 'location', label: 'pLocation', desc: 'pLocationD' },
+    { id: 'photos', label: 'pPhotos', desc: 'pPhotosD' },
+    { id: 'banking_information', label: 'pBanking', desc: 'pBankingD' },
+    { id: 'third_party_sharing', label: 'pThirdParty', desc: 'pThirdPartyD' }
+  ];
+  // Everything "not accepted". The starting point, and what the reset button goes back to.
+  const NONE = { location: false, photos: false, banking_information: false, third_party_sharing: false };
+
+  // The state. tab is summary, prefs or paste. view is main, report or settings.
+  // openId is the warning that is open in the list, if any.
+  const st = {
+    lang: 'en', tab: 'summary', view: 'main', openId: null,
+    scenario: 'empty',          // empty | loading | result | error
+    stage: 'stageReading', errorId: null, errorDetail: '',
+    result: null, source: null, lastAction: 'page',
+    accepted: Object.assign({}, NONE),
+    // WP8: saved is what was last saved with the Save button. accepted can differ from it (unsaved changes).
+    saved: Object.assign({}, NONE), prefsMsg: null,
+    pasteText: '', pasteError: null, pdfName: '', pdfNotice: '', pdfBusy: false,
+    askText: '', askBusy: false, askMessages: [],
+    serverUrl: DEFAULT_SERVER_URL, serverInput: DEFAULT_SERVER_URL, serverMsg: null
+  };
+  // Counts analysis runs. If the user starts a new one while an old one is still waiting, the old answer gets thrown away.
+  let runToken = 0;
+  // WP8: id of a run started before the popup was opened, that we are waiting for (see restoreRun() at the end).
+  let watchedRunId = null;
+  const RUN_KEY = 'aamen_run';
+
+  // Save the language so it is still there next time the popup opens.
+  // WP8: the accepted topics are no longer saved on every click. They are saved by savePreferences() (UC-1).
+  function persist() {
+    chrome.storage.local.set({ language: st.lang }).catch(() => {});
   }
-  if (!response.body) throw new Error('Empty response');
 
-  const reader = response.body.getReader();
-  const decoder = new TextDecoder();
-  let html = '';
-  let byteCount = 0;
+  // WP8: true when the choices on screen are not the saved ones.
+  const prefsDirty = () => TOPICS.some(x => !!st.accepted[x.id] !== !!st.saved[x.id]);
 
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    byteCount += value.byteLength;
-    if (byteCount > 1000000) {
-      await reader.cancel();
-      throw new Error('Legal document is too large');
-    }
-    html += decoder.decode(value, { stream: true });
+  // The only way to change state. Merges the changes into st, saves if the language changed, then redraws.
+  function set(patch) {
+    if ('result' in patch && patch.result !== st.result) { st.askMessages = []; st.askText = ''; }
+    const saveNeeded = 'lang' in patch;
+    Object.assign(st, patch);
+    if (saveNeeded) persist();
+    document.documentElement.lang = st.lang;
+    document.documentElement.dir = st.lang === 'ar' ? 'rtl' : 'ltr';
+    draw();
+    watchFocus();
   }
 
-  html += decoder.decode();
-  const parsed = new DOMParser().parseFromString(html, 'text/html');
-  parsed.querySelectorAll('script,style,noscript,nav,header,footer,aside,form,svg,iframe,[hidden],[aria-hidden="true"]')
-    .forEach(element => element.remove());
-  parsed.querySelectorAll('p,li,h1,h2,h3,h4').forEach(element => element.append('\n'));
+  // t('key') returns the text in the current language. Anything like {n} in the text is filled in from vars.
+  const t = (key, vars) => {
+    let text = (STRINGS[st.lang] || STRINGS.en)[key];
+    if (text === undefined) text = STRINGS.en[key] === undefined ? key : STRINGS.en[key];
+    if (vars) Object.keys(vars).forEach(name => { text = text.replace('{' + name + '}', vars[name]); });
+    return text;
+  };
+  // The backend sends both languages (summary_en, summary_ar). pick(obj, 'summary') takes the one we need.
+  const pick = (obj, field) => obj[field + '_' + st.lang] || obj[field + '_en'] || '';
+  // In Arabic, show digits as ٠١٢٣ instead of 0123.
+  const num = value => st.lang === 'ar' ? String(value).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]) : String(value);
+  // Thousands separator for the paste counter, like 120,000.
+  const group = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, st.lang === 'ar' ? '٬' : ',');
+  // The backend calls the level "Safe", "Moderate" or "High Risk". These turn it into a css name, a label and a one line note.
+  const levelId = level => level === 'Safe' ? 'safe' : level === 'Moderate' ? 'moderate' : 'high';
+  const levelText = level => t('level' + (level === 'Safe' ? 'Safe' : level === 'Moderate' ? 'Moderate' : 'High'));
+  const levelNote = level => t('level' + (level === 'Safe' ? 'Safe' : level === 'Moderate' ? 'Moderate' : 'High') + 'Note');
+  // Labels for a severity, a clause category and a topic.
+  const severityText = sev => t('sev' + sev[0].toUpperCase() + sev.slice(1));
+  const categoryText = category => t('cat_' + category);
+  const topicLabel = id => t(TOPICS.find(x => x.id === id).label);
 
-  const main = parsed.querySelector('main,article,[role="main"],.entry-content,.post-content') || parsed.body;
-  return (main?.textContent || '')
-    .replace(/\u00a0/g, ' ')
-    .replace(/[ \t]+/g, ' ')
-    .replace(/\n[ \t]+/g, '\n')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim()
-    .slice(0, 55000);
-}
-
-// 7. Preserve WP1's Analyze Current Page behavior; do not send text automatically.
-async function analyzeCurrentPage() {
-  analyzeButton.disabled = true;
-  statusBox.textContent = translations[language].working;
-
-  try {
-    const [tab] = await chrome.tabs.query({
-      active: true,
-      currentWindow: true
+  // Makes one element: h('div', { class: 'x', onclick: fn }, child, 'text').
+  // Text always goes in as a text node, never as HTML, so nothing from a web page or the AI can inject markup.
+  function h(tag, props, ...kids) {
+    const el = document.createElement(tag);
+    Object.keys(props || {}).forEach(name => {
+      const value = props[name];
+      if (value === false || value === null || value === undefined) return;
+      if (name.startsWith('on')) el.addEventListener(name.slice(2), value);
+      else if (name === 'class') el.className = value;
+      else el.setAttribute(name, value === true ? '' : value);
     });
+    const add = kid => {
+      if (Array.isArray(kid)) kid.forEach(add);
+      else if (kid !== null && kid !== undefined && kid !== false) el.append(kid.nodeType ? kid : document.createTextNode(kid));
+    };
+    kids.forEach(add);
+    return el;
+  }
 
-    if (!tab?.id || !/^https?:\/\//.test(tab.url || '')) {
-      throw new Error('Open an HTTP or HTTPS website first');
-    }
+  // Personalization changes the user's tolerance-based view, not the original AI findings.
+  // An accepted topic lowers its displayed severity by one level; the raw clause remains unchanged.
+  const DOWN = { high: 'medium', medium: 'low', low: 'low' };
 
-    const injected = await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      files: ['content.js']
+  // WP9+ calibrated risk formula: one high clause is NOT automatically a very low safety rating.
+  // Every high severity leaves 69% of remaining safety, every medium leaves 91%.
+  // Low severity (including protective clauses) has no penalty. Mirrors backend/analysis/rating.py.
+  // Safety categories are 0-39 High Risk, 40-69 Moderate, 70-100 Safe.
+  // Their exact visual boundaries are also used by the CSS rating bar.
+  function backendRating(severities) {
+    const high = severities.filter(s => s === 'high').length;
+    const medium = severities.filter(s => s === 'medium').length;
+    const score = Math.max(0, Math.min(100, Math.round(100 * (1 - Math.pow(0.69, high) * Math.pow(0.91, medium)))));
+    return { score, level: score >= 61 ? 'High Risk' : score >= 31 ? 'Moderate' : 'Safe' };
+  }
+
+  // The backend doesn't say which preference a clause is about, so we guess from the words in it. English and Arabic.
+  const TOPIC_WORDS = {
+    location: /\b(location|gps|geolocation|whereabouts)\b|الموقع|موقع|المكان/i,
+    photos: /\b(photos?|pictures?|images?|camera)\b|الصور|صورة|صور|كاميرا/i,
+    banking_information: /\b(bank|banking|payment|credit|debit|card|financial|iban)\b|بنك|مصرف|مصرفي|الدفع|بطاقة|بطاقات|مالية|مالي/i,
+    third_party_sharing: /third[- ]part|advertis|affiliate|partners|الطرف الثالث|أطراف ثالثة|المعلنين|شركاء/i
+  };
+  // Which of the four topics a clause is about. A third_party_sharing clause always counts for that topic.
+  function topicsFor(clause) {
+    // Only look at the excerpt, which is copied from the document. The AI's explanation can use a word like
+    // "location" loosely, and that gave us a wrong match once.
+    const text = clause.source_excerpt;
+    const found = TOPICS.map(x => x.id).filter(id => TOPIC_WORDS[id].test(text));
+    if (clause.category === 'third_party_sharing' && !found.includes('third_party_sharing')) found.push('third_party_sharing');
+    return found;
+  }
+
+  // The numbers the user sees. Rates the clauses twice: as the backend gave them (standard), and again with the
+  // user's accepted topics applied (mine). safety is 100 minus risk, so higher is better. delta is how much the choices helped.
+  function calculateRating(result, accepted) {
+    const items = result.flagged_clauses.map(clause => {
+      const topics = topicsFor(clause);
+      const isAccepted = topics.some(id => accepted[id]);
+      return { clause, topics, accepted: isAccepted, effective: isAccepted ? DOWN[clause.severity] : clause.severity };
     });
+    const standard = backendRating(items.map(i => i.clause.severity));
+    const mine = backendRating(items.map(i => i.effective));
+    // How many warnings of each severity, after the user's choices. They are the three tiles under the gauge.
+    const counts = { high: 0, medium: 0, low: 0 };
+    items.forEach(i => { counts[i.effective] += 1; });
+    return {
+      items, counts, level: mine.level, safety: 100 - mine.score, standardSafety: 100 - standard.score,
+      delta: standard.score - mine.score
+    };
+  }
+  // Shortcut: the current result with the current choices.
+  const rating = () => calculateRating(st.result, st.accepted);
 
-    const extracted = injected?.[0]?.result;
-    if (!extracted) throw new Error('Could not extract the webpage');
+  // How many risk points would change if this one switch were flipped. Negative means safer.
+  // It is the hint under each preference.
+  function topicImpact(topicId) {
+    const now = backendRating(calculateRating(st.result, st.accepted).items.map(i => i.effective)).score;
+    const flipped = calculateRating(st.result, Object.assign({}, st.accepted, { [topicId]: !st.accepted[topicId] }));
+    return backendRating(flipped.items.map(i => i.effective)).score - now;
+  }
 
-    pageTitle.textContent = extracted.page_title || tab.url;
-    lastPageUrl = tab.url;
-    lastPageTitle = extracted.page_title || '';
+  // Worst first, then by clause id so the list doesn't shuffle.
+  const SEVERITY_ORDER = { high: 0, medium: 1, low: 2 };
+  const sortedItems = r => r.items.slice().sort((a, b) =>
+    SEVERITY_ORDER[a.effective] - SEVERITY_ORDER[b.effective] || a.clause.clause_id.localeCompare(b.clause.clause_id));
+  // The PDPL check result for one clause, or null if it has none. assessmentText turns the result into a label.
+  const pdplFinding = id => ((st.result.pdpl && st.result.pdpl.findings) || []).find(f => f.clause_id === id) || null;
+  const assessmentText = v => v === 'potential_concern' ? t('aConcern') : v === 'needs_context' ? t('aContext') : t('aNone');
 
-    lastLinks = [...new Set((extracted.legal_links || [])
-      .filter(url => /^https?:\/\//i.test(url)))];
+  // background.js gives errors back as plain English sentences. This reads the sentence and picks one of our
+  // error screens, so the same error can also be shown in Arabic. If nothing matches it is 'unknown'.
+  function errorIdFor(message) {
+    const m = String(message || '');
+    // WP8: checked first, because these messages would otherwise match the wider rules below.
+    if (/timed out|took too long/i.test(m)) return 'timeout';
+    if (/Preference storage/i.test(m)) return 'storage_unavailable';
+    if (/message port closed|Receiving end does not exist|No response from the extension/i.test(m)) return 'interrupted';
+    if (/classifier omitted|complete structured response|PDPL model/i.test(m)) return 'ai_unavailable';
+    if (/Cannot reach the FastAPI server/i.test(m)) return 'server_unreachable';
+    if (/permission missing|server origin|Server URL/i.test(m)) return 'permission';
+    if (/not configured/i.test(m)) return 'ai_not_configured';
+    if (/source-grounded/i.test(m)) return 'no_clauses';
+    if (/between 50 and 120000|at least 50/i.test(m)) return 'too_short';
+    if (/HTTP or HTTPS|Cannot access|extensions gallery/i.test(m)) return 'not_web';
+    if (/AI service|rejected|Unexpected analysis|Backend returned HTTP 5/i.test(m)) return 'ai_unavailable';
+    if (/Could not extract|No legal text/i.test(m)) return 'no_text';
+    return 'unknown';
+  }
 
-    renderLinks(lastLinks);
+  // Is this something the popup can show? It needs a list of clauses, and every clause needs a severity we know.
+  // Anything else would break the screens, so it is treated as an error instead.
+  function isUsableResult(data) {
+    return !!data && Array.isArray(data.flagged_clauses) &&
+      data.flagged_clauses.every(c => c && ['high', 'medium', 'low'].includes(c.severity));
+  }
 
-    const documents = [];
-    const warnings = [];
-    const pageKind = classifyLink(
-      new URL(tab.url).pathname + ' ' + (extracted.page_title || '')
-    );
+  // The browser says it has no network at all. It can't tell us about a router with no internet, only about no network.
+  const isOffline = () => navigator.onLine === false;
 
-    if (pageKind !== 'other' &&
-        !extracted.needs_manual_paste &&
-        extracted.terms_text) {
-      documents.push({
-        kind: pageKind,
-        url: tab.url,
-        text: extracted.terms_text.slice(0, 55000)
+  // Show the error screen for a message and drop any old result. id is optional, for when we already know which error it is.
+  // If the browser is offline, a failure that was probably caused by that is shown as "no internet" instead.
+  function fail(message, id) {
+    // WP8: id can be a code from background.js. Use it only if there is a screen for it.
+    let errorId = id && ERRORS[id] ? id : errorIdFor(message);
+    if (isOffline() && ['server_unreachable', 'ai_unavailable', 'no_text', 'unknown'].includes(errorId)) errorId = 'offline';
+    set({ scenario: 'error', errorId, errorDetail: String(message || ''), tab: 'summary', view: 'main', result: null });
+  }
+
+  // Sends the text to the backend through background.js, then shows the result or an error.
+  // source says where the text came from (a page or pasted text). action is 'page' or 'paste' so retry knows what to repeat.
+  async function sendText(text, source, action) {
+    if (isOffline()) { st.lastAction = action; fail('No internet connection', 'offline'); return; }
+    const token = ++runToken;
+    watchedRunId = null;
+    set({ scenario: 'loading', stage: 'stageSending', tab: 'summary', view: 'main', result: null, openId: null, source, lastAction: action });
+    try {
+      const response = await chrome.runtime.sendMessage({
+        type: 'WP2_ANALYZE',
+        // WP8: source is kept with the run, so a reopened popup can say which page the result is for.
+        payload: { page_url: source.url, page_title: source.title, terms_text: text, language: st.lang, source }
       });
-    }
-
-    for (const kind of ['terms', 'privacy']) {
-      if (documents.some(doc => doc.kind === kind)) continue;
-
-      const url = lastLinks.find(link =>
-        isSameOrigin(link, tab.url) && classifyLink(link) === kind
-      );
-
-      if (!url) continue;
-
-      try {
-        const text = await fetchLegalText(url);
-        if (text.length < 350) throw new Error('Not enough legal text found');
-        documents.push({ kind, url, text });
-      } catch (error) {
-        warnings.push(`${kind}: ${error.message}`);
+      if (token !== runToken) return;
+      if (!response || !response.ok) {
+        const error = new Error((response && response.error) || 'No response from the extension.');
+        error.code = response && response.code;
+        throw error;
       }
+      if (!isUsableResult(response.data)) throw new Error('The result could not be read.', { cause: 'bad_result' });
+      set({ scenario: 'result', result: response.data, errorId: null });
+    } catch (error) {
+      if (token === runToken) fail(error.message, error.cause === 'bad_result' ? 'bad_result' : error.code);
     }
-
-    termsInput.value = documents.map(doc =>
-      `${translations[language][doc.kind]}\nSource: ${doc.url}\n\n${doc.text}`
-    ).join('\n\n----------------------------------------\n\n');
-
-    statusBox.textContent = documents.length
-      ? `${documents.length} ${translations[language].found}${warnings.length ? ' — ' + translations[language].failed : ''}`
-      : translations[language].missing;
-
-  } catch (error) {
-    statusBox.textContent = `Error: ${error.message}`;
-  } finally {
-    analyzeButton.disabled = false;
-  }
-}
-
-// 8. Validate, authorize, and save the Windows FastAPI server URL.
-function normalizeServerUrl(value) {
-  let url;
-
-  try {
-    url = new URL(value.trim());
-  } catch {
-    throw new Error('Enter a valid URL, for example http://192.168.1.5:8000');
   }
 
-  if (!['http:', 'https:'].includes(url.protocol) ||
-      url.username || url.password ||
-      url.pathname !== '/' || url.search || url.hash) {
-    throw new Error('Enter only the server origin, such as http://192.168.1.5:8000');
+  // Reading the current page. This part is the old WP1 code from the first popup.
+  const termsWords = /terms|conditions|agreement|tos|eula|الشروط|الأحكام|اتفاقية|الاستخدام/i;
+  const privacyWords = /privacy|personal.data|data.protection|الخصوصية|حماية.البيانات/i;
+  // Is a link or title about privacy, about terms, or neither.
+  const classifyLink = text => privacyWords.test(text) ? 'privacy' : termsWords.test(text) ? 'terms' : 'other';
+  const DOC_LABEL = { terms: 'Terms & Conditions', privacy: 'Privacy Policy', other: 'Legal document' };
+
+  // Only follow links on the same website, and skip files like PDF or Word.
+  function isSameOrigin(url, currentUrl) {
+    try {
+      const candidate = new URL(url);
+      const current = new URL(currentUrl);
+      return ['http:', 'https:'].includes(candidate.protocol) && candidate.origin === current.origin &&
+        !candidate.username && !candidate.password && !/\.(pdf|docx?|zip|png|jpe?g)$/i.test(candidate.pathname);
+    } catch (e) {
+      return false;
+    }
   }
 
-  return url.origin;
-}
+  // Downloads a terms or privacy page from the same site and returns just its text (up to 55,000 characters).
+  // Asks Chrome for permission to that site first, refuses redirects, and gives up on pages over 1 MB.
+  async function fetchLegalText(url) {
+    const site = new URL(url);
+    const originPattern = `${site.protocol}//${site.hostname}/*`;
+    const allowed = await chrome.permissions.contains({ origins: [originPattern] }) ||
+      await chrome.permissions.request({ origins: [originPattern] });
+    if (!allowed) throw new Error('Site permission denied');
 
-async function grantAndSaveServer() {
-  const origin = normalizeServerUrl(serverUrlInput.value);
-  const url = new URL(origin);
-  const originPattern = `${url.protocol}//${url.hostname}/*`;
+    const response = await fetch(url, { credentials: 'omit', redirect: 'error', signal: AbortSignal.timeout(15000) });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (!/text\/html|application\/xhtml\+xml/i.test(response.headers.get('content-type') || '')) throw new Error('Link is not an HTML page');
+    if (!response.body) throw new Error('Empty response');
 
-  // Request permission directly from the button click, before any await.
-  const granted = await chrome.permissions.request({
-    origins: [originPattern]
-  });
-
-  if (!granted) {
-    throw new Error('Chrome permission for the server was denied.');
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let html = '';
+    let byteCount = 0;
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      byteCount += value.byteLength;
+      if (byteCount > 1000000) { await reader.cancel(); throw new Error('Legal document is too large'); }
+      html += decoder.decode(value, { stream: true });
+    }
+    html += decoder.decode();
+    const parsed = new DOMParser().parseFromString(html, 'text/html');
+    parsed.querySelectorAll('script,style,noscript,nav,header,footer,aside,form,svg,iframe,[hidden],[aria-hidden="true"]').forEach(el => el.remove());
+    parsed.querySelectorAll('p,li,h1,h2,h3,h4').forEach(el => el.append('\n'));
+    const main = parsed.querySelector('main,article,[role="main"],.entry-content,.post-content') || parsed.body;
+    return (main && main.textContent || '')
+      .replace(/ /g, ' ').replace(/[ \t]+/g, ' ').replace(/\n[ \t]+/g, '\n').replace(/\n{3,}/g, '\n\n')
+      .trim().slice(0, 55000);
   }
 
-  await chrome.storage.local.set({ server_url: origin });
-  return origin;
-}
+  // The Analyze this page button. Runs content.js on the open tab. If that page isn't the legal text itself,
+  // it downloads the site's terms and privacy pages instead. Then everything goes to sendText().
+  async function analyzePage() {
+    if (isOffline()) { st.lastAction = 'page'; fail('No internet connection', 'offline'); return; }
+    const token = ++runToken;
+    watchedRunId = null;
+    set({ scenario: 'loading', stage: 'stageReading', tab: 'summary', view: 'main', result: null, openId: null, lastAction: 'page' });
+    try {
+      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      if (!tab || !tab.id || !/^https?:\/\//.test(tab.url || '')) throw new Error('Open an HTTP or HTTPS website first');
 
-async function saveServer() {
-  saveServerButton.disabled = true;
+      const injected = await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['content.js'] });
+      const extracted = injected && injected[0] && injected[0].result;
+      if (!extracted) throw new Error('Could not extract the webpage');
 
-  try {
-    await grantAndSaveServer();
-    setBackendStatus(translations[language].saved, 'success');
-  } catch (error) {
-    setBackendStatus(error.message, 'error');
-  } finally {
-    saveServerButton.disabled = false;
+      const links = [...new Set((extracted.legal_links || []).filter(url => /^https?:\/\//i.test(url)))];
+      const documents = [];
+      const pageKind = classifyLink(new URL(tab.url).pathname + ' ' + (extracted.page_title || ''));
+      if (pageKind !== 'other' && !extracted.needs_manual_paste && extracted.terms_text) {
+        documents.push({ kind: pageKind, url: tab.url, text: extracted.terms_text.slice(0, 55000) });
+      }
+      for (const kind of ['terms', 'privacy']) {
+        if (documents.some(doc => doc.kind === kind)) continue;
+        const url = links.find(link => isSameOrigin(link, tab.url) && classifyLink(link) === kind);
+        if (!url) continue;
+        try {
+          const text = await fetchLegalText(url);
+          if (text.length < 350) throw new Error('Not enough legal text found');
+          documents.push({ kind, url, text });
+        } catch (error) { /* this link could not be read, but the other one may still work */ }
+      }
+      if (token !== runToken) return;
+      if (!documents.length) throw new Error('No legal text found');
+
+      const text = documents.map(doc => `${DOC_LABEL[doc.kind]}\nSource: ${doc.url}\n\n${doc.text}`)
+        .join('\n\n----------------------------------------\n\n').slice(0, PASTE_MAX);
+      await sendText(text, { kind: 'page', url: tab.url, title: extracted.page_title || tab.url }, 'page');
+    } catch (error) {
+      if (token === runToken) fail(error.message);
+    }
   }
-}
 
-// 9. Ask background.js to check the FastAPI /health endpoint.
-async function checkConnection() {
-  checkServerButton.disabled = true;
+  // Try again and Analyze again. Pasted text is sent again, anything else reads the page again.
+  function retry() {
+    if (st.lastAction === 'paste' && st.pasteText.trim().length >= PASTE_MIN) {
+      sendText(st.pasteText.trim(), { kind: 'paste', url: '', title: t('pastedText') }, 'paste');
+    } else {
+      analyzePage();
+    }
+  }
 
-  try {
-    await grantAndSaveServer();
+  // Accepts only an address like http://host:port with nothing after the port. Returns it cleaned up, or throws.
+  function normalizeServerUrl(value) {
+    let url;
+    try { url = new URL(String(value).trim()); } catch (e) { throw new Error('Enter a valid address, for example http://192.168.1.5:8000'); }
+    if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password || url.pathname !== '/' || url.search || url.hash) {
+      throw new Error('Enter only the server address, for example http://192.168.1.5:8000');
+    }
+    return url.origin;
+  }
 
-    const response = await chrome.runtime.sendMessage({
-      type: 'WP2_CHECK_CONNECTION'
+  // Asks Chrome for permission to reach the server, then saves the address. Chrome only shows the permission
+  // prompt if this runs straight from a click, so don't put an await in front of it.
+  function grantAndSave() {
+    const origin = normalizeServerUrl(st.serverInput);
+    const url = new URL(origin);
+    return chrome.permissions.request({ origins: [`${url.protocol}//${url.hostname}/*`] }).then(async granted => {
+      if (!granted) throw new Error(t('serverDenied'));
+      await chrome.storage.local.set({ server_url: origin });
+      st.serverUrl = origin;
+      st.serverInput = origin;
+      return origin;
+    });
+  }
+
+  // The Save server button.
+  function saveServer() {
+    let pending;
+    try { pending = grantAndSave(); } catch (error) { set({ serverMsg: { text: error.message, state: 'error' } }); return; }
+    pending.then(() => set({ serverMsg: { key: 'serverSaved', state: 'success' } }))
+      .catch(error => set({ serverMsg: { text: error.message, state: 'error' } }));
+  }
+
+  // The Check connection button. Saves the address as well, then asks background.js to call /health.
+  function checkServer() {
+    let pending;
+    try { pending = grantAndSave(); } catch (error) { set({ serverMsg: { text: error.message, state: 'error' } }); return; }
+    set({ serverMsg: { key: 'serverChecking', state: '' } });
+    pending.then(() => chrome.runtime.sendMessage({ type: 'WP2_CHECK_CONNECTION' })).then(response => {
+      if (!response || !response.ok) throw new Error((response && response.error) || 'No response from the extension.');
+      if (!response.data || response.data.status !== 'ok') throw new Error('Unexpected /health response.');
+      set({ serverMsg: { key: 'serverOk', state: 'success' } });
+    }).catch(error => set({ serverMsg: { text: error.message, state: 'error' } }));
+  }
+
+  // WP8: the Save preferences button (UC-1 step 4). background.js keeps the choice on this device and sends it to
+  // the backend database (WP6). If the server can't be reached it is still saved here and sent before the next analysis.
+  // Closing the popup without pressing Save keeps the old preferences (UC-1 alternate course 2).
+  function savePreferences() {
+    const accepted = Object.assign({}, NONE, st.accepted);
+    set({ prefsMsg: { key: 'prefsSaving', state: '' } });
+    chrome.runtime.sendMessage({ type: 'WP8_SAVE_PREFERENCES', payload: { accepted } }).then(response => {
+      if (!response || !response.ok) throw new Error((response && response.error) || 'No response from the extension.');
+      const synced = !!(response.data && response.data.synced);
+      set({ saved: accepted, prefsMsg: { key: synced ? 'prefsSaved' : 'prefsSavedLocal', state: synced ? 'success' : 'warn' } });
+    }).catch(error => set({ prefsMsg: { text: error.message, state: 'error' } }));
+  }
+
+  // WP8: change the choices on screen. They stay a preview until Save is pressed.
+  const choose = accepted => set({ accepted, prefsMsg: null });
+
+  // The screens below each return the DOM for one part of the popup.
+
+  // Go to another page or open the sheet. openerKey is the button that was pressed, so focus can go back to it when we close.
+  let lastOpener = null;
+  function open(view, openerKey, extra) {
+    lastOpener = openerKey || null;
+    set(Object.assign({ view }, extra));
+  }
+  // Close the sheet, or go back to the main page.
+  const close = () => set({ view: 'main' });
+
+  // The small High / Medium / Low tag. Its colour comes from the data-sev of the tag itself.
+  const chip = sev => h('span', { class: 'chip', 'data-sev': sev }, severityText(sev));
+
+  // Notices above the result: the text was cut because it was long, or the PDPL check didn't finish.
+  function notices() {
+    const r = st.result, out = [];
+    const make = text => h('div', { class: 'notice', role: 'note' }, h('span', null, text));
+    if (r.input_truncated) out.push(make(t('warnTruncated')));
+    // WP9: "partial" is the normal result for real terms: clauses such as liability or fees are not about
+    // personal data, so no PDPL article matches them. It gets a neutral note; the warning is only for a failed check.
+    if (r.pdpl && r.pdpl.status === 'partial') out.push(h('div', { class: 'notice info', role: 'note' }, h('span', null, t('notePdplPartial'))));
+    else if (!r.pdpl || r.pdpl.status !== 'completed') out.push(make(t('warnPdpl')));
+    // WP8: a choice was changed from a warning, but not saved yet. The button goes to the Preferences tab.
+    if (prefsDirty()) {
+      out.push(h('div', { class: 'notice', role: 'note' }, h('span', null, t('prefsUnsavedNote')),
+        h('button', { type: 'button', class: 'foot-link notice-link', 'data-focus-key': 'to-prefs', onclick: () => set({ tab: 'prefs', view: 'main' }) }, t('prefsReview'))));
+    }
+    return out;
+  }
+
+  // The PDPL part of a warning: the assessment, the explanation and the articles it points to.
+  // ref.excerpt is only a short locator from the backend, not the article text, so it is labelled as a locator.
+  function refs(clause) {
+    const finding = pdplFinding(clause.clause_id);
+    if (!finding) return h('p', { class: 'ref-none' }, t('noRefs'));
+    return h('div', null,
+      h('span', { class: 'assess' }, t('assessment') + ': ' + assessmentText(finding.assessment)),
+      h('p', null, pick(finding, 'explanation')),
+      (finding.legal_references || []).map(ref => h('div', { class: 'ref' },
+        h('b', null, ref.title + ', ' + ref.article_id),
+        ref.excerpt && h('p', { dir: 'auto' }, t('refLocator') + ': ' + ref.excerpt),
+        h('a', { href: ref.source_url, target: '_blank', rel: 'noopener noreferrer' }, t('openSource')))));
+  }
+
+  // Don't accept / Accept buttons for one topic. scope goes in front of the focus key. The same topic can be on
+  // screen twice at once (in an open warning and in the report), and focus is found again by that key after a redraw.
+  function seg(topicId, scope) {
+    const on = !!st.accepted[topicId];
+    const button = (value, label, pressed) => h('button', {
+      type: 'button', 'data-v': value, 'aria-pressed': String(pressed), 'data-focus-key': scope + 'seg-' + topicId + '-' + value,
+      onclick: () => choose(Object.assign({}, st.accepted, { [topicId]: value === 'yes' }))
+    }, label);
+    return h('div', { class: 'seg', role: 'group', 'aria-label': topicLabel(topicId) },
+      button('no', t('dontAccept'), !on), button('yes', t('accept'), on));
+  }
+
+  // The inside of one warning: what the document says, why it was flagged, the user's preference, the legal references.
+  function detail(item, scope) {
+    const c = item.clause;
+    return [
+      h('div', { class: 'field' }, h('h3', null, t('whatItSays')), h('blockquote', { dir: 'auto' }, c.source_excerpt)),
+      h('div', { class: 'field' }, h('h3', null, t('whyFlagged')), h('p', null, pick(c, 'explanation'))),
+      item.topics.length > 0 && h('div', { class: 'field' }, h('h3', null, t('yourPref')),
+        item.topics.map(id => h('div', { class: 'pref-inline' },
+          h('p', null, topicLabel(id) + ': ' + (st.accepted[id] ? t('countedLower') : t('countedFull'))), seg(id, scope)))),
+      h('div', { class: 'field' }, h('h3', null, t('legalRefs')), refs(c))
+    ];
+  }
+
+  // One warning in the list. Tapping it opens the details right under it, tapping again closes them.
+  function accordion(item) {
+    const c = item.clause, isOpen = st.openId === c.clause_id;
+    return h('div', { class: 'acc', 'data-open': String(isOpen), 'data-sev': item.effective },
+      h('button', {
+        type: 'button', class: 'acc-h', 'aria-expanded': String(isOpen), 'aria-controls': 'p-' + c.clause_id, 'data-focus-key': 'acc-' + c.clause_id,
+        onclick: () => set({ openId: isOpen ? null : c.clause_id })
+      },
+        h('span', { class: 'dot' }),
+        h('span', { class: 'name' }, categoryText(c.category), item.accepted && h('span', { class: 'tag-ok' }, t('acceptedBadge'))),
+        chip(item.effective)),
+      isOpen && h('div', { class: 'acc-b', id: 'p-' + c.clause_id }, detail(item, 'a-')));
+  }
+
+  // Back button and title at the top of a page.
+  function subbar(title) {
+    return h('div', { class: 'subbar' },
+      h('button', { type: 'button', class: 'back', 'data-focus-key': 'back', onclick: close }, t('back')), h('h2', null, title));
+  }
+
+  // The half circle with the score. Two arcs on top of each other: a grey one, and a coloured one cut short to the score.
+  // Built with createElementNS and numbers only, so nothing from outside ends up inside the svg.
+  function gauge(r) {
+    const NS = 'http://www.w3.org/2000/svg', length = Math.PI * 90;
+    const arc = name => {
+      const path = document.createElementNS(NS, 'path');
+      path.setAttribute('class', name);
+      path.setAttribute('d', 'M20 110 A90 90 0 0 1 200 110');
+      return path;
+    };
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 220 120');
+    svg.setAttribute('aria-hidden', 'true');
+    const value = arc('val');
+    value.setAttribute('stroke-dasharray', length.toFixed(1));
+    value.setAttribute('stroke-dashoffset', (length * (1 - r.safety / 100)).toFixed(1));
+    svg.append(arc('trk'), value);
+    return h('div', { class: 'gauge', role: 'img', 'aria-label': t('safetyRating') + ': ' + num(r.safety) + ' ' + t('outOf') + ', ' + levelText(r.level) },
+      svg, h('div', { class: 'gauge-num' }, h('b', null, num(r.safety)), h('small', null, t('outOf'))));
+  }
+
+  // Summary tab when there is a result. Top to bottom: the page name, the gauge, the count of each severity,
+  // notices, the summary with View Details, then the list of warnings. Clicking the summary also opens the report.
+  function summaryResult() {
+    const r = rating();
+    const items = sortedItems(r);
+    const subject = st.source ? st.source.title : '';
+    return h('div', { class: 'stack' },
+      subject && h('p', { class: 'page', dir: 'auto' }, t('analyzedPage') + ': ' + subject),
+      h('section', { class: 'card gauge-card', 'data-level': levelId(r.level) },
+        gauge(r),
+        h('div', { class: 'gauge-label' }, t('safetyRating')),
+        h('span', { class: 'level' }, levelText(r.level)),
+        h('p', { class: 'gauge-note' }, levelNote(r.level)),
+        r.delta !== 0 && h('p', { class: 'delta' }, t('changedBy', { n: num(Math.abs(r.delta)) }))),
+      h('div', { class: 'tiles' }, ['high', 'medium', 'low'].map(sev =>
+        h('div', { class: 'tile', 'data-sev': sev }, h('b', null, num(r.counts[sev])), h('span', null, severityText(sev))))),
+      notices(),
+      h('section', { class: 'card summary', onclick: () => open('report', 'view-details') },
+        h('h2', null, t('summaryTitle')),
+        h('p', null, pick(st.result, 'summary')),
+        h('button', { type: 'button', class: 'btn primary', 'data-focus-key': 'view-details', onclick: e => { e.stopPropagation(); open('report', 'view-details'); } }, t('viewDetails'))),
+      h('div', { class: 'list-head' }, h('h2', null, t('warningsTitle')), h('span', null, t('warningCount', { n: num(items.length) }))),
+      items.length === 0 ? h('p', { class: 'msg' }, t('noDetails')) : h('div', { class: 'accs' }, items.map(accordion)),
+      h('button', { type: 'button', class: 'btn ghost', 'data-focus-key': 'again', onclick: retry }, t('analyzeAgain')));
+  }
+
+  // Summary tab when there is no result: the start screen, the loading screen, or an error.
+  // Each error gets its own extra button (server settings, or paste text) where that helps.
+  function statePanel() {
+    if (st.scenario === 'loading') {
+      return h('section', { class: 'card panel', role: 'status' }, h('div', { class: 'spinner' }), h('h2', null, t(st.stage)), h('p', null, t('loadingBody')));
+    }
+    if (st.scenario === 'empty') {
+      return h('section', { class: 'card panel' }, h('h2', null, t('emptyTitle')), h('p', null, t('emptyBody')),
+        h('button', { type: 'button', class: 'btn primary', 'data-focus-key': 'analyze', onclick: analyzePage }, t('analyze')),
+        h('button', { type: 'button', class: 'foot-link', 'data-focus-key': 'to-paste', onclick: () => set({ tab: 'paste', view: 'main' }) }, t('openPaste')));
+    }
+    const message = ERRORS[st.errorId] ? ERRORS[st.errorId][st.lang] : ERRORS.unknown[st.lang];
+    const body = st.errorId === 'unknown' ? st.errorDetail : message[1];
+    const extra = [];
+    if (st.errorId === 'permission' || st.errorId === 'server_unreachable') {
+      extra.push(h('button', { type: 'button', class: 'btn ghost', 'data-focus-key': 'to-settings', onclick: () => open('settings', 'to-settings') }, t('openSettings')));
+    }
+    if (st.errorId === 'no_text' || st.errorId === 'too_short' || st.errorId === 'no_clauses') {
+      extra.push(h('button', { type: 'button', class: 'btn ghost', 'data-focus-key': 'to-paste', onclick: () => set({ tab: 'paste', view: 'main' }) }, t('openPaste')));
+    }
+    return h('section', { class: 'card panel error', role: 'alert' },
+      h('span', { class: 'err-tag' }, t('errorLabel')), h('h2', null, message[0]), body && h('p', null, body),
+      h('button', { type: 'button', class: 'btn primary', 'data-focus-key': 'retry', onclick: retry }, t('retry')), extra);
+  }
+
+  // Preferences tab. A live card with the score and a bar showing where it was (the ring) and where it is now (the line),
+  // then one card per topic with Don't accept / Accept and a hint of how many points it moves. The score card only
+  // shows once there is a result.
+  function prefsTab() {
+    const hasResult = st.scenario === 'result' && st.result;
+    const r = hasResult ? rating() : null;
+    return h('div', { class: 'stack' },
+      hasResult && h('section', { class: 'card live', 'data-level': levelId(r.level), 'aria-live': 'polite' },
+        h('div', { class: 'live-top' }, h('b', null, num(r.safety)), h('span', { class: 'level' }, t('personalized') + ': ' + levelText(r.level))),
+        h('div', { class: 'bar', role: 'img', 'aria-label': t('personalized') + ' ' + num(r.safety) + ' (' + levelText(r.level) + '), ' + t('baseline') + ' ' + num(r.standardSafety) },
+          h('span', { class: 'mark old', style: 'inset-inline-start:' + r.standardSafety + '%' }),
+          h('span', { class: 'mark', style: 'inset-inline-start:' + r.safety + '%' })),
+        h('div', { class: 'bar-legend' }, h('span', null, t('levelHigh')), h('span', null, t('levelModerate')), h('span', null, t('levelSafe'))),
+        h('p', { class: 'sub' }, t('baseline') + ': ' + num(r.standardSafety) + ', ' + (r.delta === 0 ? t('unchanged') : t('changedBy', { n: num(Math.abs(r.delta)) })))),
+      h('h2', { class: 'prefs-title' }, t('prefsTitle')),
+      h('p', { class: 'intro' }, t('prefsIntro')),
+      TOPICS.map(topic => {
+        const on = !!st.accepted[topic.id];
+        const impact = hasResult ? topicImpact(topic.id) : 0;
+        const hint = !hasResult ? '' : impact === 0 ? t('impactNone') : impact < 0 ? t('impactLower', { n: num(-impact) }) : t('impactRaise', { n: num(impact) });
+        return h('div', { class: 'pcard', 'data-on': String(on) },
+          h('div', { class: 'pcard-top' }, h('div', null, h('b', null, t(topic.label)), h('span', null, t(topic.desc)))),
+          h('div', { class: 'pcard-foot' }, seg(topic.id, 'p-'), hint && h('span', { class: 'hint ' + (impact === 0 ? 'none' : impact > 0 ? 'up' : '') }, hint)));
+      }),
+      h('div', { class: 'pair' },
+        h('button', { type: 'button', class: 'btn ghost', 'data-focus-key': 'none', onclick: () => choose(Object.assign({}, NONE)) }, t('resetPrefs')),
+        h('button', { type: 'button', class: 'btn ghost', 'data-focus-key': 'all', onclick: () => choose({ location: true, photos: true, banking_information: true, third_party_sharing: true }) }, t('acceptAll'))),
+      saveBar());
+  }
+
+  // WP8: Save and Undo under the preferences, with a line that says whether there is anything to save.
+  // It sticks to the bottom of the scrolling area, so it can be seen after changing any of the cards.
+  function saveBar() {
+    const dirty = prefsDirty(), msg = st.prefsMsg;
+    const text = msg ? (msg.key ? t(msg.key) : msg.text) : dirty ? t('prefsUnsaved') : t('prefsApplyNote');
+    return h('div', { class: 'save-bar', 'data-dirty': String(dirty) },
+      h('p', { class: 'msg', role: 'status', 'aria-live': 'polite', 'data-state': msg ? msg.state : dirty ? 'warn' : '' }, text),
+      h('div', { class: 'pair' },
+        h('button', { type: 'button', class: 'btn primary', disabled: !dirty, 'data-focus-key': 'prefs-save', onclick: savePreferences }, t('prefsSave')),
+        h('button', { type: 'button', class: 'btn ghost', disabled: !dirty, 'data-focus-key': 'prefs-undo', onclick: () => choose(Object.assign({}, st.saved)) }, t('prefsUndo'))));
+  }
+
+  // WP10: Answers are based on the excerpts returned by the current analysis.
+  // We send only selected evidence, not the full page or the user's conversation history.
+  async function askQuestion(question) {
+    if (!st.result || st.askBusy || question.length < 3) return;
+    const clauses = (st.result.flagged_clauses || []).slice(0, 15).map(c => ({
+      clause_id: String(c.clause_id), source_excerpt: String(c.source_excerpt || '').slice(0, 2200),
+      severity: c.severity, category: String(c.category || ''),
+      explanation_en: String(c.explanation_en || '').slice(0, 1600),
+      explanation_ar: String(c.explanation_ar || '').slice(0, 1600)
+    }));
+    if (!clauses.length) { st.askMessages.push({ who: 'aamen', text: t('askNoEvidence'), refs: [] }); draw(); return; }
+    st.askMessages.push({ who: 'user', text: question, refs: [] });
+    st.askText = ''; st.askBusy = true; draw();
+    try {
+      const result = await chrome.runtime.sendMessage({ type: 'WP10_ASK', payload: {
+        question, clauses, language: st.lang
+      } });
+      if (!result?.ok) throw new Error(result?.error || 'Ask Aamen is unavailable.');
+      st.askMessages.push({ who: 'aamen', text: String(result.data.answer || t('askNoEvidence')),
+        refs: result.data.clause_ids || [] });
+    } catch (error) {
+      st.askMessages.push({ who: 'aamen', text: error.message, refs: [] });
+    } finally { st.askBusy = false; draw(); }
+  }
+
+  function askTab() {
+    const available = st.scenario === 'result' && st.result;
+    const field = h('textarea', { class: 'ask-input', rows: 3, maxlength: '1200',
+      placeholder: t('askPlaceholder'), 'aria-label': t('askTitle') });
+    field.value = st.askText;
+    field.addEventListener('input', () => { st.askText = field.value; });
+    field.addEventListener('keydown', event => {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault(); const q = field.value.trim(); if (q.length >= 3) askQuestion(q);
+      }
+    });
+    const messages = st.askMessages.map(msg => h('div', { class: 'ask-bubble ' + msg.who, dir: 'auto' },
+      h('p', null, msg.text),
+      msg.refs.length > 0 && h('small', null, t('askEvidence') + ' ' + msg.refs.join(', '))));
+    return h('div', { class: 'stack' },
+      h('section', { class: 'card' }, h('h2', null, t('askTitle')), h('p', { class: 'msg' }, t('askIntro'))),
+      !available && h('p', { class: 'msg' }, t('askFirst')),
+      h('div', { class: 'ask-conversation', role: 'log', 'aria-live': 'polite' },
+        messages.length ? messages : h('p', { class: 'msg' }, available ? t('askPlaceholder') : t('askFirst')),
+        st.askBusy && h('p', { class: 'msg' }, t('askBusy'))),
+      field,
+      h('div', { class: 'pair' },
+        h('button', { class: 'btn primary', type: 'button', disabled: !available || st.askBusy,
+          onclick: () => askQuestion(field.value.trim()) }, t('askSend')),
+        h('button', { class: 'btn ghost', type: 'button',
+          onclick: () => { st.askMessages = []; st.askText = ''; draw(); } }, t('askClear'))));
+  }
+
+  // WP10: The file stays on the user's device until the user chooses it.
+  // We only send its bytes to Aamen's configured backend for text extraction.
+  async function loadPdf(file) {
+    if (!file || !/\.pdf$/i.test(file.name) || file.size > 6 * 1024 * 1024 || file.size === 0) {
+      st.pdfNotice = t('pdfLimit'); draw(); return;
+    }
+    st.pdfBusy = true; st.pdfNotice = t('pdfReading'); draw();
+    try {
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      let binary = '';
+      for (let i = 0; i < bytes.length; i += 8192) {
+        binary += String.fromCharCode(...bytes.subarray(i, i + 8192));
+      }
+      const reply = await chrome.runtime.sendMessage({ type: 'WP10_EXTRACT_PDF', payload: {
+        file_name: file.name, pdf_base64: btoa(binary)
+      } });
+      if (!reply?.ok) throw new Error(reply?.error || t('pdfFailed'));
+      st.pasteText = reply.data.text;
+      st.pasteError = null;
+      st.pdfName = file.name;
+      st.pdfNotice = t('pdfReady') + (reply.data.truncated ? ' ' + t('pdfTruncated') : '');
+    } catch (error) { st.pdfNotice = error.message || t('pdfFailed'); }
+    finally { st.pdfBusy = false; draw(); }
+  }
+
+  // Paste tab, for sites the popup can't read by itself. Typing doesn't redraw the page, it only updates
+  // st.pasteText. If it did, the cursor would jump out of the box on every key.
+  function pasteTab() {
+    const field = h('textarea', {
+      id: 'paste-input', class: 'paste-input', rows: 6, dir: 'auto', spellcheck: 'false',
+      placeholder: t('pastePlaceholder'), 'aria-describedby': 'paste-limit paste-count paste-error', 'data-focus-key': 'paste-input'
+    });
+    field.value = st.pasteText;
+    const count = h('span', { id: 'paste-count', class: 'paste-count' });
+    const clear = h('button', { type: 'button', class: 'paste-clear', 'data-focus-key': 'paste-clear' }, t('pasteClear'));
+    const error = h('p', { id: 'paste-error', class: 'paste-error', role: 'alert' });
+
+    // Show or hide the error under the box. kind is 'short', 'long' or null.
+    const showError = kind => {
+      st.pasteError = kind;
+      error.hidden = !kind;
+      error.textContent = !kind ? '' : kind === 'short' ? t('pasteMin', { min: num(PASTE_MIN) }) : t('pasteMax', { max: num(group(PASTE_MAX)) });
+    };
+    // Update the character counter, and turn Clear on or off.
+    const sync = () => {
+      const length = st.pasteText.trim().length;
+      count.textContent = t('pasteCount', { n: num(group(length)), max: num(group(PASTE_MAX)) });
+      count.setAttribute('data-over', String(length > PASTE_MAX));
+      clear.disabled = st.pasteText.length === 0;
+    };
+    field.addEventListener('input', () => { st.pasteText = field.value; st.pdfName = ''; st.pdfNotice = ''; showError(null); sync(); });
+    clear.addEventListener('click', () => { field.value = ''; st.pasteText = ''; st.pdfName = ''; st.pdfNotice = ''; showError(null); sync(); field.focus(); });
+    // Analyze pasted text. Checks the same 50 to 120,000 limit as the backend before sending anything.
+    const submit = () => {
+      const length = st.pasteText.trim().length;
+      if (length < PASTE_MIN || length > PASTE_MAX) {
+        showError(length < PASTE_MIN ? 'short' : 'long');
+        field.focus();
+        error.scrollIntoView({ block: 'nearest' });
+        return;
+      }
+      sendText(st.pasteText.trim(), { kind: 'paste', url: '', title: st.pdfName || t('pastedText') }, 'paste');
+    };
+    showError(st.pasteError);
+    sync();
+
+    // WP10: The drop area accepts a PDF file and fills the same textbox used by manual paste.
+    const pdfInput = h('input', { type: 'file', accept: '.pdf,application/pdf', class: 'sr-only', id: 'pdf-file' });
+    pdfInput.addEventListener('change', () => { if (pdfInput.files[0]) loadPdf(pdfInput.files[0]); });
+    const drop = h('div', { class: 'pdf-drop', role: 'group', 'aria-label': t('pdfHeading') },
+      h('b', null, t('pdfHeading')),
+      h('p', null, t('pdfDrop')),
+      h('button', { type: 'button', class: 'btn ghost', disabled: st.pdfBusy,
+        onclick: () => pdfInput.click() }, t('pdfBrowse')),
+      pdfInput,
+      h('small', null, t('pdfLimit')),
+      st.pdfName && h('p', { class: 'pdf-name' }, st.pdfName),
+      st.pdfNotice && h('p', { class: 'msg', role: 'status' }, st.pdfNotice));
+    drop.addEventListener('dragover', event => { event.preventDefault(); drop.classList.add('dragging'); });
+    drop.addEventListener('dragleave', () => drop.classList.remove('dragging'));
+    drop.addEventListener('drop', event => {
+      event.preventDefault(); drop.classList.remove('dragging');
+      const file = event.dataTransfer?.files?.[0]; if (file) loadPdf(file);
     });
 
-    if (!response?.ok) {
-      throw new Error(response?.error || 'No backend response received.');
-    }
-
-    if (response.data?.status !== 'ok') {
-      throw new Error('Unexpected /health response.');
-    }
-
-    setBackendStatus(translations[language].connected, 'success');
-
-  } catch (error) {
-    setBackendStatus(error.message, 'error');
-  } finally {
-    checkServerButton.disabled = false;
-  }
-}
-
-// 10. Render the returned risk score and bilingual summary without unsafe HTML.
-function renderBackendResult() {
-  resultPanel.replaceChildren();
-
-  if (!lastResult) {
-    resultPanel.hidden = true;
-    return;
+    return h('section', { class: 'paste' },
+      drop,
+      h('div', { class: 'paste-head' }, h('h2', null, t('pasteTitle')), h('p', null, t('pasteIntro'))),
+      h('label', { class: 'sr-only', for: 'paste-input' }, t('pasteTitle')),
+      field,
+      h('div', { class: 'paste-meta' }, h('span', { id: 'paste-limit' }, t('pasteLimit', { min: num(PASTE_MIN), max: num(group(PASTE_MAX)) })), count, clear),
+      error,
+      h('button', { type: 'button', class: 'btn primary paste-go', 'data-focus-key': 'paste-go', onclick: submit }, t('pasteAnalyze')),
+      h('p', { class: 'paste-tip' }, t('pasteTip')));
   }
 
-  resultPanel.hidden = false;
-  const t = translations[language];
-
-  const heading = document.createElement('h2');
-  heading.textContent = t.results;
-
-  const risk = document.createElement('p');
-  risk.textContent = `${t.risk}: ${lastResult.risk_score ?? '—'}/100`;
-
-  const summary = document.createElement('p');
-  summary.textContent = `${t.summary}: ${
-    lastResult['summary_' + language] || lastResult.summary || '—'
-  }`;
-
-  resultPanel.append(heading, risk, summary);
-}
-
-// 11. Send extracted or manually pasted legal text using background.js.
-async function sendTextToServer() {
-  const text = termsInput.value.trim();
-
-  if (text.length < 50) {
-    setBackendStatus(translations[language].empty, 'error');
-    return;
-  }
-
-  sendTextButton.disabled = true;
-  setBackendStatus(translations[language].sending);
-
-  try {
-    const response = await chrome.runtime.sendMessage({
-      type: 'WP2_ANALYZE',
-      payload: {
-        page_url: lastPageUrl,
-        page_title: lastPageTitle,
-        terms_text: text,
-        language: language
-      }
+  // Server settings page: the address box, Save, Check connection and the message under them.
+  function settingsPage() {
+    const input = h('input', {
+      id: 'server-url', class: 'text-input', type: 'url', dir: 'ltr', autocomplete: 'off', spellcheck: 'false',
+      placeholder: 'http://192.168.1.5:8000', 'data-focus-key': 'server-url'
     });
-
-    if (!response?.ok) {
-      throw new Error(response?.error || 'No backend response received.');
-    }
-
-    lastResult = response.data;
-    renderBackendResult();
-    setBackendStatus(translations[language].received, 'success');
-
-  } catch (error) {
-    setBackendStatus(error.message, 'error');
-  } finally {
-    sendTextButton.disabled = false;
+    input.value = st.serverInput;
+    input.addEventListener('input', () => { st.serverInput = input.value; });
+    const msg = st.serverMsg;
+    return h('div', { class: 'stack' },
+      subbar(t('settingsTitle')),
+      h('div', { class: 'field' }, h('label', { class: 'label', for: 'server-url' }, t('serverLabel')), input),
+      h('div', { class: 'pair' },
+        h('button', { type: 'button', class: 'btn primary', 'data-focus-key': 'server-save', onclick: saveServer }, t('serverSave')),
+        h('button', { type: 'button', class: 'btn ghost', 'data-focus-key': 'server-check', onclick: checkServer }, t('serverCheck'))),
+      h('p', { class: 'msg', role: 'status', 'aria-live': 'polite', 'data-state': msg ? msg.state : '' }, msg ? (msg.key ? t(msg.key) : msg.text) : t('serverIdle')),
+      h('p', { class: 'msg' }, t('serverHelp')));
   }
-}
 
-// 12. Connect buttons and restore saved user settings.
-englishButton.addEventListener('click', () => setLanguage('en'));
-arabicButton.addEventListener('click', () => setLanguage('ar'));
-analyzeButton.addEventListener('click', analyzeCurrentPage);
-saveServerButton.addEventListener('click', saveServer);
-checkServerButton.addEventListener('click', checkConnection);
-sendTextButton.addEventListener('click', sendTextToServer);
+  // The full report, in a sheet that slides up from the bottom: the score, then every warning with its details.
+  // The Close button, Esc, or a click on the dark area closes it.
+  function sheet() {
+    const r = rating();
+    const dialog = h('div', { class: 'sheet', role: 'dialog', 'aria-modal': 'true', 'aria-label': t('report') },
+      h('div', { class: 'sheet-head' }, h('h2', null, t('report')),
+        h('button', { type: 'button', class: 'x', 'aria-label': t('close'), 'data-focus-key': 'close', onclick: close }, t('close'))),
+      h('div', { class: 'sheet-body', 'data-scroll': 'sheet' },
+        h('div', { class: 'rep gauge-card', 'data-level': levelId(r.level) },
+          h('div', { class: 'rep-score' }, h('b', null, num(r.safety)), h('span', { class: 'level' }, levelText(r.level))),
+          st.source && h('p', { class: 'page', dir: 'auto' }, st.source.title)),
+        notices(),
+        r.items.length === 0 ? h('p', { class: 'msg' }, t('noDetails')) : sortedItems(r).map(item => h('section', { class: 'rep', 'data-sev': item.effective },
+          h('div', { class: 'rep-head' }, h('b', null, categoryText(item.clause.category)), chip(item.effective)),
+          detail(item, 'r-'))),
+        h('p', { class: 'disc' }, st.result.disclaimer || t('disclaimer'))));
+    dialog.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+    return h('div', { style: 'display:contents' }, h('div', { class: 'scrim', onclick: close }), dialog);
+  }
 
-chrome.storage.local.get({
-  language: 'en',
-  server_url: DEFAULT_SERVER_URL
-})
-  .then(saved => {
-    serverUrlInput.value = saved.server_url;
-    setLanguage(saved.language);
-  })
-  .catch(() => {
-    serverUrlInput.value = DEFAULT_SERVER_URL;
-    setLanguage('en');
+  // The EN and ع buttons. Switching only redraws. No new request is needed, the backend already sent both languages.
+  function langSwitch() {
+    const button = (code, label, name) => h('button', {
+      type: 'button', class: 'lang-btn', 'aria-pressed': String(st.lang === code), lang: code, 'aria-label': name,
+      'data-focus-key': 'lang-' + code, onclick: () => set({ lang: code })
+    }, label);
+    return h('div', { class: 'lang-switch', role: 'group', 'aria-label': 'Language / اللغة', dir: 'ltr' }, button('en', 'EN', 'English'), button('ar', 'ع', 'العربية'));
+  }
+
+  // The whole popup: header, the content of the current tab, footer, bottom tabs, and the report sheet on top if it is open.
+  // While the sheet is open the page behind it is inert, so keyboard focus can't wander behind it.
+  function frame() {
+    const hasSheet = !!(st.tab === 'summary' && st.view === 'report' && st.scenario === 'result' && st.result);
+    let content;
+    if (st.view === 'settings') content = settingsPage();
+    else if (st.tab === 'paste') content = pasteTab();
+    else if (st.tab === 'ask') content = askTab();
+    else if (st.tab === 'prefs') content = prefsTab();
+    else if (st.scenario === 'result' && st.result) content = summaryResult();
+    else content = statePanel();
+
+    const navBtn = (id, label) => h('button', {
+      type: 'button', role: 'tab', 'aria-selected': String(st.tab === id && st.view !== 'settings'), 'data-focus-key': 'nav-' + id,
+      onclick: () => set({ tab: id, view: 'main' })
+    }, label);
+
+    return h('div', { style: 'display:contents' },
+      h('div', { class: 'g-main', inert: hasSheet },
+        h('header', { class: 'top' },
+          h('div', { class: 'brand' }, h('img', { class: 'brand-logo', src: 'assets/aamen-shield.png', alt: '' }), h('div', null, h('h1', null, t('appName')), h('p', null, t('tagline')))),
+          langSwitch()),
+        h('main', { class: 'body', role: 'tabpanel', 'data-scroll': 'body:' + st.tab + ':' + st.view }, content),
+        h('footer', { class: 'foot' },
+          h('span', null, t('disclaimer')),
+          h('button', { type: 'button', class: 'foot-link', 'data-focus-key': 'settings', onclick: () => open('settings', 'settings') }, t('settingsLink'))),
+        h('nav', { class: 'nav', role: 'tablist' }, navBtn('summary', t('tabSummary')), navBtn('ask', t('tabAsk')), navBtn('prefs', t('tabPrefs')), navBtn('paste', t('tabPaste')))),
+      hasSheet && sheet());
+  }
+
+  // Redraws the popup from st. Everything is rebuilt each time, so before that it remembers the scroll position
+  // and which button had focus, and puts them back afterwards.
+  const root = document.getElementById('app');
+  function draw() {
+    const holder = document.activeElement && document.activeElement.closest ? document.activeElement.closest('[data-focus-key]') : null;
+    const key = holder && root.contains(holder) ? holder.getAttribute('data-focus-key') : null;
+    const scrolls = {};
+    root.querySelectorAll('[data-scroll]').forEach(el => { scrolls[el.getAttribute('data-scroll')] = el.scrollTop; });
+    let page;
+    try {
+      page = frame();
+    } catch (error) {
+      // The result had a shape the screens can't handle. Show the error screen instead of leaving the popup blank.
+      if (st.result) Object.assign(st, { result: null, scenario: 'error', errorId: 'bad_result', errorDetail: '', tab: 'summary', view: 'main' });
+      try { page = frame(); } catch (again) { page = h('p', { class: 'msg' }, 'Something went wrong. Close the popup and open it again.'); }
+    }
+    root.replaceChildren(page);
+    root.querySelectorAll('[data-scroll]').forEach(el => {
+      const saved = scrolls[el.getAttribute('data-scroll')];
+      if (saved !== undefined) el.scrollTop = saved;
+    });
+    if (key) {
+      const again = root.querySelector('[data-focus-key="' + key + '"]');
+      if (again) again.focus({ preventScroll: true });
+    }
+  }
+
+  // Keyboard focus follows the view. Opening a page or the sheet moves focus into it, closing moves it back to the
+  // button that opened it. It leaves focus alone if the user clicked something else, like a tab.
+  let previousView = st.view;
+  const watchFocus = () => {
+    if (st.view === previousView) return;
+    previousView = st.view;
+    const active = document.activeElement;
+    const holder = active && active.closest ? active.closest('[data-focus-key]') : null;
+    const key = holder ? holder.getAttribute('data-focus-key') : null;
+    if (key && key !== 'back' && key !== 'close' && key !== lastOpener) return;
+    const target = st.view !== 'main'
+      ? root.querySelector('[data-focus-key="back"], [data-focus-key="close"]')
+      : lastOpener && root.querySelector('[data-focus-key="' + lastOpener + '"]');
+    if (target) target.focus();
+  };
+
+  // WP8: showing a run that background.js remembered. A run still going is shown as loading until it ends.
+  // How long a run is worth showing again: a result for 30 minutes, an error for 5. A run still "running" after
+  // RUN_LIMIT has lost its service worker (background.js gives up at 150 seconds), so it is shown as interrupted.
+  const RESULT_KEEP_MS = 30 * 60 * 1000, ERROR_KEEP_MS = 5 * 60 * 1000, RUN_LIMIT_MS = 165 * 1000;
+  let watchTimer = null;
+
+  function showRun(run) {
+    if (!run || run.id !== watchedRunId) return;
+    if (run.status === 'running') return;
+    watchedRunId = null;
+    clearTimeout(watchTimer);
+    if (run.status === 'done' && isUsableResult(run.result)) set({ scenario: 'result', result: run.result, errorId: null, source: run.source });
+    else if (run.status === 'done') fail('The result could not be read.', 'bad_result');
+    else fail(run.error, run.code);
+  }
+
+  function restoreRun(run) {
+    if (!run || typeof run !== 'object' || !run.id || !run.source) return;
+    const now = Date.now();
+    const source = { kind: run.source.kind === 'paste' ? 'paste' : 'page', url: String(run.source.url || ''), title: String(run.source.title || '') };
+    const lastAction = source.kind;
+    if (run.status === 'running' && now - run.started_at < RUN_LIMIT_MS) {
+      watchedRunId = run.id;
+      set({ scenario: 'loading', stage: 'stageSending', source, lastAction });
+      watchTimer = setTimeout(() => {
+        if (watchedRunId === run.id) { watchedRunId = null; fail('The analysis was interrupted.', 'interrupted'); }
+      }, RUN_LIMIT_MS - (now - run.started_at));
+    } else if (run.status === 'done' && now - run.finished_at < RESULT_KEEP_MS && isUsableResult(run.result)) {
+      set({ scenario: 'result', result: run.result, source, lastAction });
+    } else if (run.status === 'error' && now - run.finished_at < ERROR_KEEP_MS) {
+      st.lastAction = lastAction;
+      fail(run.error, run.code);
+    }
+  }
+
+  // When a watched run finishes while the popup is open, background.js writes it here and the popup shows it.
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'session' && changes[RUN_KEY]) showRun(changes[RUN_KEY].newValue);
   });
+
+  // Start: load the saved language, accepted topics and server address, then draw the popup for the first time.
+  // WP8: the saved topics are both what is shown (accepted) and what Undo goes back to (saved). Then the last run is restored.
+  chrome.storage.local.get({ language: 'en', accepted_topics: {}, server_url: DEFAULT_SERVER_URL }).then(saved => {
+    const accepted = Object.assign({}, NONE);
+    const topics = saved.accepted_topics && typeof saved.accepted_topics === 'object' ? saved.accepted_topics : {};
+    TOPICS.forEach(x => { if (typeof topics[x.id] === 'boolean') accepted[x.id] = topics[x.id]; });
+    set({ lang: saved.language === 'ar' ? 'ar' : 'en', accepted, saved: Object.assign({}, accepted), serverUrl: saved.server_url, serverInput: saved.server_url });
+    return chrome.storage.session.get({ [RUN_KEY]: null });
+  }).then(session => {
+    // Only if the user hasn't already started something in the short time this took.
+    if (session && st.scenario === 'empty' && runToken === 0) restoreRun(session[RUN_KEY]);
+  }).catch(() => { if (st.scenario === 'empty') set({ lang: st.lang }); });
+})();

@@ -1,3 +1,4 @@
+# Code overview: This section saves completed results for a limited time so we do not repeat the same AI work unnecessarily.
 
 """WP6 SQLite cache for completed WP3-WP5 analysis responses."""
 
@@ -13,8 +14,10 @@ from ..prompt_adjuster import PrivacyPreferences
 from .storage import database_connection, initialize_database
 
 
-CACHE_VERSION = "wp6-v1"
+CACHE_VERSION = "wp9-calibrated-v2"
 CACHE_TTL_SECONDS = 24 * 60 * 60
+
+CACHEABLE_PDPL_STATUSES = ("completed", "partial")
 
 
 def make_cache_key(
@@ -81,7 +84,7 @@ def save_cached_analysis(
     language: str,
     result: AnalysisResponse,
 ) -> bool:
-    if result.pdpl is None or result.pdpl.status != "completed":
+    if result.pdpl is None or result.pdpl.status not in CACHEABLE_PDPL_STATUSES:
         return False
 
     key = make_cache_key(device_id, terms_text, preferences, language)

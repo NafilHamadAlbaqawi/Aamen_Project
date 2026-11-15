@@ -7,3 +7,6 @@ uvicorn==0.54.0
 
 # Install the OpenAI Python SDK, accepting versions 3.26.1 and newer but excluding version 4 and above.
 openai>=3.26.1,<4.0
+
+# Read selectable text from PDF files uploaded through the extension.
+pypdf>=6.0,<7.0

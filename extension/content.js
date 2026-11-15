@@ -1,3 +1,4 @@
+/* Code overview: We use this script to collect visible legal text from a page, rather than asking the popup to read the whole browser tab. */
 
 /*
 WP1 — Terms & Conditions Extraction

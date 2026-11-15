@@ -1,3 +1,5 @@
+# Code overview: This section builds the instructions used to focus the analysis on selected user concerns.
+
 """Build safe, deterministic WP4 prompts with optional WP6 preferences."""
 
 from dataclasses import dataclass
@@ -32,18 +34,24 @@ def build_prompt_bundle(
     if topics:
         priorities = ", ".join(topics)
         extraction_priority = (
-            "User-priority topics: " + priorities + ". When those topics appear, "
-            "prioritize relevant source-grounded clauses, but still cover other major risks."
+            "User-priority topics: " + priorities + ". When a clause directly affects "
+            "any of these topics, include it if it has a practical effect on the user, "
+            "and keep its original conditions and safeguards. Still cover other major "
+            "risks and protective terms. Never invent a clause to satisfy a preference."
         )
         classification_priority = (
-            "User-priority topics: " + priorities + ". Pay extra attention when a "
-            "clause directly affects these topics, but never label it high risk solely "
-            "because a preference is selected; severity must reflect the actual evidence. "
-            "Do not lower the severity of clauses on other topics."
+            "User-priority topics: " + priorities + ". Explain the specific effect of "
+            "clauses related to these topics in clear language. Keep the standard evidence-based "
+            "severity rubric unchanged: never increase severity just because a topic is selected, "
+            "and do not lower severity on other topics. Mention consent, limits, and protections "
+            "when they are present in the excerpt."
         )
         summary_priority = (
-            "User-priority topics: " + priorities + ". Mention these topics earlier "
-            "ONLY when they are supported by the classified findings."
+            "User-priority topics: " + priorities + ". If one or more classified "
+            "findings involve these topics, explicitly summarize the most important such finding "
+            "near the beginning in both languages, including any stated consent or protection. "
+            "If no finding concerns a selected topic, do not fabricate one; summarize other "
+            "actual findings instead. Keep the summary concise and factual."
         )
     else:
         extraction_priority = "No user-selected topic priorities; apply broad default coverage."

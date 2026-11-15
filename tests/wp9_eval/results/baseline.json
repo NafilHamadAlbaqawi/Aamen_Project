@@ -1,0 +1,2234 @@
+{
+  "tag": "baseline",
+  "from": null,
+  "rerun": "all",
+  "commit": "f4ee584",
+  "started": "2026-11-10 03:09:32 +0300",
+  "runs": [
+    {
+      "doc_id": "WP4-DOC-A",
+      "repeat": 1,
+      "status": "ok",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 43,
+        "risk_level": "Moderate",
+        "summary_en": "The terms specify that location data is collected only with user consent, indicating a respect for privacy. However, they allow email sharing with advertising partners for promotions, which may impact privacy. Data retention policies state that user data is kept for up to two years after account closure, potentially posing privacy risks if not adequately justified.",
+        "summary_ar": "تشير الشروط إلى أن بيانات الموقع تُجمع فقط بموافقة المستخدم، مما يدل على احترام الخصوصية. ومع ذلك، يتم مشاركة البريد الإلكتروني مع شركاء الإعلان لأغراض الترويج، مما قد يؤثر على الخصوصية. تحتفظ السياسات بالبيانات لمدة تصل إلى سنتين بعد إغلاق الحساب، مما قد يشكل مخاطر على الخصوصية إذا لم يكن هناك مبرر كافٍ.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "We collect your location only with permission",
+            "explanation_en": "Location data is collected only with user permission, indicating a respect for consent.",
+            "explanation_ar": "يتم جمع بيانات الموقع فقط بإذن المستخدم، مما يشير إلى احترام الموافقة."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "third_party_sharing",
+            "severity": "medium",
+            "source_excerpt": "we may share your email with advertising partners to provide promotions",
+            "explanation_en": "Email sharing with advertising partners for promotions may reduce privacy.",
+            "explanation_ar": "قد تقل الخصوصية عند مشاركة البريد الإلكتروني مع شركاء الإعلان لأغراض الترويج."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "data_retention",
+            "severity": "medium",
+            "source_excerpt": "We store data for up to two years after account closure",
+            "explanation_en": "Storing data for up to two years after account closure may pose privacy risks if not justified.",
+            "explanation_ar": "قد يشكل الاحتفاظ بالبيانات لمدة تصل إلى سنتين بعد إغلاق الحساب مخاطر على الخصوصية إذا لم يكن مبرراً."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination.",
+        "pdpl": {
+          "status": "completed",
+          "findings": [
+            {
+              "clause_id": "clause_001",
+              "source_excerpt": "We collect your location only with permission",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The clause states location data is only collected with permission, aligning with Article 5's requirement for consent. However, actual practices must ensure consent can be withdrawn as per regulations.",
+              "explanation_ar": "تنص الفقرة على جمع بيانات الموقع فقط بعد الحصول على الإذن، مما يتماشى مع اشتراط الموافقة في المادة 5. لكن يجب أن تضمن الممارسات الفعلية إمكانية سحب الموافقة حسب الأنظمة.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 5",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "withdraw the consent"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_002",
+              "source_excerpt": "we may share your email with advertising partners to provide promotions",
+              "assessment": "needs_context",
+              "explanation_en": "The clause mentions sharing emails with partners for promotions, which may require consent and transparency per Articles 12 and 13 regarding privacy policy disclosures and specified information.",
+              "explanation_ar": "تشير الفقرة إلى مشاركة البريد الإلكتروني مع شركاء للإعلانات، مما قد يتطلب الموافقة والشفافية وفقًا للمادتين 12 و13 بشأن الإفصاحات في سياسة الخصوصية والمعلومات المحددة.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "privacy policy"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_003",
+              "source_excerpt": "We store data for up to two years after account closure",
+              "assessment": "needs_context",
+              "explanation_en": "The clause indicates data retention for two years, which must comply with Article 18's rules on data destruction without undue delay when no longer needed, considering any lawful exceptions.",
+              "explanation_ar": "تشير الفقرة إلى الاحتفاظ بالبيانات لمدة تصل إلى عامين، ويجب أن تتوافق مع قواعد المادة 18 بشأن إتلاف البيانات دون تأخير غير مبرر عند انتفاء الحاجة، مع مراعاة أي استثناءات قانونية.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            }
+          ],
+          "disclaimer": "Automated, limited PDPL screening using selected legal summaries; not a legal compliance determination. Check the latest official provisions."
+        }
+      },
+      "seconds": 11.0,
+      "calls": [
+        {
+          "stage": "ExtractionOutput",
+          "seconds": 2.05,
+          "usd": 0.001655
+        },
+        {
+          "stage": "ClassificationOutput",
+          "seconds": 2.54,
+          "usd": 0.003085
+        },
+        {
+          "stage": "SummaryOutput",
+          "seconds": 2.41,
+          "usd": 0.002935
+        },
+        {
+          "stage": "AIReviewBatch",
+          "seconds": 3.84,
+          "usd": 0.006893
+        }
+      ]
+    },
+    {
+      "doc_id": "WP4-DOC-B",
+      "repeat": 1,
+      "status": "ok",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 100,
+        "risk_level": "High Risk",
+        "summary_en": "The terms allow sharing of email addresses with advertising partners, posing a moderate privacy risk. Sharing detailed user information, such as order history and device identifiers, with third parties raises significant privacy concerns. While data retention for up to five years is standard, it can be risky if security is inadequate. Account termination without prior notice raises concerns about fairness. Finally, modifying terms without notifying users directly could affect user consent.",
+        "summary_ar": "تسمح الشروط بمشاركة عناوين البريد الإلكتروني مع شركاء الإعلان، مما يشكل خطراً متوسطاً على الخصوصية. مشاركة معلومات المستخدم مثل تاريخ الطلب ومعرفات الجهاز مع أطراف ثالثة تثير مخاوف كبيرة بشأن الخصوصية. الاحتفاظ بالبيانات لمدة تصل إلى خمس سنوات قد يكون محفوفًا بالمخاطر إذا كانت الحماية غير كافية. إنهاء الحساب دون إشعار سابق يثير مخاوف حول العدالة. وأخيراً، تعديل الشروط دون إخطار المستخدمين بشكل مباشر يمكن أن يؤثر على موافقتهم.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "With your permission, the application collects location information to deliver local services.",
+            "explanation_en": "Location data collection is based on user permission, limiting privacy risk.",
+            "explanation_ar": "جمع معلومات الموقع يعتمد على إذن المستخدم، مما يحد من خطر الخصوصية."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "third_party_sharing",
+            "severity": "medium",
+            "source_excerpt": "We may share your email address with selected advertising partners for promotional activities.",
+            "explanation_en": "Sharing email with advertising partners for promotions poses a moderate privacy risk.",
+            "explanation_ar": "مشاركة البريد الإلكتروني مع شركاء الإعلان للترويج يشكل خطراً متوسطاً على الخصوصية."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "third_party_sharing",
+            "severity": "high",
+            "source_excerpt": "We may also share your order history, approximate location and device identifiers with analytics providers and other affiliated companies.",
+            "explanation_en": "Sharing order history and device identifiers with third parties can significantly impact user privacy.",
+            "explanation_ar": "مشاركة تاريخ الطلب ومعرفات الجهاز مع أطراف ثالثة يمكن أن تؤثر بشكل كبير على خصوصية المستخدم."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "medium",
+            "source_excerpt": "We retain order records and location history for as long as your account is active and for up to five years after account closure for business purposes.",
+            "explanation_en": "Retaining data for up to five years may pose risks if not properly secured.",
+            "explanation_ar": "الاحتفاظ بالبيانات لمدة تصل إلى خمس سنوات قد يشكل مخاطر إذا لم تُؤمن بشكل صحيح."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Account closure for rule violations is a standard practice.",
+            "explanation_ar": "إغلاق الحساب عند انتهاك القواعد هو ممارسة قياسية."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "account_termination",
+            "severity": "high",
+            "source_excerpt": "We may also suspend or terminate any account at our sole discretion and without prior notice.",
+            "explanation_en": "Account termination at sole discretion without notice raises significant concerns about fairness and transparency.",
+            "explanation_ar": "إنهاء الحساب حسب التقدير الفردي ودون إشعار يثير مخاوف كبيرة بشأن العدالة والشفافية."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "terms_changes",
+            "severity": "medium",
+            "source_excerpt": "We may modify these Terms at any time. Continued use of the application after changes are posted means you accept the modified Terms.",
+            "explanation_en": "Changing terms without direct notification can affect user consent and understanding.",
+            "explanation_ar": "تغيير الشروط دون إشعار مباشر يمكن أن يؤثر على موافقة المستخدم وفهمه."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "To the maximum extent permitted by law, Wayfare is not liable for indirect or consequential damages, lost data, or delays caused by couriers.",
+            "explanation_en": "Limiting liability for indirect damages could reduce user protections.",
+            "explanation_ar": "تقييد المسؤولية عن الأضرار غير المباشرة قد يقلل من حماية المستخدم."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination.",
+        "pdpl": {
+          "status": "partial",
+          "findings": [
+            {
+              "clause_id": "clause_001",
+              "source_excerpt": "With your permission, the application collects location information to deliver local services.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The clause mentions obtaining permission for collecting location data, aligning with PDPL's requirement for consent under Article 5.",
+              "explanation_ar": "تشير الفقرة إلى الحصول على إذن لجمع بيانات الموقع، مما يتماشى مع متطلبات الموافقة بموجب المادة 5 من نظام حماية البيانات الشخصية.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 5",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "withdraw the consent"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_002",
+              "source_excerpt": "We may share your email address with selected advertising partners for promotional activities.",
+              "assessment": "potential_concern",
+              "explanation_en": "Sharing email addresses with third parties for promotional activities requires specific consent and disclosure of this practice in the privacy policy, as per Articles 13 and 12.",
+              "explanation_ar": "مشاركة عناوين البريد الإلكتروني مع أطراف ثالثة لأغراض ترويجية يتطلب موافقة محددة والإفصاح عن هذا في سياسة الخصوصية وفقاً للمادتين 13 و12.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "privacy policy"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_003",
+              "source_excerpt": "We may also share your order history, approximate location and device identifiers with analytics providers and other affiliated companies.",
+              "assessment": "potential_concern",
+              "explanation_en": "Sharing personal data such as order history and location with third parties must be clearly disclosed and justified under PDPL Articles 12 and 13.",
+              "explanation_ar": "مشاركة بيانات شخصية مثل تاريخ الطلب والموقع مع أطراف ثالثة يجب أن يتم الإفصاح عنه بوضوح وتبريره وفقاً للمادتين 12 و13 من نظام حماية البيانات الشخصية.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "privacy policy"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_004",
+              "source_excerpt": "We retain order records and location history for as long as your account is active and for up to five years after account closure for business purposes.",
+              "assessment": "needs_context",
+              "explanation_en": "Retention of data for business purposes requires careful consideration of necessity and legal exceptions, as outlined in Article 18.",
+              "explanation_ar": "الاحتفاظ بالبيانات لأغراض تجارية يتطلب النظر بعناية في الضرورة والاستثناءات القانونية المنصوص عليها في المادة 18.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_005",
+              "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+              "assessment": "needs_context",
+              "explanation_en": "Terminating accounts involves data subjects' rights to request data destruction, necessitating examination of compliance with Article 4.",
+              "explanation_ar": "إنهاء الحسابات يتضمن حقوق أصحاب البيانات في طلب إتلاف البيانات، مما يستدعي فحص الامتثال للمادة 4.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Data Subject"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_006",
+              "source_excerpt": "We may also suspend or terminate any account at our sole discretion and without prior notice.",
+              "assessment": "potential_concern",
+              "explanation_en": "Suspension or termination of accounts without notice could conflict with transparency and data subjects' rights under PDPL Article 4.",
+              "explanation_ar": "تعليق أو إنهاء الحسابات دون إشعار قد يتعارض مع الشفافية وحقوق أصحاب البيانات وفقاً للمادة 4 من نظام حماية البيانات الشخصية.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Data Subject"
+                }
+              ]
+            }
+          ],
+          "disclaimer": "Automated, limited PDPL screening using selected legal summaries; not a legal compliance determination. Check the latest official provisions."
+        }
+      },
+      "seconds": 14.7,
+      "calls": [
+        {
+          "stage": "ExtractionOutput",
+          "seconds": 2.51,
+          "usd": 0.00453
+        },
+        {
+          "stage": "ClassificationOutput",
+          "seconds": 4.92,
+          "usd": 0.006233
+        },
+        {
+          "stage": "SummaryOutput",
+          "seconds": 2.33,
+          "usd": 0.00469
+        },
+        {
+          "stage": "AIReviewBatch",
+          "seconds": 4.9,
+          "usd": 0.01145
+        }
+      ]
+    },
+    {
+      "doc_id": "WP4-DOC-C",
+      "repeat": 1,
+      "status": "ok",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 100,
+        "risk_level": "High Risk",
+        "summary_en": "The terms require uploading a national ID and selfie, which involves handling sensitive data and poses significant privacy risks if not securely managed. Verification photos are retained for seven years to improve fraud-detection models, raising privacy concerns due to the long retention period. Sharing transaction data with credit bureaus and banking partners for credit assessments is a high-risk activity, potentially exposing users to data misuse. Payment processing is managed by a third party, reducing risks by not storing full card numbers.",
+        "summary_ar": "تتطلب الشروط تحميل صورة لبطاقة الهوية الوطنية وصورة شخصية، مما ينطوي على معالجة بيانات حساسة ويشكل مخاطر خصوصية كبيرة إذا لم تُدار بشكل آمن. يتم الاحتفاظ بصور التحقق لمدة سبع سنوات لتحسين نماذج الاحتيال، مما يثير قلق الخصوصية بسبب طول فترة الاحتفاظ. مشاركة بيانات المعاملات مع وكالات الائتمان والشركاء المصرفيين لتقييم الأهلية الائتمانية يُعتبر نشاطًا عالي المخاطر لاحتمال سوء استخدام البيانات. تتم معالجة الدفع من خلال طرف ثالث، مما يقلل المخاطر بعدم تخزين الأرقام الكاملة للبطاقات.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "sensitive_data",
+            "severity": "high",
+            "source_excerpt": "To comply with anti-fraud requirements you must upload a photograph of your national ID card and a selfie photograph.",
+            "explanation_en": "Requiring a photograph of a national ID card and a selfie involves processing sensitive information, presenting potential privacy risks if not handled securely.",
+            "explanation_ar": "تتطلب معالجة صورة لبطاقة الهوية الوطنية وصورة شخصية معلومات حساسة، مما يقدم مخاطر على الخصوصية إذا لم يتم التعامل معها بأمان."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "data_retention",
+            "severity": "medium",
+            "source_excerpt": "Verification photographs are kept for seven years and may be used to improve our fraud-detection models.",
+            "explanation_en": "Storing verification photographs for seven years for improving fraud models impacts privacy due to long retention and expansive use.",
+            "explanation_ar": "الاحتفاظ بالصور للتحقق لمدة سبع سنوات لاستخدامها في تحسين نماذج الاحتيال يؤثر على الخصوصية بسبب طول مدة الاحتفاظ والاستخدام الشامل."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "third_party_sharing",
+            "severity": "low",
+            "source_excerpt": "Payment processing is provided by a third-party processor, and we do not store full card numbers.",
+            "explanation_en": "Using a third-party processor for payment processing without storing full card numbers minimizes potential risk.",
+            "explanation_ar": "استخدام طرف ثالث لمعالجة الدفع دون تخزين الأرقام الكاملة للبطاقات يقلل من المخاطر المحتملة."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_collection",
+            "severity": "medium",
+            "source_excerpt": "We store your bank account number, IBAN and transaction history to provide the service.",
+            "explanation_en": "Storing bank details and transaction history involves a moderate risk of data breach or misuse.",
+            "explanation_ar": "تخزين تفاصيل البنك وسجل المعاملات ينطوي على مخاطر متوسطة تتعلق بانتهاك البيانات أو سوء استخدامها."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "third_party_sharing",
+            "severity": "high",
+            "source_excerpt": "We may share transaction data with credit bureaus and our banking partners to assess eligibility for credit offers.",
+            "explanation_en": "Sharing transaction data with credit bureaus and banking partners for credit assessment involves high risk due to potential data misuse.",
+            "explanation_ar": "مشاركة بيانات المعاملات مع وكالات الائتمان والشركاء المصرفيين لتقييم الأهلية الائتمانية ينطوي على خطر كبير بسبب احتمال سوء استخدام البيانات."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "You are responsible for all transactions made with your credentials until you report a lost device.",
+            "explanation_en": "Holding users accountable for transactions until a lost device is reported may pose risk if users are unaware or unable to report promptly.",
+            "explanation_ar": "تحميل المستخدمين مسؤولية المعاملات حتى يتم الإبلاغ عن فقدان الجهاز قد يشكل خطرًا إذا كان المستخدمون غير مدركين أو غير قادرين على الإبلاغ بسرعة."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "liability",
+            "severity": "low",
+            "source_excerpt": "PayNest is not responsible for losses caused by sharing your password.",
+            "explanation_en": "The clause absolving responsibility for losses due to password sharing emphasizes user accountability, with a lower risk factor.",
+            "explanation_ar": "التنصل من المسؤولية عن الخسائر الناتجة عن مشاركة كلمة المرور يؤكد على مسؤولية المستخدم، مع عامل خطر أقل."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "We may update this Agreement from time to time and will notify you in the application.",
+            "explanation_en": "Updating the agreement with notification in the application is standard, posing minimal risk if communicated clearly.",
+            "explanation_ar": "تحديث الاتفاقية مع الإشعار داخل التطبيق هو إجراء قياسي، وينطوي على مخاطر قليلة إذا تم التواصل معه بوضوح."
+          },
+          {
+            "clause_id": "clause_009",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "You may close your wallet at any time after withdrawing your balance.",
+            "explanation_en": "Allowing users to close accounts after balance withdrawal is standard practice, posing minimal risk.",
+            "explanation_ar": "السماح للمستخدمين بإغلاق الحسابات بعد سحب الرصيد هو ممارسة قياسية وينطوي على مخاطر قليلة."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination.",
+        "pdpl": {
+          "status": "partial",
+          "findings": [
+            {
+              "clause_id": "clause_001",
+              "source_excerpt": "To comply with anti-fraud requirements you must upload a photograph of your national ID card and a selfie photograph.",
+              "assessment": "potential_concern",
+              "explanation_en": "Requiring a photograph of a national ID card and a selfie raises potential concerns about collecting more sensitive data than necessary, conflicting with principles of limitation to purpose as described in Article 11 and regulation elaboration in reg-19.",
+              "explanation_ar": "إن طلب صورة للهوية الوطنية وصورة شخصية يثير احتمال جمع بيانات حساسة تتجاوز الحاجة، مما يتعارض مع مبادئ تحديد البيانات للغرض المحدد كما هو موضح في المادة 11 واللائحة في المادة 19.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                },
+                {
+                  "source_id": "PDPL_IR",
+                  "title": "Implementing Regulation of the Personal Data Protection Law",
+                  "article_id": "Article 19",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_002",
+              "source_excerpt": "Verification photographs are kept for seven years and may be used to improve our fraud-detection models.",
+              "assessment": "potential_concern",
+              "explanation_en": "Retaining photographs for seven years may exceed the purpose of collection and violate principles of timely destruction when no longer needed, raising potential concern under Article 18.",
+              "explanation_ar": "قد يتجاوز الاحتفاظ بالصور لمدة سبع سنوات الغرض من الجمع وينتهك مبادئ الإتلاف في الوقت المناسب عند عدم الحاجة، مما يثير احتمالية مخالفة المادة 18.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_003",
+              "source_excerpt": "Payment processing is provided by a third-party processor, and we do not store full card numbers.",
+              "assessment": "needs_context",
+              "explanation_en": "While third-party payment processing can be legitimate, clarity on privacy policy disclosure per Article 12 and sharing details per Article 13 is essential. Further context on these practices is needed.",
+              "explanation_ar": "بينما يمكن أن يكون معالجة الدفعات من جهات خارجية مشروعًا، فإن الوضوح بشأن الإفصاح عن سياسة الخصوصية حسب المادة 12 وتفاصيل المشاركة حسب المادة 13 أمر ضروري. هناك حاجة لمزيد من السياق حول هذه الممارسات.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "privacy policy"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_004",
+              "source_excerpt": "We store your bank account number, IBAN and transaction history to provide the service.",
+              "assessment": "needs_context",
+              "explanation_en": "Storing detailed financial information might be justified by service provision. However, ensuring compliance with purpose limitation principles in Articles 10 and 11, and minimum data requirements in reg-19 requires further context.",
+              "explanation_ar": "قد يكون تخزين المعلومات المالية المفسرة مبررًا بتقديم الخدمة، ولكن ضمان الامتثال لمبادئ تحديد الغرض في المواد 10 و11 واشتراطات الحد الأدنى من البيانات في اللائحة المادة 19 يتطلب مزيدًا من السياق.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 10",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "other purposes"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                },
+                {
+                  "source_id": "PDPL_IR",
+                  "title": "Implementing Regulation of the Personal Data Protection Law",
+                  "article_id": "Article 19",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_005",
+              "source_excerpt": "We may share transaction data with credit bureaus and our banking partners to assess eligibility for credit offers.",
+              "assessment": "needs_context",
+              "explanation_en": "Sharing transaction data with third parties like credit bureaus requires clear disclosure in privacy policies. Compliance with Article 13 regarding adequate data subject information is needed. More detail on this sharing practice is required.",
+              "explanation_ar": "يتطلب مشاركة البيانات مع جهات خارجية توضيحًا واضحًا في سياسات الخصوصية. هناك حاجة للامتثال للمادة 13 بشأن توفير معلومات كافية لأصحاب البيانات. مطلوب مزيد من التفاصيل حول هذه الممارسة في المشاركة.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_008",
+              "source_excerpt": "We may update this Agreement from time to time and will notify you in the application.",
+              "assessment": "needs_context",
+              "explanation_en": "Updating agreements and notifying users is a common practice; however, ensuring users fully understand changes in data handling requires context like notification procedures to assess compliance.",
+              "explanation_ar": "تحديث الاتفاقيات وإخطار المستخدمين ممارسة شائعة، ولكن ضمان فهم المستخدمين الكامل للتغييرات في معالجة البيانات يتطلب سياقًا مثل إجراءات الإخطار لتقييم الامتثال.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 20",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Competent Authority"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_009",
+              "source_excerpt": "You may close your wallet at any time after withdrawing your balance.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "Allowing users to close accounts and withdraw balances aligns with user rights to data control and destruction when no longer needed, consistent with Articles 4 and 18.",
+              "explanation_ar": "سماح المستخدمين بإغلاق الحسابات وسحب الأرصدة يتوافق مع حقوق المستخدمين في التحكم بالبيانات وإتلافها عند انتفاء الحاجة، بما يتوافق مع المواد 4 و18.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Data Subject"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            }
+          ],
+          "disclaimer": "Automated, limited PDPL screening using selected legal summaries; not a legal compliance determination. Check the latest official provisions."
+        }
+      },
+      "seconds": 23.3,
+      "calls": [
+        {
+          "stage": "ExtractionOutput",
+          "seconds": 5.24,
+          "usd": 0.00413
+        },
+        {
+          "stage": "ClassificationOutput",
+          "seconds": 6.01,
+          "usd": 0.008438
+        },
+        {
+          "stage": "SummaryOutput",
+          "seconds": 3.04,
+          "usd": 0.00559
+        },
+        {
+          "stage": "AIReviewBatch",
+          "seconds": 8.97,
+          "usd": 0.014228
+        }
+      ]
+    },
+    {
+      "doc_id": "WP4-DOC-D",
+      "repeat": 1,
+      "status": "ok",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 54,
+        "risk_level": "Moderate",
+        "summary_en": "The terms include a clause about data retention, specifying that deleted notes are permanently erased after 30 days. However, it also states that account deletion results in the notes being erased within 90 days, while backups are overwritten in 180 days, which can raise moderate privacy concerns. A liability disclaimer limits recourse options for users in case of data loss due to events outside the company's control. While account termination due to rule violations is standard, the 14-day notice for terms changes may limit user control if changes are significant. Consent for marketing emails is respected, as they are only sent to users who opt in.",
+        "summary_ar": "تشمل الشروط فقرة عن الاحتفاظ بالبيانات، حيث يتم محو الملاحظات المحذوفة بشكل دائم بعد 30 يومًا. ومع ذلك، عند حذف الحساب، يتم محو الملاحظات خلال 90 يومًا، بينما تُطمَس النسخ الاحتياطية خلال 180 يومًا، مما قد يثير مخاوف خصوصية معتدلة. تتضمن الشروط عدم تحمل المسؤولية عن فقدان البيانات بسبب أحداث خارج السيطرة، مما يقلل من خيارات المستخدم. إنهاء الحساب بسبب انتهاك القواعد يعد أمرًا قياسيًا، بينما قد يحد إشعار 14 يومًا بالتغييرات في الشروط من سيطرة المستخدم إذا كانت التغييرات كبيرة. يتم احترام موافقة المستخدم على الرسائل التسويقية بإرسالها لمن اشترك فقط.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "When you delete a note it is moved to the trash and permanently erased after 30 days.",
+            "explanation_en": "The clause specifies a clear data retention policy, permanently erasing deleted notes after 30 days.",
+            "explanation_ar": "تنص الفقرة على سياسة احتفاظ بالبيانات واضحة، يتم محو الملاحظات المحذوفة بشكل دائم بعد 30 يومًا."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "data_retention",
+            "severity": "medium",
+            "source_excerpt": "When you delete your account, your notes are erased within 90 days, except backups which are overwritten within 180 days.",
+            "explanation_en": "90 and 180-day retention periods before complete deletion may pose moderate privacy concerns if users expect immediate deletion.",
+            "explanation_ar": "قد تشكل فترات الاحتفاظ 90 و180 يومًا قبل الحذف الكامل مخاوف خصوصية معتدلة إذا توقع المستخدمون الحذف الفوري."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "QuickNotes is provided as is. We do not guarantee the service will be uninterrupted, and we are not liable for loss of notes caused by events outside our reasonable control.",
+            "explanation_en": "Disclaimer of liability for loss of notes reduces user's recourse options in case of data loss.",
+            "explanation_ar": "عدم تحمل المسؤولية عن فقدان الملاحظات يقلل من خيارات المستخدم في حالة فقدان البيانات."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+            "explanation_en": "Account termination for rule violations is standard and serves to enforce rules.",
+            "explanation_ar": "إنهاء الحساب لمخالفة القواعد أمر قياسي ويُستخدم لفرض القواعد."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "terms_changes",
+            "severity": "medium",
+            "source_excerpt": "We may change these Terms. We will email you at least 14 days before material changes take effect.",
+            "explanation_en": "14-day notice for material changes might limit user control if changes are significant.",
+            "explanation_ar": "قد يحد إخطار 14 يومًا بالتغييرات المادية من سيطرة المستخدم إذا كانت التغييرات كبيرة."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "We do not send marketing emails unless you opt in.",
+            "explanation_en": "Consent is obtained before sending marketing emails, respecting user preference.",
+            "explanation_ar": "يتم الحصول على الموافقة قبل إرسال رسائل البريد الإلكتروني التسويقية، مما يحترم تفضيلات المستخدم."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination.",
+        "pdpl": {
+          "status": "partial",
+          "findings": [
+            {
+              "clause_id": "clause_001",
+              "source_excerpt": "When you delete a note it is moved to the trash and permanently erased after 30 days.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The clause states that data is permanently erased after 30 days when a note is deleted, which aligns with the requirement to destroy data without undue delay when it is no longer needed, as per Article 18.",
+              "explanation_ar": "البند ينص على أن البيانات تُحذف بشكل دائم بعد 30 يومًا عند حذف ملاحظة، وهو ما يتماشى مع متطلبات إتلاف البيانات دون تأخير غير مبرر عند انتفاء الحاجة إليها، وفقًا للمادة 18.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_002",
+              "source_excerpt": "When you delete your account, your notes are erased within 90 days, except backups which are overwritten within 180 days.",
+              "assessment": "potential_concern",
+              "explanation_en": "The retention period of 90 days for erasing notes and 180 days for backups after account deletion could raise concerns about undue delay, and may not fully align with the requirement to destroy data without undue delay when it's no longer needed for collection purposes.",
+              "explanation_ar": "قد تثير فترة الاحتفاظ من 90 يومًا لحذف الملاحظات و180 يومًا للنسخ الاحتياطية بعد حذف الحساب قلقًا بشأن التأخير غير المبرر، وقد لا تتماشى بالكامل مع متطلبات إتلاف البيانات دون تأخير غير مبرر حينما لا تلزم لأغراض الجمع.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_004",
+              "source_excerpt": "We may close accounts after repeated violations of our posted rules.",
+              "assessment": "needs_context",
+              "explanation_en": "The clause permits account closure for rule violations but does not clarify data handling post-closure, potentially impacting data subject rights under Article 4.",
+              "explanation_ar": "البند يتيح إغلاق الحساب لانتهاكات القواعد ولكنه لا يوضح التعامل مع البيانات بعد الإغلاق، مما قد يؤثر على حقوق أصحاب البيانات وفقاً للمادة 4.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Data Subject"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_006",
+              "source_excerpt": "We do not send marketing emails unless you opt in.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The opt-in requirement for marketing emails aligns with consent requirements for data processing, as per Article 5, indicating a user-affirmative action before processing.",
+              "explanation_ar": "اشتراط الاشتراك لتلقي رسائل البريد الإلكتروني التسويقية يتماشى مع متطلبات الموافقة للمعالجة، وفقاً للمادة 5، مما يشير إلى ضرورة إجراء إيجابي من المستخدم قبل المعالجة.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 5",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "withdraw the consent"
+                }
+              ]
+            }
+          ],
+          "disclaimer": "Automated, limited PDPL screening using selected legal summaries; not a legal compliance determination. Check the latest official provisions."
+        }
+      },
+      "seconds": 13.6,
+      "calls": [
+        {
+          "stage": "ExtractionOutput",
+          "seconds": 2.75,
+          "usd": 0.003292
+        },
+        {
+          "stage": "ClassificationOutput",
+          "seconds": 3.63,
+          "usd": 0.005452
+        },
+        {
+          "stage": "SummaryOutput",
+          "seconds": 3.09,
+          "usd": 0.005197
+        },
+        {
+          "stage": "AIReviewBatch",
+          "seconds": 4.14,
+          "usd": 0.00908
+        }
+      ]
+    },
+    {
+      "doc_id": "WP8-RIHLA-TERMS",
+      "repeat": 1,
+      "status": "ok",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 100,
+        "risk_level": "High Risk",
+        "summary_en": "Users agree to terms by using the service, including data collection and sharing practices. The app collects precise GPS location, even when closed, posing significant privacy concerns. Banking details may be shared with lending partners, and personal information with marketing partners, which can risk privacy. Data is retained indefinitely, raising potential issues. Accounts can be terminated without notice, heavily affecting user rights. Changes to terms may occur unilaterally.",
+        "summary_ar": "يوافق المستخدمون على الشروط باستخدام الخدمة، بما في ذلك ممارسات جمع البيانات ومشاركتها. يجمع التطبيق الموقع الجغرافي الدقيق، حتى عند إغلاقه، مما يثير قضايا خصوصية كبيرة. قد يتم مشاركة التفاصيل المصرفية مع شركاء الإقراض، والبيانات الشخصية مع شركاء التسويق، مما قد يشكل خطراً على الخصوصية. يتم الاحتفاظ بالبيانات إلى أجل غير مسمى، مما يثير قضايا محتملة. يمكن إنهاء الحسابات دون إشعار، مما يؤثر بشدة على حقوق المستخدم. قد تحدث تغييرات في الشروط من جانب واحد.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "By creating an account or placing an order you agree to these Terms.",
+            "explanation_en": "Standard consent clause for agreeing to terms by using the service.",
+            "explanation_ar": "بند موافقة قياسي للموافقة على الشروط باستخدام الخدمة."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "data_collection",
+            "severity": "medium",
+            "source_excerpt": "The app collects your precise GPS location while it is open so riders can find you.",
+            "explanation_en": "Collecting precise GPS location can affect user privacy.",
+            "explanation_ar": "جمع الموقع الجغرافي الدقيق يمكن أن يؤثر على خصوصية المستخدم."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "data_collection",
+            "severity": "high",
+            "source_excerpt": "We may also collect your location in the background, even when the app is closed, to suggest nearby restaurants and to measure our advertising campaigns.",
+            "explanation_en": "Background location collection is intrusive and may impact privacy significantly.",
+            "explanation_ar": "جمع الموقع في الخلفية يعد تدخلاً وقد يؤثر بشكل كبير على الخصوصية."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "third_party_sharing",
+            "severity": "medium",
+            "source_excerpt": "Your banking details may be shared with our lending partners to offer you buy-now-pay-later plans.",
+            "explanation_en": "Sharing banking details with lending partners poses privacy risks.",
+            "explanation_ar": "مشاركة التفاصيل المصرفية مع شركاء الإقراض تشكل مخاطر على الخصوصية."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "third_party_sharing",
+            "severity": "high",
+            "source_excerpt": "We may share your name, phone number, order history and location with advertising partners, analytics providers and affiliated companies for their own marketing purposes.",
+            "explanation_en": "Sharing personal data for third-party marketing is a substantial privacy risk.",
+            "explanation_ar": "مشاركة البيانات الشخصية لأغراض تسويق الطرف الثالث تشكل خطراً كبيراً على الخصوصية."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "data_retention",
+            "severity": "medium",
+            "source_excerpt": "We keep your order history and personal information for as long as we consider necessary for our business, including after your account is closed.",
+            "explanation_en": "Indefinite data retention poses potential privacy concerns.",
+            "explanation_ar": "الاحتفاظ بالبيانات إلى أجل غير مسمى يشكل مصدر قلق للخصوصية."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "account_termination",
+            "severity": "high",
+            "source_excerpt": "Rihla may suspend or close your account at any time and for any reason without notice.",
+            "explanation_en": "Unilateral account termination without notice can heavily affect user rights.",
+            "explanation_ar": "إغلاق الحساب من جانب واحد دون إشعار يمكن أن يؤثر بشدة على حقوق المستخدم."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "terms_changes",
+            "severity": "medium",
+            "source_excerpt": "We may change these Terms at any time. Continued use of the service after a change means you accept the new Terms.",
+            "explanation_en": "Changing terms unilaterally requires user attention but is not uncommon.",
+            "explanation_ar": "تغيير الشروط من جانب واحد يتطلب انتباه المستخدم ولكنه ليس غير شائع."
+          },
+          {
+            "clause_id": "clause_009",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "To the maximum extent permitted by law, Rihla is not liable for late, missing or damaged orders, or for any indirect or consequential loss.",
+            "explanation_en": "Limitation of liability clauses are typical but can limit recourse for users.",
+            "explanation_ar": "بنود تحديد المسؤولية شائعة ولكنها يمكن أن تقلل من وسائل الإنصاف للمستخدمين."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination.",
+        "pdpl": {
+          "status": "partial",
+          "findings": [
+            {
+              "clause_id": "clause_001",
+              "source_excerpt": "By creating an account or placing an order you agree to these Terms.",
+              "assessment": "needs_context",
+              "explanation_en": "The clause implies consent for all terms through account creation or placing orders. However, PDPL Article 5 suggests that explicit consent and the ability to withdraw it should be clearly provided and not implied. Clarity on consent mechanisms is needed.",
+              "explanation_ar": "تشير الفقرة إلى أن إنشاء الحساب أو تقديم الطلب يعني الموافقة على جميع الشروط. ومع ذلك، يقترح المادة 5 من قانون حماية البيانات أن الموافقة الصريحة وإمكانية سحبها يجب أن تكون واضحة وليست ضمنية. هناك حاجة إلى توضيح آليات الحصول على الموافقة.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 5",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "withdraw the consent"
+                },
+                {
+                  "source_id": "PDPL_IR",
+                  "title": "Implementing Regulation of the Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2",
+                  "excerpt": "withdraw their consent"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_002",
+              "source_excerpt": "The app collects your precise GPS location while it is open so riders can find you.",
+              "assessment": "needs_context",
+              "explanation_en": "The clause describes precise GPS data collection while the app is open. While data collection for service functionality might be allowable, PDPL Article 11 requires clarity on lawfulness and necessity, which isn't confirmed here.",
+              "explanation_ar": "تصف الفقرة جمع البيانات الدقيقة لنظام تحديد المواقع عندما يكون التطبيق مفتوحًا. بينما قد يكون جمع البيانات لأغراض الخدمة مقبولًا، فإن المادة 11 من قانون حماية البيانات تتطلب وضوحًا بشأن الشرعية والضرورة، وهو ما لا يتوفر هنا.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_003",
+              "source_excerpt": "We may also collect your location in the background, even when the app is closed, to suggest nearby restaurants and to measure our advertising campaigns.",
+              "assessment": "potential_concern",
+              "explanation_en": "Background location data collection for advertising could raise concerns under PDPL Article 11, as it requires data collection to be necessary and appropriate for the stated purpose, which is not clear here.",
+              "explanation_ar": "جمع بيانات الموقع في الخلفية لأغراض الإعلان قد يثير المخاوف بموجب المادة 11 من قانون حماية البيانات، حيث تتطلب أن يكون جمع البيانات ضروريًا ومناسبًا للغرض المعلن، وهو ما ليس واضحًا هنا.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                },
+                {
+                  "source_id": "PDPL_IR",
+                  "title": "Implementing Regulation of the Personal Data Protection Law",
+                  "article_id": "Article 19",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_004",
+              "source_excerpt": "Your banking details may be shared with our lending partners to offer you buy-now-pay-later plans.",
+              "assessment": "needs_context",
+              "explanation_en": "Sharing banking details with lending partners must comply with PDPL Article 13 requirements on disclosure of legal basis and possible recipients. Without more context, it's unclear if these requirements are met.",
+              "explanation_ar": "يجب أن يكون تبادل التفاصيل المصرفية مع الشركاء الممولين متوافقًا مع متطلبات المادة 13 من قانون حماية البيانات بشأن الكشف عن الأساس القانوني والمستلمون المحتملون. بدون المزيد من السياق، لا يتضح ما إذا كانت هذه المتطلبات تُلبى.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_005",
+              "source_excerpt": "We may share your name, phone number, order history and location with advertising partners, analytics providers and affiliated companies for their own marketing purposes.",
+              "assessment": "potential_concern",
+              "explanation_en": "Sharing personal data with third parties for their marketing needs explicit consent under PDPL Article 13. It's uncertain if the clause complies with disclosure requirements for legal basis and recipients.",
+              "explanation_ar": "تبادل البيانات الشخصية مع أطراف ثالثة لأغراض التسويق الخاصة بهم يتطلب موافقة صريحة بموجب المادة 13 من قانون حماية البيانات. ليس من الواضح ما إذا كانت الفقرة تتفق مع متطلبات الكشف عن الأساس القانوني والمستلمون.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_006",
+              "source_excerpt": "We keep your order history and personal information for as long as we consider necessary for our business, including after your account is closed.",
+              "assessment": "potential_concern",
+              "explanation_en": "Retaining data beyond account closure without clear justification may conflict with PDPL Article 18, which requires data destruction when no longer needed, subject to lawful retention exceptions.",
+              "explanation_ar": "الاحتفاظ بالبيانات بعد إغلاق الحساب دون تبرير واضح قد يتعارض مع المادة 18 من قانون حماية البيانات، التي تتطلب إتلاف البيانات عند عدم الحاجة إليها، مع مراعاة استثناءات الاحتفاظ النظامية.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                },
+                {
+                  "source_id": "PDPL_IR",
+                  "title": "Implementing Regulation of the Personal Data Protection Law",
+                  "article_id": "Article 19",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_007",
+              "source_excerpt": "Rihla may suspend or close your account at any time and for any reason without notice.",
+              "assessment": "needs_context",
+              "explanation_en": "Unilateral account termination without notice could affect user rights under PDPL Article 4. The clause lacks clarity on user rights and procedures that should be followed.",
+              "explanation_ar": "إنهاء الحساب من جانب واحد دون سابق إنذار قد يؤثر على حقوق المستخدمين بموجب المادة 4 من قانون حماية البيانات. الفقرة تفتقر إلى الوضوح بشأن حقوق المستخدمين والإجراءات التي يجب اتباعها.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Data Subject"
+                },
+                {
+                  "source_id": "PDPL_IR",
+                  "title": "Implementing Regulation of the Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2",
+                  "excerpt": "period for which"
+                }
+              ]
+            }
+          ],
+          "disclaimer": "Automated, limited PDPL screening using selected legal summaries; not a legal compliance determination. Check the latest official provisions."
+        }
+      },
+      "seconds": 18.6,
+      "calls": [
+        {
+          "stage": "ExtractionOutput",
+          "seconds": 3.07,
+          "usd": 0.004915
+        },
+        {
+          "stage": "ClassificationOutput",
+          "seconds": 5.51,
+          "usd": 0.006638
+        },
+        {
+          "stage": "SummaryOutput",
+          "seconds": 2.93,
+          "usd": 0.00506
+        },
+        {
+          "stage": "AIReviewBatch",
+          "seconds": 7.07,
+          "usd": 0.015752
+        }
+      ]
+    },
+    {
+      "doc_id": "WP8-RIHLA-PRIVACY",
+      "repeat": 1,
+      "status": "ok",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 51,
+        "risk_level": "Moderate",
+        "summary_en": "The terms indicate that various types of personal data, including sensitive location information, are collected with user permission. Order records are retained for five years due to legal requirements and then deleted. Users can control their data by withdrawing consent for marketing or by accessing, correcting, or deleting their personal data through the app. Some data, like delivery addresses, are shared with delivery personnel and service providers under strict instructions.",
+        "summary_ar": "تشير الشروط إلى جمع أنواع مختلفة من البيانات الشخصية، بما في ذلك معلومات الموقع الحساسة بإذن من المستخدم. يتم الاحتفاظ بسجلات الطلبات لمدة خمس سنوات لأسباب قانونية ثم يتم حذفها. يمكن للمستخدمين التحكم في بياناتهم من خلال سحب الموافقة على التسويق أو عن طريق الوصول، تصحيح أو حذف بياناتهم الشخصية عبر التطبيق. يتم مشاركة بعض البيانات، مثل عناوين التسليم، مع موظفي التوصيل ومقدمي الخدمات تحت تعليمات صارمة.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "medium",
+            "source_excerpt": "We collect your name, phone number, email address, delivery addresses, order history, device identifiers and, with your permission, your location while you use the app.",
+            "explanation_en": "Collecting diverse data points, including location, requires clear reasoning and safeguards.",
+            "explanation_ar": "تتطلب جمع نقاط بيانات متعددة، بما في ذلك الموقع، أسبابًا واضحة وضوابط."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "Order records are kept for five years to meet accounting obligations, and are then deleted.",
+            "explanation_en": "Retention of order records for five years is standard for legal compliance.",
+            "explanation_ar": "الاحتفاظ بسجلات الطلب لمدة خمس سنوات هو معيار للامتثال القانوني."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "You can withdraw your consent to marketing messages at any time from the app settings.",
+            "explanation_en": "Allows users to withdraw consent for marketing, enhancing control over personal data.",
+            "explanation_ar": "يتيح للمستخدمين سحب الموافقة على التسويق، مما يعزز التحكم في البيانات الشخصية."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "third_party_sharing",
+            "severity": "low",
+            "source_excerpt": "We share the delivery address and phone number with the rider who delivers your order.",
+            "explanation_en": "Sharing address and phone number with delivery personnel is necessary and limited in scope.",
+            "explanation_ar": "مشاركة العنوان ورقم الهاتف مع موظفي التوصيل ضرورية ومحدودة."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "third_party_sharing",
+            "severity": "low",
+            "source_excerpt": "Service providers that host our systems process data only on our instructions.",
+            "explanation_en": "Data processing by service providers is controlled and limited to instructions given.",
+            "explanation_ar": "تتم معالجة البيانات بواسطة مقدمي الخدمات بشكل محكم ومقتصر على التعليمات المقدمة."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "sensitive_data",
+            "severity": "medium",
+            "source_excerpt": "with your permission, your location while you use the app.",
+            "explanation_en": "Location data collection requires careful handling due to sensitivity.",
+            "explanation_ar": "جمع بيانات الموقع يتطلب معاملة دقيقة بسبب حساسيتها."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "You can ask to access, correct or delete your personal data by contacting our data protection officer through the Help section of the app.",
+            "explanation_en": "Users have access to manage personal data, promoting transparency and control.",
+            "explanation_ar": "يتمتع المستخدمون بإمكانية الوصول لإدارة البيانات الشخصية مما يعزز الشفافية والتحكم."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination.",
+        "pdpl": {
+          "status": "completed",
+          "findings": [
+            {
+              "clause_id": "clause_001",
+              "source_excerpt": "We collect your name, phone number, email address, delivery addresses, order history, device identifiers and, with your permission, your location while you use the app.",
+              "assessment": "needs_context",
+              "explanation_en": "The clause describes data collection including sensitive data like location, which requires consent under PDPL Article 5. It's unclear if all consent and notification requirements in Articles 10, 11, and 13 are fully met.",
+              "explanation_ar": "تصف البند جمع البيانات بما في ذلك البيانات الحساسة مثل الموقع، والتي تتطلب موافقة وفقًا للمادة 5 من قانون حماية البيانات الشخصية. من غير الواضح إذا تم استيفاء جميع متطلبات الموافقة والإشعار وفقًا للمقالات 10 و11 و13 بشكل كامل.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 5",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "withdraw the consent"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 10",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "other purposes"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_002",
+              "source_excerpt": "Order records are kept for five years to meet accounting obligations, and are then deleted.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The clause states data retention for accounting purposes, which appears consistent with Article 18 permitting lawful retention for specific obligations.",
+              "explanation_ar": "تنص الفقرة على الاحتفاظ بالبيانات لأغراض المحاسبة، وهذا يبدو متوافقًا مع المادة 18 التي تجيز الاحتفاظ القانوني للالتزامات المحددة.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_003",
+              "source_excerpt": "You can withdraw your consent to marketing messages at any time from the app settings.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The clause allowing consent withdrawal aligns with Article 5 requirements, supported by Implementing Regulation for withdrawal mechanisms in Article 12.",
+              "explanation_ar": "السماح بسحب الموافقة يتماشى مع متطلبات المادة 5، مدعومًا بلائحة التنفيذ لآليات السحب في المادة 12.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 5",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "withdraw the consent"
+                },
+                {
+                  "source_id": "PDPL_IR",
+                  "title": "Implementing Regulation of the Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2",
+                  "excerpt": "withdraw their consent"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_004",
+              "source_excerpt": "We share the delivery address and phone number with the rider who delivers your order.",
+              "assessment": "needs_context",
+              "explanation_en": "Sharing data with a delivery rider needs to ensure compliance with Articles 12 and 13, regarding privacy policy disclosure and specified information provision.",
+              "explanation_ar": "مشاركة البيانات مع السائق تتطلب ضمان الامتثال للمادتين 12 و13، فيما يتعلق بالإفصاح عن سياسة الخصوصية وتقديم المعلومات المحددة.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "privacy policy"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_005",
+              "source_excerpt": "Service providers that host our systems process data only on our instructions.",
+              "assessment": "needs_context",
+              "explanation_en": "Processing data by service providers on instructions may require detailed privacy policy disclosures and legal basis per Articles 12 and 13.",
+              "explanation_ar": "قد يتطلب معالجة البيانات من قبل مزودي الخدمة على التعليمات توضيحات مفصلة لسياسة الخصوصية والقاعدة القانونية وفقًا للمادتين 12 و13.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "privacy policy"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_006",
+              "source_excerpt": "with your permission, your location while you use the app.",
+              "assessment": "needs_context",
+              "explanation_en": "Processing location data requires proper consent and limited data collection as per Articles 5 and 11. More context on consent practices is needed.",
+              "explanation_ar": "معالجة بيانات الموقع تتطلب الموافقة الصحيحة وجمع البيانات بشكل محدود وفق المواد 5 و11. هناك حاجة إلى مزيد من السياق حول ممارسات الموافقة.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 5",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "withdraw the consent"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_007",
+              "source_excerpt": "You can ask to access, correct or delete your personal data by contacting our data protection officer through the Help section of the app.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The clause addresses data subject rights like access and correction, aligning with Article 4 of the PDPL.",
+              "explanation_ar": "تعالج الفقرة حقوق صاحب البيانات مثل الوصول والتصحيح بما يتماشى مع المادة 4 من قانون حماية البيانات الشخصية.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Data Subject"
+                }
+              ]
+            }
+          ],
+          "disclaimer": "Automated, limited PDPL screening using selected legal summaries; not a legal compliance determination. Check the latest official provisions."
+        }
+      },
+      "seconds": 15.4,
+      "calls": [
+        {
+          "stage": "ExtractionOutput",
+          "seconds": 1.96,
+          "usd": 0.003527
+        },
+        {
+          "stage": "ClassificationOutput",
+          "seconds": 3.54,
+          "usd": 0.00544
+        },
+        {
+          "stage": "SummaryOutput",
+          "seconds": 2.74,
+          "usd": 0.004215
+        },
+        {
+          "stage": "AIReviewBatch",
+          "seconds": 7.19,
+          "usd": 0.013952
+        }
+      ]
+    },
+    {
+      "doc_id": "WP9-SANAD",
+      "repeat": 1,
+      "status": "ok",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 50,
+        "risk_level": "Moderate",
+        "summary_en": "Sanad collects health-related data such as workouts, steps, and heart rate, which is sensitive. Backup copies of data are responsibly managed and deleted within seven days. Data sharing is limited to essential services, with encryption ensuring privacy. Users can manage their data with options to export or delete it, increasing transparency. Notifications for policy changes are provided 30 days in advance, offering adequate notice.",
+        "summary_ar": "يجمع تطبيق سند بيانات صحية تتضمن التمارين، والخطوات، ومعدل ضربات القلب، وهي حساسة. تُدار النسخ الاحتياطية للبيانات بشكل مسؤول وتُحذف خلال سبعة أيام. تقتصر مشاركة البيانات على الخدمات الأساسية، مع ضمان التشفير للخصوصية. يمكن للمستخدمين إدارة بياناتهم من خلال خيارات لتصديرها أو حذفها، مما يعزز الشفافية. يتم تقديم إشعارات لتغييرات السياسات قبل 30 يومًا، مما يوفر إشعارًا كافيًا.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "medium",
+            "source_excerpt": "Sanad records your workouts, steps and heart rate.",
+            "explanation_en": "Recording workouts, steps, and heart rate involves collection of health-related data, which is sensitive.",
+            "explanation_ar": "تسجيل التمارين، والخطوات، ومعدل ضربات القلب ينطوي على جمع بيانات صحية، وهي حساسة."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "the backup copy is deleted within 7 days.",
+            "explanation_en": "Backup copies are deleted within a short period, showing responsible data management.",
+            "explanation_ar": "تُحذف النسخ الاحتياطية في فترة قصيرة، مما يدل على إدارة مسؤولة للبيانات."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "Deleted data is removed from our servers within 30 days.",
+            "explanation_en": "Deleted data is removed within a standard timeframe, indicating proper data handling.",
+            "explanation_ar": "يتم إزالة البيانات المحذوفة في إطار زمني قياسي، مما يشير إلى معالجة مناسبة للبيانات."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "third_party_sharing",
+            "severity": "low",
+            "source_excerpt": "We share data only with the hosting provider that stores encrypted backups, and only to run the service.",
+            "explanation_en": "Data sharing is limited to necessary service operations, with encryption in place.",
+            "explanation_ar": "مشاركة البيانات تقتصر على تشغيل الخدمة الضرورية، مع وجود تشفير."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "third_party_sharing",
+            "severity": "low",
+            "source_excerpt": "We disclose data to authorities only when the law requires it.",
+            "explanation_en": "Data is disclosed to authorities only when legally required, which is standard practice.",
+            "explanation_ar": "الإفصاح عن البيانات للسلطات يكون فقط عند الضرورة القانونية، وهو ممارسة قياسية."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "You can export or delete all your data from the Settings screen.",
+            "explanation_en": "Users have clear options to export or delete their data, enhancing control and transparency.",
+            "explanation_ar": "لدى المستخدمين خيارات واضحة لتصدير أو حذف بياناتهم، مما يعزز السيطرة والشفافية."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "sensitive_data",
+            "severity": "low",
+            "source_excerpt": "your workout data is encrypted and stored on servers in Saudi Arabia.",
+            "explanation_en": "Sensitive data is encrypted and stored locally, which complies with data protection standards.",
+            "explanation_ar": "يتم تشفير البيانات الحساسة وتخزينها محليًا، مما يلتزم بمعايير حماية البيانات."
+          },
+          {
+            "clause_id": "clause_008",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "If we change this policy we will notify you in the app at least 30 days before the change takes effect.",
+            "explanation_en": "The policy change notification period of 30 days provides users with sufficient notice.",
+            "explanation_ar": "فترة إشعار تغيير السياسة لمدة 30 يومًا توفر إشعارًا كافيًا للمستخدمين."
+          },
+          {
+            "clause_id": "clause_009",
+            "category": "sensitive_data",
+            "severity": "low",
+            "source_excerpt": "Sanad is not intended for children under 13, and we do not knowingly collect their data.",
+            "explanation_en": "Efforts are made to avoid the collection of children’s data under 13, complying with regulations.",
+            "explanation_ar": "بذل جهود لتجنب جمع بيانات الأطفال تحت سن 13، متوافق مع اللوائح."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination.",
+        "pdpl": {
+          "status": "completed",
+          "findings": [
+            {
+              "clause_id": "clause_001",
+              "source_excerpt": "Sanad records your workouts, steps and heart rate.",
+              "assessment": "needs_context",
+              "explanation_en": "The clause mentions recording workout data. Without specific information on direct collection, purpose, and necessity, it's unclear if practices align with Articles 10 and 11 of the PDPL.",
+              "explanation_ar": "تشير الفقرة إلى تسجيل بيانات التمرين. بدون معلومات محددة عن الجمع المباشر والغرض والضرورة، من غير الواضح ما إذا كانت الممارسات تتماشى مع المواد 10 و11 من النظام السعودي لحماية البيانات الشخصية.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 10",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "other purposes"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_002",
+              "source_excerpt": "the backup copy is deleted within 7 days.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "This clause indicates the deletion of backup copies within 7 days, which appears consistent with Article 18's requirement for timely data destruction when not needed.",
+              "explanation_ar": "تشير هذه الفقرة إلى حذف النسخ الاحتياطية خلال 7 أيام، وهذا يبدو متوافقًا مع متطلبات المادة 18 بالتخلص الفوري من البيانات عند عدم الحاجة إليها.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_003",
+              "source_excerpt": "Deleted data is removed from our servers within 30 days.",
+              "assessment": "needs_context",
+              "explanation_en": "The removal of data within 30 days may comply with timely destruction, but lacks detail on compliance with necessary retention under Article 18.",
+              "explanation_ar": "إزالة البيانات خلال 30 يومًا قد تكون متوافقة مع التخلص الفوري، لكنها تفتقر للتفاصيل حول الامتثال للاحتفاظ الضروري بموجب المادة 18.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_004",
+              "source_excerpt": "We share data only with the hosting provider that stores encrypted backups, and only to run the service.",
+              "assessment": "needs_context",
+              "explanation_en": "The clause states data is only shared with the hosting provider for service operation, but lacks details on privacy policy availability, which is important under Article 12.",
+              "explanation_ar": "تنص الفقرة على مشاركة البيانات فقط مع مزود الاستضافة لتشغيل الخدمة، لكنها تفتقد للتفاصيل حول توافر سياسة الخصوصية، وهو أمر هام بموجب المادة 12.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "privacy policy"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_005",
+              "source_excerpt": "We disclose data to authorities only when the law requires it.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "Disclosing data to authorities only when legally required is generally consistent with Articles 12 and 13, assuming other disclosure requirements are met.",
+              "explanation_ar": "يعتبر الكشف عن البيانات للسلطات فقط عندما يكون ذلك مطلوبًا قانونيًا متوافقًا بشكل عام مع المواد 12 و13، بافتراض استيفاء المتطلبات الأخرى للكشف.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "privacy policy"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_006",
+              "source_excerpt": "You can export or delete all your data from the Settings screen.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The option for users to export or delete data aligns with Article 4 which ensures data subjects' rights to access and request data deletion.",
+              "explanation_ar": "يتماشى خيار المستخدمين لتصدير أو حذف البيانات مع المادة 4 التي تضمن حقوق أصحاب البيانات في الوصول وطلب حذف البيانات.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Data Subject"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_007",
+              "source_excerpt": "your workout data is encrypted and stored on servers in Saudi Arabia.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "Data encryption and storage in Saudi Arabia suggest compliance with protection requirements under Article 19.",
+              "explanation_ar": "تشفير البيانات وتخزينها في السعودية يوحيان بالتوافق مع متطلبات الحماية بموجب المادة 19.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 19",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "technical measures"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_008",
+              "source_excerpt": "If we change this policy we will notify you in the app at least 30 days before the change takes effect.",
+              "assessment": "needs_context",
+              "explanation_en": "The clause addresses policy change notifications but lacks detail on data subjects' rights and obligations in case of changes to data handling practices.",
+              "explanation_ar": "تتناول الفقرة إشعارات تغيير السياسة لكنها تفتقر للتفاصيل حول حقوق وواجبات أصحاب البيانات في حالة تغييرات في ممارسات معالجة البيانات.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 20",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Competent Authority"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_009",
+              "source_excerpt": "Sanad is not intended for children under 13, and we do not knowingly collect their data.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "Not targeting children under 13 is clear and aligns with responsible data collection principles, assuming no data is collected from this group.",
+              "explanation_ar": "عدم استهداف الأطفال دون 13 عامًا واضح ويتماشى مع مبادئ جمع البيانات المسؤولة، بافتراض عدم جمع البيانات من هذه الفئة.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            }
+          ],
+          "disclaimer": "Automated, limited PDPL screening using selected legal summaries; not a legal compliance determination. Check the latest official provisions."
+        }
+      },
+      "seconds": 18.0,
+      "calls": [
+        {
+          "stage": "ExtractionOutput",
+          "seconds": 2.74,
+          "usd": 0.003942
+        },
+        {
+          "stage": "ClassificationOutput",
+          "seconds": 4.27,
+          "usd": 0.007123
+        },
+        {
+          "stage": "SummaryOutput",
+          "seconds": 2.31,
+          "usd": 0.00483
+        },
+        {
+          "stage": "AIReviewBatch",
+          "seconds": 8.63,
+          "usd": 0.016833
+        }
+      ]
+    },
+    {
+      "doc_id": "WP9-LAMHA",
+      "repeat": 1,
+      "status": "ok",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 97,
+        "risk_level": "High Risk",
+        "summary_en": "The terms indicate that Lamha collects user faces from photos to create templates and train machine-learning models, which it may license to other companies, raising significant privacy concerns. Users grant Lamha a perpetual license to use their photos, even after deletion, impacting user control over their data. Photos include exact location data by default, which could compromise privacy if not disabled. There is an option to make accounts private, which is standard. Disputes must be resolved through arbitration, limiting users' legal options.",
+        "summary_ar": "تشير الشروط إلى أن لمحة تجمع وجوه المستخدمين من الصور لإنشاء قوالب وتدريب نماذج التعلم الآلي التي قد ترخصها لشركات أخرى، مما يثير مخاوف كبيرة بشأن الخصوصية. يمنح المستخدمون لمحة ترخيصًا دائمًا لاستخدام صورهم حتى بعد حذفها، مما يؤثر على سيطرة المستخدم على بياناته. تتضمن الصور بيانات الموقع الدقيق بشكل افتراضي، مما قد يهدد الخصوصية إن لم يتم تعطيله. يوجد خيار لجعل الحساب خاصًا، وهو ميزة قياسية. يجب حل النزاعات من خلال التحكيم، مما يحد من الخيارات القانونية للمستخدمين.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "third_party_sharing",
+            "severity": "high",
+            "source_excerpt": "Lamha scans the faces in every photo you upload to create face templates, and uses these templates and your photos to train machine-learning models that we may license to other companies.",
+            "explanation_en": "Creating face templates from user photos and training models licensed to others poses significant privacy risks.",
+            "explanation_ar": "يعتبر إنشاء قوالب للوجوه من صور المستخدمين وتدريب نماذج تُرخص للآخرين بمثابة خطر كبير على الخصوصية."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "data_retention",
+            "severity": "high",
+            "source_excerpt": "By posting, you grant Lamha a perpetual, irrevocable, worldwide licence to use, copy, modify, sublicense and sell your photos, including after you delete them.",
+            "explanation_en": "Granting a perpetual and irrevocable license to use photos, even after deletion, severely impacts user control over personal data.",
+            "explanation_ar": "إعطاء ترخيص دائم وغير قابل للإلغاء لاستخدام الصور حتى بعد حذفها يؤثر بشكل كبير على تحكم المستخدم في بياناته الشخصية."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "You can switch your account to private in Settings.",
+            "explanation_en": "Providing an option to make an account private is a standard privacy feature.",
+            "explanation_ar": "توفير خيار لجعل الحساب خاصًا هو ميزة خصوصية قياسية."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "sensitive_data",
+            "severity": "medium",
+            "source_excerpt": "The app adds your exact location to each photo you post unless you turn this off.",
+            "explanation_en": "Adding exact location to each photo can compromise user privacy if not managed properly.",
+            "explanation_ar": "إضافة الموقع الدقيق لكل صورة يمكن أن يهدد خصوصية المستخدم إذا لم يتم التحكم فيها بشكل مناسب."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "You must be at least 13 years old to use Lamha.",
+            "explanation_en": "Age restriction is a standard requirement for compliance with child protection regulations.",
+            "explanation_ar": "الحد الأدنى للسن هو متطلب قياسي للامتثال لقوانين حماية الأطفال."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "account_termination",
+            "severity": "medium",
+            "source_excerpt": "You can delete a photo at any time, and deleted photos are removed from your profile immediately.",
+            "explanation_en": "Immediate removal of photos from a profile is good, but it is unclear if they are removed from the system completely.",
+            "explanation_ar": "الإزالة الفورية للصور من الملف الشخصي جيدة، ولكن من غير الواضح ما إذا كانت تزال بالكامل من النظام."
+          },
+          {
+            "clause_id": "clause_007",
+            "category": "liability",
+            "severity": "medium",
+            "source_excerpt": "Any dispute must be resolved through binding arbitration, and you waive your right to join a class action.",
+            "explanation_en": "Waiving the right to join a class action limits legal recourse options for users.",
+            "explanation_ar": "التنازل عن الحق في الانضمام إلى دعوى جماعية يحد من خيارات الالتجاء القانوني للمستخدمين."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination.",
+        "pdpl": {
+          "status": "partial",
+          "findings": [
+            {
+              "clause_id": "clause_001",
+              "source_excerpt": "Lamha scans the faces in every photo you upload to create face templates, and uses these templates and your photos to train machine-learning models that we may license to other companies.",
+              "assessment": "potential_concern",
+              "explanation_en": "The clause mentions sharing face templates and photos for training models and licensing, potentially raising concerns about lack of transparency and informed consent under PDPL Articles 12 and 13.",
+              "explanation_ar": "تشير الفقرة إلى مشاركة نماذج الوجه والصور لتدريب النماذج والترخيص، مما يثير القلق بشأن الشفافية والموافقة المستنيرة بناءً على المادة 12 و13 من نظام حماية البيانات الشخصية.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "privacy policy"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_002",
+              "source_excerpt": "By posting, you grant Lamha a perpetual, irrevocable, worldwide licence to use, copy, modify, sublicense and sell your photos, including after you delete them.",
+              "assessment": "potential_concern",
+              "explanation_en": "Granting a perpetual license to use photos even after deletion might conflict with data subjects' rights to data destruction under PDPL Article 18.",
+              "explanation_ar": "منح ترخيص دائم لاستخدام الصور حتى بعد الحذف قد يتعارض مع حقوق أصحاب البيانات في إتلاف البيانات حسب المادة 18 من نظام حماية البيانات الشخصية.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Data Subject"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_003",
+              "source_excerpt": "You can switch your account to private in Settings.",
+              "assessment": "needs_context",
+              "explanation_en": "This clause mentions an option without detailing how consent is managed or withdrawn, requiring context about consent withdrawal mechanisms under PDPL.",
+              "explanation_ar": "تذكر هذه الفقرة خيارًا بدون توضيح كيفية إدارة الموافقة أو سحبها، مما يتطلب سياقًا حول آليات سحب الموافقة وفقًا لنظام حماية البيانات الشخصية.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 5",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "withdraw the consent"
+                },
+                {
+                  "source_id": "PDPL_IR",
+                  "title": "Implementing Regulation of the Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2",
+                  "excerpt": "withdraw their consent"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_004",
+              "source_excerpt": "The app adds your exact location to each photo you post unless you turn this off.",
+              "assessment": "potential_concern",
+              "explanation_en": "Automatically adding location data may not align with PDPL requirements for limiting data collection to necessary information unless users are informed and consent.",
+              "explanation_ar": "إضافة بيانات الموقع تلقائيًا قد لا يتماشى مع متطلبات نظام حماية البيانات الشخصية في قصر جمع البيانات على المعلومات الضرورية ما لم يتم إعلام المستخدمين والموافقة عليهم.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                },
+                {
+                  "source_id": "PDPL_IR",
+                  "title": "Implementing Regulation of the Personal Data Protection Law",
+                  "article_id": "Article 19",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_005",
+              "source_excerpt": "You must be at least 13 years old to use Lamha.",
+              "assessment": "needs_context",
+              "explanation_en": "Age restriction is noted, but the clause does not specify how consent is obtained or verified, which requires further context on consent mechanisms under the PDPL.",
+              "explanation_ar": "تم ذكر قيد العمر ولكن الفقرة لا تحدد كيفية الحصول على الموافقة أو التحقق منها، مما يتطلب المزيد من السياق حول آليات الموافقة وفقًا لنظام حماية البيانات الشخصية.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 5",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "withdraw the consent"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_006",
+              "source_excerpt": "You can delete a photo at any time, and deleted photos are removed from your profile immediately.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The clause aligns with PDPL requirements that allow deletion of personal data, meeting the right to request destruction.",
+              "explanation_ar": "تتوافق الفقرة مع متطلبات نظام حماية البيانات الشخصية التي تسمح بحذف البيانات الشخصية، وتلبي حق طلب إتلاف البيانات.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Data Subject"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            }
+          ],
+          "disclaimer": "Automated, limited PDPL screening using selected legal summaries; not a legal compliance determination. Check the latest official provisions."
+        }
+      },
+      "seconds": 14.1,
+      "calls": [
+        {
+          "stage": "ExtractionOutput",
+          "seconds": 2.62,
+          "usd": 0.003908
+        },
+        {
+          "stage": "ClassificationOutput",
+          "seconds": 3.74,
+          "usd": 0.006217
+        },
+        {
+          "stage": "SummaryOutput",
+          "seconds": 2.37,
+          "usd": 0.005018
+        },
+        {
+          "stage": "AIReviewBatch",
+          "seconds": 5.32,
+          "usd": 0.01154
+        }
+      ]
+    },
+    {
+      "doc_id": "WP9-SOUQ-AR",
+      "repeat": 1,
+      "status": "ok",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 90,
+        "risk_level": "High Risk",
+        "summary_en": "The terms require users to be at least 18 years old to create an account, which is a standard practice. Personal and purchase data are shared with marketing companies, posing high privacy risks. Users' data is retained indefinitely, even after account deletion, significantly impacting privacy. The terms can be changed unilaterally without notice, affecting user consent and understanding.",
+        "summary_ar": "تشترط الشروط أن يكون عمر المستخدمين 18 سنة على الأقل لإنشاء حساب، وهو أمر قياسي. يتم مشاركة البيانات الشخصية وسجل المشتريات مع شركات التسويق، مما يشكل مخاطر كبيرة على الخصوصية. تُحتفظ بالبيانات بشكل غير محدد حتى بعد حذف الحساب، مما يؤثر بشدة على الخصوصية. يمكن تعديل الشروط بشكل أحادي دون إشعار، مما يؤثر على موافقة المستخدم وفهمه.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "يجب أن يكون عمرك ١٨ سنة على الأقل لإنشاء حساب.",
+            "explanation_en": "Age requirement for account creation is a standard clause.",
+            "explanation_ar": "الشرط العمري لإنشاء الحساب هو شرط قياسي."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "third_party_sharing",
+            "severity": "medium",
+            "source_excerpt": "يجوز لنا مشاركة بيانات مشترياتك وبطاقتك مع شركات التمويل الشريكة لعرض خطط التقسيط عليك.",
+            "explanation_en": "Sharing purchase and card data with finance companies may pose moderate risk to financial privacy.",
+            "explanation_ar": "مشاركة بيانات المشتريات والبطاقة مع شركات التمويل قد تشكل خطراً متوسطاً على الخصوصية المالية."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "third_party_sharing",
+            "severity": "high",
+            "source_excerpt": "نشارك اسمك ورقم جوالك وسجل مشترياتك مع شركات التسويق والإعلان لأغراضها الخاصة.",
+            "explanation_en": "Sharing personal and purchase information for marketing purposes can significantly impact user privacy.",
+            "explanation_ar": "مشاركة البيانات الشخصية وسجل المشتريات لأغراض التسويق يمكن أن يؤثر بشكل كبير على خصوصية المستخدم."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "data_retention",
+            "severity": "high",
+            "source_excerpt": "نحتفظ ببياناتك الشخصية لمدة غير محددة حتى بعد حذف حسابك.",
+            "explanation_en": "Indefinite retention of personal data even after account deletion poses significant privacy risks.",
+            "explanation_ar": "الاحتفاظ غير المحدد بالبيانات الشخصية حتى بعد حذف الحساب يشكل مخاطر كبيرة على الخصوصية."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "terms_changes",
+            "severity": "medium",
+            "source_excerpt": "يحق لنا تعديل هذه الشروط في أي وقت دون إشعار، ويُعد استمرارك في استخدام المتجر موافقة على التعديلات.",
+            "explanation_en": "Unilateral changes to terms without notice may affect user consent and understanding of terms.",
+            "explanation_ar": "تغيير الشروط بشكل أحادي دون إخطار قد يؤثر على موافقة المستخدم وفهمه للشروط."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "liability",
+            "severity": "low",
+            "source_excerpt": "لا يتحمل المتجر أي مسؤولية عن التأخير في التوصيل الناتج عن شركات الشحن.",
+            "explanation_en": "Limiting liability for delivery delays is a common clause, not posing high risk.",
+            "explanation_ar": "تحديد المسؤولية عن تأخير التوصيل هو شرط شائع ولا يشكل خطراً كبيراً."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination.",
+        "pdpl": {
+          "status": "partial",
+          "findings": [
+            {
+              "clause_id": "clause_001",
+              "source_excerpt": "يجب أن يكون عمرك ١٨ سنة على الأقل لإنشاء حساب.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The clause stipulates a minimum age requirement to create an account, which in itself does not appear to conflict with data subject rights or requirements under the provided legal context. No direct issue with PDPL Article 4 or Article 18 based on the given information.",
+              "explanation_ar": "تنص الفقرة على شرط الحد الأدنى للعمر لإنشاء حساب، وهو في حد ذاته لا يبدو أنه يتعارض مع حقوق أصحاب البيانات أو المتطلبات وفقاً للسياق القانوني المقدم. لا توجد مشكلة مباشرة مع المادة 4 أو المادة 18 من النظام بناءً على المعلومات المتوفرة.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "Data Subject"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_002",
+              "source_excerpt": "يجوز لنا مشاركة بيانات مشترياتك وبطاقتك مع شركات التمويل الشريكة لعرض خطط التقسيط عليك.",
+              "assessment": "potential_concern",
+              "explanation_en": "Sharing purchase and card data with financial partners for installment plans may require transparency about the sharing process and possibly explicit consent, especially as it involves third party sharing. This should align with PDPL Article 12 and 13 which emphasize on clear privacy policies and disclosure about data sharing.",
+              "explanation_ar": "مشاركة بيانات المشتريات والبطاقة مع شركاء التمويل لعروض التقسيط قد تتطلب شفافية بشأن عملية المشاركة وربما الموافقة الصريحة، خاصةً لأنها تتضمن مشاركة مع طرف ثالث. يجب أن يتماشى ذلك مع المادة 12 و13 من النظام التي تركز على سياسة خصوصية واضحة والإفصاح عن مشاركة البيانات.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "privacy policy"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_003",
+              "source_excerpt": "نشارك اسمك ورقم جوالك وسجل مشترياتك مع شركات التسويق والإعلان لأغراضها الخاصة.",
+              "assessment": "potential_concern",
+              "explanation_en": "The clause involves sharing personal data with marketing and advertising companies for their own purposes. This may require clear information and explicit consent, highlighting potential issues under PDPL Article 12 and 13 regarding transparency and legal basis for third-party sharing.",
+              "explanation_ar": "تتضمن الفقرة مشاركة البيانات الشخصية مع شركات التسويق والإعلان لأغراضها الخاصة. قد يتطلب ذلك معلومات واضحة وموافقة صريحة، مما يبرز القضايا المحتملة بموجب المادة 12 و13 من النظام فيما يتعلق بالشفافية والأساس القانوني لمشاركة الأطراف الثالثة.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "privacy policy"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_004",
+              "source_excerpt": "نحتفظ ببياناتك الشخصية لمدة غير محددة حتى بعد حذف حسابك.",
+              "assessment": "potential_concern",
+              "explanation_en": "Retaining personal data for an indefinite period could conflict with PDPL Article 18 which generally requires data destruction when no longer needed. There may be exceptions, but the indefinite retention should be justified according to regulatory standards.",
+              "explanation_ar": "قد يتعارض الاحتفاظ بالبيانات الشخصية لفترة غير محددة مع المادة 18 من النظام التي تتطلب عمومًا إتلاف البيانات عند انتفاء الحاجة إليها. قد توجد استثناءات، ولكن يجب تبرير الاحتفاظ غير المحدد وفقًا للمعايير التنظيمية.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                },
+                {
+                  "source_id": "PDPL_IR",
+                  "title": "Implementing Regulation of the Personal Data Protection Law",
+                  "article_id": "Article 19",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_005",
+              "source_excerpt": "يحق لنا تعديل هذه الشروط في أي وقت دون إشعار، ويُعد استمرارك في استخدام المتجر موافقة على التعديلات.",
+              "assessment": "potential_concern",
+              "explanation_en": "The ability to change terms without notice could impact consent under PDPL, particularly Articles 5 and related regulations on consent withdrawal and rights. Users should be informed of changes to exercise their rights effectively.",
+              "explanation_ar": "قد يؤثر إمكانية تغيير الشروط بدون إشعار على الموافقة بموجب النظام، خاصةً المواد المتعلقة بسحب الموافقة والحقوق. يجب إبلاغ المستخدمين بالتغييرات لممارسة حقوقهم بشكل فعال.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 5",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "withdraw the consent"
+                },
+                {
+                  "source_id": "PDPL_IR",
+                  "title": "Implementing Regulation of the Personal Data Protection Law",
+                  "article_id": "Article 4",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2",
+                  "excerpt": "period for which"
+                },
+                {
+                  "source_id": "PDPL_IR",
+                  "title": "Implementing Regulation of the Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2",
+                  "excerpt": "withdraw their consent"
+                }
+              ]
+            }
+          ],
+          "disclaimer": "Automated, limited PDPL screening using selected legal summaries; not a legal compliance determination. Check the latest official provisions."
+        }
+      },
+      "seconds": 17.6,
+      "calls": [
+        {
+          "stage": "ExtractionOutput",
+          "seconds": 2.67,
+          "usd": 0.00382
+        },
+        {
+          "stage": "ClassificationOutput",
+          "seconds": 2.9,
+          "usd": 0.00517
+        },
+        {
+          "stage": "SummaryOutput",
+          "seconds": 1.99,
+          "usd": 0.003953
+        },
+        {
+          "stage": "AIReviewBatch",
+          "seconds": 9.99,
+          "usd": 0.012305
+        }
+      ]
+    },
+    {
+      "doc_id": "WP9-MAWID-AR",
+      "repeat": 1,
+      "status": "ok",
+      "response": {
+        "status": "completed",
+        "analysis_mode": "openai",
+        "risk_score": 12,
+        "risk_level": "Safe",
+        "summary_en": "The terms detail the collection of user information such as name, phone number, clinic, and appointment to facilitate booking and reminders. Data is shared only with the selected clinic, with assurances against any sale or advertising use. Users consent to appointment reminders, and these can be stopped anytime through settings. The policy supports user control by allowing account deletion, with data removed within 30 days. Users are notified 14 days prior to any significant policy changes, enhancing transparency.",
+        "summary_ar": "توضح الشروط جمع معلومات المستخدم مثل الاسم ورقم الجوال والعيادة والموعد لتسهيل الحجز والتذكير. تُشارك البيانات فقط مع العيادة المختارة، مع وعود بعدم بيعها أو استخدامها للإعلانات. يوافق المستخدمون على رسائل التذكير بالمواعيد ويمكنهم إيقافها في أي وقت من خلال الإعدادات. تدعم السياسة تحكم المستخدم عبر إتاحة حذف الحساب والبيانات خلال ٣٠ يومًا. يُخطر المستخدمون قبل ١٤ يومًا من أي تغييرات جوهرية في السياسة لضمان الشفافية.",
+        "flagged_clauses": [
+          {
+            "clause_id": "clause_001",
+            "category": "data_collection",
+            "severity": "low",
+            "source_excerpt": "نجمع اسمك ورقم جوالك والعيادة والموعد الذي تختاره فقط، لحجز المواعيد وتذكيرك بها.",
+            "explanation_en": "Collection of name, phone number, clinic, and appointment is standard for booking services.",
+            "explanation_ar": "جمع الاسم ورقم الجوال والعيادة والموعد يعد إجراءً عاديًا لخدمات الحجز."
+          },
+          {
+            "clause_id": "clause_002",
+            "category": "third_party_sharing",
+            "severity": "low",
+            "source_excerpt": "نرسل بيانات الحجز إلى العيادة التي اخترتها فقط، ولا نبيع بياناتك ولا نشاركها لأغراض إعلانية.",
+            "explanation_en": "Data is shared only with the chosen clinic, and no sale or advertising sharing occurs.",
+            "explanation_ar": "تُرسل البيانات فقط إلى العيادة المختارة ولا تُباع أو تُستخدم لأغراض إعلانية."
+          },
+          {
+            "clause_id": "clause_003",
+            "category": "consent",
+            "severity": "low",
+            "source_excerpt": "نرسل لك رسائل تذكير بالمواعيد بعد موافقتك، ويمكنك إيقافها في أي وقت من الإعدادات.",
+            "explanation_en": "Consent is obtained for reminders, with an option to stop them anytime, ensuring user control.",
+            "explanation_ar": "تُطلب الموافقة على الرسائل التذكيرية مع إمكانية الإيقاف في أي وقت، مما يضمن تحكم المستخدم."
+          },
+          {
+            "clause_id": "clause_004",
+            "category": "account_termination",
+            "severity": "low",
+            "source_excerpt": "يمكنك حذف حسابك في أي وقت، وتُحذف بياناتك من أنظمتنا خلال ٣٠ يومًا.",
+            "explanation_en": "Account and data deletion policy ensures user control over personal data.",
+            "explanation_ar": "سياسة حذف الحساب والبيانات تضمن تحكم المستخدم في بياناته الشخصية."
+          },
+          {
+            "clause_id": "clause_005",
+            "category": "data_retention",
+            "severity": "low",
+            "source_excerpt": "تُحذف بياناتك من أنظمتنا خلال ٣٠ يومًا.",
+            "explanation_en": "Data retention period is specified as 30 days, which is clear and reasonable.",
+            "explanation_ar": "فترة الاحتفاظ بالبيانات موضحة بـ ٣٠ يومًا، مما يُعتبر واضحًا ومناسبًا."
+          },
+          {
+            "clause_id": "clause_006",
+            "category": "terms_changes",
+            "severity": "low",
+            "source_excerpt": "نخطرك داخل التطبيق قبل ١٤ يومًا من أي تعديل جوهري على هذه السياسة.",
+            "explanation_en": "Users are notified 14 days prior to any significant policy change, ensuring transparency.",
+            "explanation_ar": "يتم إخطار المستخدمين قبل ١٤ يومًا من أي تغيير جوهري في السياسة، لضمان الشفافية."
+          }
+        ],
+        "input_truncated": false,
+        "disclaimer": "AI-generated screening, not a legal compliance determination.",
+        "pdpl": {
+          "status": "partial",
+          "findings": [
+            {
+              "clause_id": "clause_001",
+              "source_excerpt": "نجمع اسمك ورقم جوالك والعيادة والموعد الذي تختاره فقط، لحجز المواعيد وتذكيرك بها.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The clause mentions collecting only necessary data for appointment bookings, aligning with the principles of necessity and clarity in data collection as per Article 11.",
+              "explanation_ar": "البند يذكر جمع البيانات اللازمة فقط لحجز المواعيد، وهذا يتماشى مع مبادئ الضرورة والوضوح في جمع البيانات وفقًا للمادة 11.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_002",
+              "source_excerpt": "نرسل بيانات الحجز إلى العيادة التي اخترتها فقط، ولا نبيع بياناتك ولا نشاركها لأغراض إعلانية.",
+              "assessment": "needs_context",
+              "explanation_en": "The clause describes data sharing with the chosen clinic, but lacks context on whether a full privacy policy with required details is available, as per Articles 12 and 13.",
+              "explanation_ar": "البند يصف مشاركة البيانات مع العيادة المختارة، ولكنه يفتقر إلى سياق يوضح توفر سياسة خصوصية كاملة بالتفاصيل المطلوبة وفقًا للمادتين 12 و13.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "privacy policy"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 13",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "legal basis"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_003",
+              "source_excerpt": "نرسل لك رسائل تذكير بالمواعيد بعد موافقتك، ويمكنك إيقافها في أي وقت من الإعدادات.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The clause indicates consent is obtained and can be withdrawn, which is in line with Article 5 and Article 12 of the Implementing Regulation regarding consent withdrawal.",
+              "explanation_ar": "البند يشير إلى أنه يتم الحصول على الموافقة ويمكن سحبها، وهو يتماشى مع المادة 5 والمادة 12 من اللائحة التنفيذية بشأن سحب الموافقة.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 5",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "withdraw the consent"
+                },
+                {
+                  "source_id": "PDPL_IR",
+                  "title": "Implementing Regulation of the Personal Data Protection Law",
+                  "article_id": "Article 12",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL2",
+                  "excerpt": "withdraw their consent"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_004",
+              "source_excerpt": "يمكنك حذف حسابك في أي وقت، وتُحذف بياناتك من أنظمتنا خلال ٣٠ يومًا.",
+              "assessment": "no_concern_identified",
+              "explanation_en": "The clause states data deletion within 30 days after account termination, aligning with Article 18 regarding timely data destruction.",
+              "explanation_ar": "البند ينص على حذف البيانات خلال 30 يومًا بعد إنهاء الحساب، وهو يتماشى مع المادة 18 بخصوص الإتلاف الفوري للبيانات.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            },
+            {
+              "clause_id": "clause_005",
+              "source_excerpt": "تُحذف بياناتك من أنظمتنا خلال ٣٠ يومًا.",
+              "assessment": "needs_context",
+              "explanation_en": "While the clause mentions 30-day deletion, it's unclear if any lawful or judicial retention exceptions apply, requiring more context about data retention policies under Articles 11 and 18.",
+              "explanation_ar": "بالرغم من أن البند يذكر الحذف خلال 30 يومًا، إلا أنه من غير الواضح إذا ما كانت هناك استثناءات قانونية أو قضائية للاحتفاظ، مما يتطلب مزيدًا من السياق حول سياسات الاحتفاظ بالبيانات وفقًا للمادتين 11 و18.",
+              "legal_references": [
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 11",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "minimum amount"
+                },
+                {
+                  "source_id": "PDPL",
+                  "title": "Personal Data Protection Law",
+                  "article_id": "Article 18",
+                  "source_url": "https://dgp.sdaia.gov.sa/wps/portal/pdp/knowledgecenter/details/PDPL",
+                  "excerpt": "without undue delay"
+                }
+              ]
+            }
+          ],
+          "disclaimer": "Automated, limited PDPL screening using selected legal summaries; not a legal compliance determination. Check the latest official provisions."
+        }
+      },
+      "seconds": 13.5,
+      "calls": [
+        {
+          "stage": "ExtractionOutput",
+          "seconds": 2.35,
+          "usd": 0.00362
+        },
+        {
+          "stage": "ClassificationOutput",
+          "seconds": 3.29,
+          "usd": 0.005403
+        },
+        {
+          "stage": "SummaryOutput",
+          "seconds": 3.32,
+          "usd": 0.004553
+        },
+        {
+          "stage": "AIReviewBatch",
+          "seconds": 4.55,
+          "usd": 0.010183
+        }
+      ]
+    }
+  ],
+  "finished": "2026-11-10 03:12:12 +0300",
+  "usd_total_so_far": 0.264791
+}

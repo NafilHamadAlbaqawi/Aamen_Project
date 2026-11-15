@@ -1,0 +1,19 @@
+INFO:     Started server process [21876]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:27105 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:27113 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:27113 - "POST /analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:27113 - "POST /analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:27113 - "PUT /preferences/ca26df98-c313-4ddc-8fad-18847fcc2230 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:27132 - "GET /preferences/ca26df98-c313-4ddc-8fad-18847fcc2230 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:27133 - "GET /preferences/ca26df98-c313-4ddc-8fad-18847fcc2230 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:27113 - "POST /analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:27113 - "POST /analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:27113 - "POST /analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:27113 - "POST /analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:27155 - "GET /preferences/ca26df98-c313-4ddc-8fad-18847fcc2230 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:27113 - "PUT /preferences/ca26df98-c313-4ddc-8fad-18847fcc2230 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:27113 - "POST /analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:27160 - "GET /preferences/ca26df98-c313-4ddc-8fad-18847fcc2230 HTTP/1.1" 200 OK

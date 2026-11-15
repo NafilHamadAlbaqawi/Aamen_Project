@@ -1,3 +1,4 @@
+# Code overview: This section searches the PDPL reference file and returns the articles connected to each clause.
 
 """WP5: bilingual, source-grounded lexical retrieval from the local PDPL dataset."""
 

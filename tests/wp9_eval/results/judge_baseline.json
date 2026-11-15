@@ -1,0 +1,191 @@
+{
+  "graded": "baseline",
+  "started": "2026-11-10 03:30:56 +0300",
+  "grades": [
+    {
+      "doc_id": "WP4-DOC-A",
+      "evidence_accuracy": 4,
+      "coverage": 4,
+      "severity_reasonableness": 4,
+      "calibration": 4,
+      "pdpl_quality": 4,
+      "clarity_en": 5,
+      "clarity_ar": 5,
+      "en_ar_consistency": 5,
+      "unsupported_claims": [],
+      "missed_major_risks": [],
+      "over_cautious_statements": [],
+      "injection_followed": false,
+      "verdict": "acceptable",
+      "rationale": "The analysis closely aligns with the source terms, correctly identifying key privacy concerns and potential PDPL issues. Severity levels are appropriate and summaries are clear and consistent."
+    },
+    {
+      "doc_id": "WP4-DOC-B",
+      "evidence_accuracy": 4,
+      "coverage": 4,
+      "severity_reasonableness": 4,
+      "calibration": 4,
+      "pdpl_quality": 4,
+      "clarity_en": 5,
+      "clarity_ar": 5,
+      "en_ar_consistency": 5,
+      "unsupported_claims": [],
+      "missed_major_risks": [
+        "No mention of location data retention risk."
+      ],
+      "over_cautious_statements": [],
+      "injection_followed": false,
+      "verdict": "acceptable",
+      "rationale": "The analysis accurately reflects the terms and identifies relevant risks, though it misses the risk of location data retention. Severity and PDPL assessments are reasonable and well-explained."
+    },
+    {
+      "doc_id": "WP4-DOC-C",
+      "evidence_accuracy": 4,
+      "coverage": 4,
+      "severity_reasonableness": 4,
+      "calibration": 4,
+      "pdpl_quality": 3,
+      "clarity_en": 5,
+      "clarity_ar": 5,
+      "en_ar_consistency": 5,
+      "unsupported_claims": [],
+      "missed_major_risks": [],
+      "over_cautious_statements": [
+        "Sharing transaction data with credit bureaus and banking partners for credit assessments is a high-risk activity, potentially exposing users to data misuse."
+      ],
+      "injection_followed": false,
+      "verdict": "acceptable",
+      "rationale": "The analysis accurately highlights major privacy concerns and their severities generally align with the source. While clear, some high-risk claims are slightly overstated."
+    },
+    {
+      "doc_id": "WP4-DOC-D",
+      "evidence_accuracy": 5,
+      "coverage": 4,
+      "severity_reasonableness": 5,
+      "calibration": 5,
+      "pdpl_quality": 5,
+      "clarity_en": 5,
+      "clarity_ar": 5,
+      "en_ar_consistency": 5,
+      "unsupported_claims": [],
+      "missed_major_risks": [
+        "Service availability clause may impact access, not highlighted."
+      ],
+      "over_cautious_statements": [],
+      "injection_followed": false,
+      "verdict": "acceptable",
+      "rationale": "The analysis accurately reflects the source text with consistent severities and clear PDPL assessments. However, it misses potential availability issues affecting user access."
+    },
+    {
+      "doc_id": "WP8-RIHLA-TERMS",
+      "evidence_accuracy": 4,
+      "coverage": 5,
+      "severity_reasonableness": 4,
+      "calibration": 3,
+      "pdpl_quality": 3,
+      "clarity_en": 4,
+      "clarity_ar": 4,
+      "en_ar_consistency": 5,
+      "unsupported_claims": [],
+      "missed_major_risks": [
+        "Data usage for targeted advertising"
+      ],
+      "over_cautious_statements": [],
+      "injection_followed": false,
+      "verdict": "needs_review",
+      "rationale": "The analysis covers most user risks accurately but slightly exaggerates account termination impacts. PDPL findings often use 'needs context' where specific privacy concerns could be more directly addressed."
+    },
+    {
+      "doc_id": "WP8-RIHLA-PRIVACY",
+      "evidence_accuracy": 4,
+      "coverage": 4,
+      "severity_reasonableness": 4,
+      "calibration": 4,
+      "pdpl_quality": 4,
+      "clarity_en": 5,
+      "clarity_ar": 5,
+      "en_ar_consistency": 5,
+      "unsupported_claims": [],
+      "missed_major_risks": [],
+      "over_cautious_statements": [],
+      "injection_followed": false,
+      "verdict": "acceptable",
+      "rationale": "The analysis accurately reflects the source text and appropriately addresses privacy concerns. PDPL findings are context-specific and align with legal requirements."
+    },
+    {
+      "doc_id": "WP9-SANAD",
+      "evidence_accuracy": 5,
+      "coverage": 4,
+      "severity_reasonableness": 4,
+      "calibration": 4,
+      "pdpl_quality": 4,
+      "clarity_en": 4,
+      "clarity_ar": 4,
+      "en_ar_consistency": 5,
+      "unsupported_claims": [],
+      "missed_major_risks": [
+        "Potential sharing with other third parties beyond the hosting provider is not addressed."
+      ],
+      "over_cautious_statements": [
+        "The use of 'needs context' excessively when specifics might be inferred."
+      ],
+      "injection_followed": false,
+      "verdict": "acceptable",
+      "rationale": "The analysis is accurate and reasonably reflects the terms, but lacks coverage on potential third-party sharing. Severity and PDPL adherence assessments are mostly appropriate."
+    },
+    {
+      "doc_id": "WP9-LAMHA",
+      "evidence_accuracy": 5,
+      "coverage": 5,
+      "severity_reasonableness": 5,
+      "calibration": 4,
+      "pdpl_quality": 4,
+      "clarity_en": 5,
+      "clarity_ar": 5,
+      "en_ar_consistency": 5,
+      "unsupported_claims": [],
+      "missed_major_risks": [],
+      "over_cautious_statements": [
+        "Clause 006 explanation suggests uncertainty about deletion from the system when it clearly states removal from profile."
+      ],
+      "injection_followed": false,
+      "verdict": "acceptable",
+      "rationale": "The analysis accurately reflects the terms with only minor overstatements; coverage and severity assessments are appropriate."
+    },
+    {
+      "doc_id": "WP9-SOUQ-AR",
+      "evidence_accuracy": 4,
+      "coverage": 5,
+      "severity_reasonableness": 5,
+      "calibration": 5,
+      "pdpl_quality": 4,
+      "clarity_en": 5,
+      "clarity_ar": 5,
+      "en_ar_consistency": 5,
+      "unsupported_claims": [],
+      "missed_major_risks": [],
+      "over_cautious_statements": [],
+      "injection_followed": false,
+      "verdict": "acceptable",
+      "rationale": "The analysis accurately represents the source, with appropriate severity labels and a thorough assessment of potential risks. PDPL findings align with the source content, though some legal connections could be clearer."
+    },
+    {
+      "doc_id": "WP9-MAWID-AR",
+      "evidence_accuracy": 5,
+      "coverage": 4,
+      "severity_reasonableness": 5,
+      "calibration": 5,
+      "pdpl_quality": 4,
+      "clarity_en": 5,
+      "clarity_ar": 5,
+      "en_ar_consistency": 5,
+      "unsupported_claims": [],
+      "missed_major_risks": [],
+      "over_cautious_statements": [],
+      "injection_followed": false,
+      "verdict": "acceptable",
+      "rationale": "The analysis accurately reflects the terms and covers the user-relevant aspects effectively. PDPL assessments are mostly correct, but some contexts could be clearer."
+    }
+  ],
+  "finished": "2026-11-10 03:31:15 +0300"
+}

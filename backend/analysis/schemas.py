@@ -1,3 +1,4 @@
+# Code overview: These classes define the fields shared between the AI stages and API response.
 
 """Pydantic contracts used between WP3 pipeline stages and the Chrome extension."""
 

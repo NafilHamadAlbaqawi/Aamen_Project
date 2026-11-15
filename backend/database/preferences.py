@@ -1,3 +1,4 @@
+# Code overview: This section stores and reads each device’s selected privacy preferences.
 
 """WP6 persistent user preferences using SQLite and the WP4 preference model."""
 

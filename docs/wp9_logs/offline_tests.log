@@ -1,0 +1,238 @@
+WP9 offline checks - 2026-11-10 03:39:24 +0300 - Windows 11, Python 3.12.3, Node v20.15.0
+Command: python run_wp8_tests.py   (no OPENAI_API_KEY set; no OpenAI requests are made)
+
+== Backend tests (WP4-WP9) ==
+test_prompts_reach_three_wp3_stages (tests.test_wp4_integration.TestWp4PipelineIntegration.test_prompts_reach_three_wp3_stages) ... WP5 answer failed validation (OpenAI API key is not configured on the backend.); retrying once.
+WP5 PDPL screening failed; WP3 results are preserved.
+Traceback (most recent call last):
+  File "C:\Users\عبدالله\Desktop\Aamen\Aamen_Project\backend\analysis\pipeline.py", line 31, in screen_pdpl
+    return check_pdpl(classified)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\عبدالله\Desktop\Aamen\Aamen_Project\backend\pdpl\checker.py", line 106, in check_pdpl
+    review = request_structured(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\عبدالله\Desktop\Aamen\Aamen_Project\backend\analysis\openai_client.py", line 17, in request_structured
+    raise AnalysisFailure("OpenAI API key is not configured on the backend.")
+backend.analysis.openai_client.AnalysisFailure: OpenAI API key is not configured on the backend.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\عبدالله\Desktop\Aamen\Aamen_Project\backend\analysis\pipeline.py", line 74, in analyze_terms
+    pdpl_result = screen_pdpl(classified)
+                  ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\عبدالله\Desktop\Aamen\Aamen_Project\backend\analysis\pipeline.py", line 34, in screen_pdpl
+    return check_pdpl(classified)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\عبدالله\Desktop\Aamen\Aamen_Project\backend\pdpl\checker.py", line 106, in check_pdpl
+    review = request_structured(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\عبدالله\Desktop\Aamen\Aamen_Project\backend\analysis\openai_client.py", line 17, in request_structured
+    raise AnalysisFailure("OpenAI API key is not configured on the backend.")
+backend.analysis.openai_client.AnalysisFailure: OpenAI API key is not configured on the backend.
+ok
+test_all_four_topics_present (tests.test_wp4_prompts.TestWp4Prompts.test_all_four_topics_present) ... ok
+test_default_neutral_preferences (tests.test_wp4_prompts.TestWp4Prompts.test_default_neutral_preferences) ... ok
+test_false_does_not_disable_all_risk_checks (tests.test_wp4_prompts.TestWp4Prompts.test_false_does_not_disable_all_risk_checks) ... ok
+test_few_shot_examples_and_expected_formats (tests.test_wp4_prompts.TestWp4Prompts.test_few_shot_examples_and_expected_formats) ... ok
+test_location_and_sharing_personalization (tests.test_wp4_prompts.TestWp4Prompts.test_location_and_sharing_personalization) ... ok
+test_no_untrusted_freeform_preferences (tests.test_wp4_prompts.TestWp4Prompts.test_no_untrusted_freeform_preferences) ... ok
+test_repeatable_and_immutable (tests.test_wp4_prompts.TestWp4Prompts.test_repeatable_and_immutable) ... ok
+test_untrusted_input_safeguards (tests.test_wp4_prompts.TestWp4Prompts.test_untrusted_input_safeguards) ... ok
+test_invalid_text_still_rejected (tests.test_wp5_integration.WP5IntegrationTests.test_invalid_text_still_rejected) ... ok
+test_pdpl_failure_does_not_erase_wp3 (tests.test_wp5_integration.WP5IntegrationTests.test_pdpl_failure_does_not_erase_wp3) ... ok
+test_success_preserves_wp3_and_wp4 (tests.test_wp5_integration.WP5IntegrationTests.test_success_preserves_wp3_and_wp4) ... ok
+test_arabic_retention_matches_article_18 (tests.test_wp5_validation.WP5ValidationTests.test_arabic_retention_matches_article_18) ... ok
+test_confirmed_violation_is_not_allowed_assessment (tests.test_wp5_validation.WP5ValidationTests.test_confirmed_violation_is_not_allowed_assessment) ... ok
+test_duplicate_article_citations_are_rejected (tests.test_wp5_validation.WP5ValidationTests.test_duplicate_article_citations_are_rejected) ... ok
+test_duplicate_clause_ids_are_rejected (tests.test_wp5_validation.WP5ValidationTests.test_duplicate_clause_ids_are_rejected) ... ok
+test_hallucinated_article_id_is_rejected (tests.test_wp5_validation.WP5ValidationTests.test_hallucinated_article_id_is_rejected) ... ok
+test_missing_ai_finding_is_rejected (tests.test_wp5_validation.WP5ValidationTests.test_missing_ai_finding_is_rejected) ... ok
+test_more_than_twelve_clauses_are_rejected (tests.test_wp5_validation.WP5ValidationTests.test_more_than_twelve_clauses_are_rejected) ... ok
+test_no_context_never_calls_openai (tests.test_wp5_validation.WP5ValidationTests.test_no_context_never_calls_openai) ... ok
+test_partial_when_clause_has_no_legal_context (tests.test_wp5_validation.WP5ValidationTests.test_partial_when_clause_has_no_legal_context) ... ok
+test_verified_reference_matches_local_index (tests.test_wp5_validation.WP5ValidationTests.test_verified_reference_matches_local_index) ... ok
+test_01_missing_cache_returns_none (tests.test_wp6_cache.WP6CacheTests.test_01_missing_cache_returns_none) ... ok
+test_02_save_and_retrieve_full_response (tests.test_wp6_cache.WP6CacheTests.test_02_save_and_retrieve_full_response) ... ok
+test_03_cache_key_separates_all_inputs (tests.test_wp6_cache.WP6CacheTests.test_03_cache_key_separates_all_inputs) ... ok
+test_04_surrounding_spaces_do_not_change_key (tests.test_wp6_cache.WP6CacheTests.test_04_surrounding_spaces_do_not_change_key) ... ok
+test_05_saving_same_key_updates_single_row (tests.test_wp6_cache.WP6CacheTests.test_05_saving_same_key_updates_single_row) ... ok
+test_06_expired_result_not_used_and_pruned (tests.test_wp6_cache.WP6CacheTests.test_06_expired_result_not_used_and_pruned) ... ok
+test_07_invalid_cache_json_is_deleted (tests.test_wp6_cache.WP6CacheTests.test_07_invalid_cache_json_is_deleted) ... ok
+test_08_incomplete_pdpl_results_not_cached (tests.test_wp6_cache.WP6CacheTests.test_08_incomplete_pdpl_results_not_cached) ... ok
+test_09_clearing_one_device_preserves_another (tests.test_wp6_cache.WP6CacheTests.test_09_clearing_one_device_preserves_another) ... ok
+test_10_api_first_miss_then_hit (tests.test_wp6_cache.WP6CacheTests.test_10_api_first_miss_then_hit) ... ok
+test_11_saved_preference_change_causes_miss (tests.test_wp6_cache.WP6CacheTests.test_11_saved_preference_change_causes_miss) ... ok
+test_12_explicit_preference_override_is_separate (tests.test_wp6_cache.WP6CacheTests.test_12_explicit_preference_override_is_separate) ... ok
+test_13_reset_clears_cache_and_preferences (tests.test_wp6_cache.WP6CacheTests.test_13_reset_clears_cache_and_preferences) ... ok
+test_14_api_incomplete_pdpl_is_skipped (tests.test_wp6_cache.WP6CacheTests.test_14_api_incomplete_pdpl_is_skipped) ... ok
+test_15_api_cache_write_failure_does_not_block_analysis (tests.test_wp6_cache.WP6CacheTests.test_15_api_cache_write_failure_does_not_block_analysis) ... WP6 cache write failed: OperationalError
+ok
+test_16_api_cache_read_failure_falls_back_to_ai (tests.test_wp6_cache.WP6CacheTests.test_16_api_cache_read_failure_falls_back_to_ai) ... WP6 cache read failed: OperationalError
+ok
+test_17_api_rejects_bad_request_before_ai (tests.test_wp6_cache.WP6CacheTests.test_17_api_rejects_bad_request_before_ai) ... ok
+test_18_api_missing_key_returns_503 (tests.test_wp6_cache.WP6CacheTests.test_18_api_missing_key_returns_503) ... ok
+test_01_defaults_create_database (tests.test_wp6_preferences.WP6PreferencesTests.test_01_defaults_create_database) ... ok
+test_02_save_model_roundtrip (tests.test_wp6_preferences.WP6PreferencesTests.test_02_save_model_roundtrip) ... ok
+test_03_save_dict_roundtrip (tests.test_wp6_preferences.WP6PreferencesTests.test_03_save_dict_roundtrip) ... ok
+test_04_upsert_without_duplicates (tests.test_wp6_preferences.WP6PreferencesTests.test_04_upsert_without_duplicates) ... ok
+test_05_devices_are_isolated (tests.test_wp6_preferences.WP6PreferencesTests.test_05_devices_are_isolated) ... ok
+test_06_reset_deletes_saved_record (tests.test_wp6_preferences.WP6PreferencesTests.test_06_reset_deletes_saved_record) ... ok
+test_07_reset_unknown_device (tests.test_wp6_preferences.WP6PreferencesTests.test_07_reset_unknown_device) ... ok
+test_08_reject_invalid_device_ids (tests.test_wp6_preferences.WP6PreferencesTests.test_08_reject_invalid_device_ids) ... ok
+test_09_reject_non_boolean_preferences (tests.test_wp6_preferences.WP6PreferencesTests.test_09_reject_non_boolean_preferences) ... ok
+test_10_reject_unknown_preference_without_overwrite (tests.test_wp6_preferences.WP6PreferencesTests.test_10_reject_unknown_preference_without_overwrite) ... ok
+test_01_full_flow_returns_everything_the_popup_reads (tests.test_wp8_integration.WP8IntegrationTests.test_01_full_flow_returns_everything_the_popup_reads) ... ok
+test_02_every_backend_category_has_popup_text (tests.test_wp8_integration.WP8IntegrationTests.test_02_every_backend_category_has_popup_text) ... ok
+test_03_extension_and_backend_use_the_same_limits_and_fields (tests.test_wp8_integration.WP8IntegrationTests.test_03_extension_and_backend_use_the_same_limits_and_fields) ... ok
+test_04_saved_preferences_reach_all_three_wp4_prompts (tests.test_wp8_integration.WP8IntegrationTests.test_04_saved_preferences_reach_all_three_wp4_prompts) ... ok
+test_05_device_without_saved_preferences_uses_defaults (tests.test_wp8_integration.WP8IntegrationTests.test_05_device_without_saved_preferences_uses_defaults) ... ok
+test_06_cache_miss_hit_and_preference_change (tests.test_wp8_integration.WP8IntegrationTests.test_06_cache_miss_hit_and_preference_change) ... ok
+test_06b_partial_pdpl_result_is_cached (tests.test_wp8_integration.WP8IntegrationTests.test_06b_partial_pdpl_result_is_cached) ... ok
+test_07_missing_key_is_ai_not_configured (tests.test_wp8_integration.WP8IntegrationTests.test_07_missing_key_is_ai_not_configured) ... ok
+test_08_no_grounded_clauses_is_no_clauses (tests.test_wp8_integration.WP8IntegrationTests.test_08_no_grounded_clauses_is_no_clauses) ... ok
+test_09_model_failures_are_502 (tests.test_wp8_integration.WP8IntegrationTests.test_09_model_failures_are_502) ... ok
+test_10_openai_error_is_502_with_safe_message (tests.test_wp8_integration.WP8IntegrationTests.test_10_openai_error_is_502_with_safe_message) ... OpenAI request failed: OpenAIError
+ok
+test_11_storage_failure_is_storage_unavailable (tests.test_wp8_integration.WP8IntegrationTests.test_11_storage_failure_is_storage_unavailable) ... ok
+test_12_short_text_validation_names_terms_text (tests.test_wp8_integration.WP8IntegrationTests.test_12_short_text_validation_names_terms_text) ... ok
+test_13_analysis_failure_class_is_handled (tests.test_wp8_integration.WP8IntegrationTests.test_13_analysis_failure_class_is_handled) ... ok
+test_14_popup_rating_matches_backend_rating (tests.test_wp8_integration.WP8IntegrationTests.test_14_popup_rating_matches_backend_rating) ... ok
+test_01_corpus_is_valid_and_balanced (tests.test_wp9_eval.WP9EvalToolTests.test_01_corpus_is_valid_and_balanced) ... ok
+test_02_gold_severities_give_gold_levels (tests.test_wp9_eval.WP9EvalToolTests.test_02_gold_severities_give_gold_levels) ... ok
+test_03_matching_excerpts_to_anchors (tests.test_wp9_eval.WP9EvalToolTests.test_03_matching_excerpts_to_anchors) ... ok
+test_04_perfect_response_scores_perfectly (tests.test_wp9_eval.WP9EvalToolTests.test_04_perfect_response_scores_perfectly) ... ok
+test_05_over_and_under_caution_are_both_errors (tests.test_wp9_eval.WP9EvalToolTests.test_05_over_and_under_caution_are_both_errors) ... ok
+test_06_needs_context_everywhere_is_measured (tests.test_wp9_eval.WP9EvalToolTests.test_06_needs_context_everywhere_is_measured) ... ok
+test_07_hedging_counts_only_words_not_in_the_clause (tests.test_wp9_eval.WP9EvalToolTests.test_07_hedging_counts_only_words_not_in_the_clause) ... ok
+test_08_missed_risk_is_reported (tests.test_wp9_eval.WP9EvalToolTests.test_08_missed_risk_is_reported) ... ok
+test_09_spending_limit_stops_before_the_call (tests.test_wp9_eval.WP9EvalToolTests.test_09_spending_limit_stops_before_the_call) ... ok
+test_classification_has_a_two_sided_severity_rubric (tests.test_wp9_fixes.CalibratedPromptTests.test_classification_has_a_two_sided_severity_rubric) ... ok
+test_examples_show_plain_wording_and_a_protective_clause (tests.test_wp9_fixes.CalibratedPromptTests.test_examples_show_plain_wording_and_a_protective_clause) ... ok
+test_pdpl_needs_context_is_no_longer_the_default (tests.test_wp9_fixes.CalibratedPromptTests.test_pdpl_needs_context_is_no_longer_the_default) ... ok
+test_summary_is_proportionate_and_short (tests.test_wp9_fixes.CalibratedPromptTests.test_summary_is_proportionate_and_short) ... ok
+test_added_full_stop_is_recovered_from_the_source (tests.test_wp9_fixes.LocateExcerptTests.test_added_full_stop_is_recovered_from_the_source) ... ok
+test_capitalized_first_word_uses_the_source_spelling (tests.test_wp9_fixes.LocateExcerptTests.test_capitalized_first_word_uses_the_source_spelling) ... ok
+test_exact_excerpt_is_kept (tests.test_wp9_fixes.LocateExcerptTests.test_exact_excerpt_is_kept) ... ok
+test_extraction_keeps_recovered_clauses (tests.test_wp9_fixes.LocateExcerptTests.test_extraction_keeps_recovered_clauses) ... ok
+test_line_breaks_inside_a_sentence_are_matched (tests.test_wp9_fixes.LocateExcerptTests.test_line_breaks_inside_a_sentence_are_matched) ... ok
+test_quotes_are_removed (tests.test_wp9_fixes.LocateExcerptTests.test_quotes_are_removed) ... ok
+test_text_that_is_not_in_the_source_is_rejected (tests.test_wp9_fixes.LocateExcerptTests.test_text_that_is_not_in_the_source_is_rejected) ... ok
+test_no_threads_left_running (tests.test_wp9_fixes.ParallelPipelineTests.test_no_threads_left_running) ... ok
+test_pdpl_failure_still_keeps_the_analysis (tests.test_wp9_fixes.ParallelPipelineTests.test_pdpl_failure_still_keeps_the_analysis) ... ok
+test_summary_and_pdpl_run_at_the_same_time (tests.test_wp9_fixes.ParallelPipelineTests.test_summary_and_pdpl_run_at_the_same_time) ... ok
+test_summary_failure_still_fails_the_analysis (tests.test_wp9_fixes.ParallelPipelineTests.test_summary_failure_still_fails_the_analysis) ... ok
+test_prompt_keeps_references_to_the_clause_itself (tests.test_wp9_fixes.PdplRetryTests.test_prompt_keeps_references_to_the_clause_itself) ... ok
+test_rejected_answer_is_retried_once (tests.test_wp9_fixes.PdplRetryTests.test_rejected_answer_is_retried_once) ... ok
+test_second_rejection_gives_unavailable_pdpl_but_keeps_the_analysis (tests.test_wp9_fixes.PdplRetryTests.test_second_rejection_gives_unavailable_pdpl_but_keeps_the_analysis) ... ok
+test_service_errors_are_not_retried (tests.test_wp9_fixes.PdplRetryTests.test_service_errors_are_not_retried) ... ok
+
+----------------------------------------------------------------------
+Ran 93 tests in 2.936s
+
+OK
+
+== Service worker tests (Node.js) ==
+TAP version 13
+# Subtest: TC-JS01 preferences: not accepted topics are sent to WP6 as extra attention (true)
+ok 1 - TC-JS01 preferences: not accepted topics are sent to WP6 as extra attention (true)
+  ---
+  duration_ms: 4.5301
+  ...
+# Subtest: TC-JS02 preferences: invalid values are rejected before any request
+ok 2 - TC-JS02 preferences: invalid values are rejected before any request
+  ---
+  duration_ms: 1.5355
+  ...
+# Subtest: TC-JS03 preferences: saved offline, then sent before the next analysis
+ok 3 - TC-JS03 preferences: saved offline, then sent before the next analysis
+  ---
+  duration_ms: 2.81
+  ...
+# Subtest: TC-JS04 analysis: body keeps the WP2 contract and the long timeout is used
+ok 4 - TC-JS04 analysis: body keeps the WP2 contract and the long timeout is used
+  ---
+  duration_ms: 2.2572
+  ...
+# Subtest: TC-JS05 analysis: text outside 50..120000 characters never reaches the server
+ok 5 - TC-JS05 analysis: text outside 50..120000 characters never reaches the server
+  ---
+  duration_ms: 0.7228
+  ...
+# Subtest: TC-JS06 error code: missing API key -> ai_not_configured
+ok 6 - TC-JS06 error code: missing API key -> ai_not_configured
+  ---
+  duration_ms: 1.3755
+  ...
+# Subtest: TC-JS06 error code: preference database down -> storage_unavailable
+ok 7 - TC-JS06 error code: preference database down -> storage_unavailable
+  ---
+  duration_ms: 1.0791
+  ...
+# Subtest: TC-JS06 error code: no clauses found -> no_clauses
+ok 8 - TC-JS06 error code: no clauses found -> no_clauses
+  ---
+  duration_ms: 1.3873
+  ...
+# Subtest: TC-JS06 error code: classifier omitted clauses -> ai_unavailable
+ok 9 - TC-JS06 error code: classifier omitted clauses -> ai_unavailable
+  ---
+  duration_ms: 1.3637
+  ...
+# Subtest: TC-JS06 error code: OpenAI rejected -> ai_unavailable
+ok 10 - TC-JS06 error code: OpenAI rejected -> ai_unavailable
+  ---
+  duration_ms: 1.1173
+  ...
+# Subtest: TC-JS06 error code: unexpected error -> ai_unavailable
+ok 11 - TC-JS06 error code: unexpected error -> ai_unavailable
+  ---
+  duration_ms: 2.0681
+  ...
+# Subtest: TC-JS06 error code: text too short after trimming -> too_short
+ok 12 - TC-JS06 error code: text too short after trimming -> too_short
+  ---
+  duration_ms: 1.5849
+  ...
+# Subtest: TC-JS06 error code: FastAPI validation list -> too_short
+ok 13 - TC-JS06 error code: FastAPI validation list -> too_short
+  ---
+  duration_ms: 1.3189
+  ...
+# Subtest: TC-JS06 error code: other validation error -> bad_request
+ok 14 - TC-JS06 error code: other validation error -> bad_request
+  ---
+  duration_ms: 1.0769
+  ...
+# Subtest: TC-JS07 error code: server down, timeout and missing permission
+ok 15 - TC-JS07 error code: server down, timeout and missing permission
+  ---
+  duration_ms: 3.5934
+  ...
+# Subtest: TC-JS08 run record: a finished analysis is kept for a popup opened later
+ok 16 - TC-JS08 run record: a finished analysis is kept for a popup opened later
+  ---
+  duration_ms: 3.2372
+  ...
+# Subtest: TC-JS09 run record: an older run that ends late does not replace a newer one
+ok 17 - TC-JS09 run record: an older run that ends late does not replace a newer one
+  ---
+  duration_ms: 46.5726
+  ...
+# Subtest: TC-JS10 messages: only the extension's own pages are answered
+ok 18 - TC-JS10 messages: only the extension's own pages are answered
+  ---
+  duration_ms: 2.178
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 170.6891
+
+All checks passed.
+exit code: 0

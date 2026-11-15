@@ -1,9 +1,12 @@
+# Code overview: This pipeline connects the main AI steps. Keeping the steps separate makes it easier to test the results.
 
 """Orchestrate WP3, WP4, and WP5 while preserving the WP2 response fields."""
 
 import logging
+from concurrent.futures import ThreadPoolExecutor
 
 from .clause_extractor import extract_clauses
+from .openai_client import AnalysisFailure
 from .risk_classifier import classify_clauses
 from .summary_generator import generate_summary
 from .rating import calculate_rating
@@ -16,6 +19,20 @@ from ..pdpl.schemas import PDPLCheckResult
 
 logger = logging.getLogger(__name__)
 MAX_MODEL_INPUT_CHARS = 60000
+
+
+def screen_pdpl(classified):
+    """Run WP5, with one retry when the model's answer fails WP5's own checks.
+
+    WP9: in the evaluation some answers cited a reference that was supplied for a different clause, so WP5
+    correctly rejected the whole answer and the user saw no PDPL result. A second answer is usually valid.
+    Other errors (for example the AI service being down) are not retried.
+    """
+    try:
+        return check_pdpl(classified)
+    except AnalysisFailure as error:
+        logger.warning("WP5 answer failed validation (%s); retrying once.", error)
+        return check_pdpl(classified)
 
 
 def analyze_terms(
@@ -43,27 +60,33 @@ def analyze_terms(
         prompts.classification_instructions
     )
 
-    summary = generate_summary(
-        classified,
-        prompts.summary_instructions
-    )
-
     score, level = calculate_rating(classified)
 
-    try:
-        pdpl_result = check_pdpl(classified)
-
-    except Exception:
-        logger.exception(
-            "WP5 PDPL screening failed; WP3 results are preserved."
+    # WP9: the summary and the PDPL screening both need only the classified clauses, so they run at the
+    # same time (about 3 seconds faster). A summary failure still fails the analysis; a PDPL failure does not.
+    with ThreadPoolExecutor(max_workers=1) as pool:
+        summary_job = pool.submit(
+            generate_summary,
+            classified,
+            prompts.summary_instructions
         )
 
-        pdpl_result = PDPLCheckResult(
-            status="unavailable",
-            disclaimer=(
-                "PDPL screening failed; no PDPL conclusion is available."
-            ),
-        )
+        try:
+            pdpl_result = screen_pdpl(classified)
+
+        except Exception:
+            logger.exception(
+                "WP5 PDPL screening failed; WP3 results are preserved."
+            )
+
+            pdpl_result = PDPLCheckResult(
+                status="unavailable",
+                disclaimer=(
+                    "PDPL screening failed; no PDPL conclusion is available."
+                ),
+            )
+
+        summary = summary_job.result()
 
     return AnalysisResponse(
         status="completed",
